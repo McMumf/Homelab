@@ -1,0 +1,29 @@
+version: '3'
+services:
+  cloudfare-ddns:
+    image: 'oznu/cloudfare-ddns:latest'
+    environment:
+      - API_KEY=${CLOUDFARE_API_KEY}
+      - PROXIED=true
+  nginx-proxy-manager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx-proxy-manager
+    restart: always
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+  jellyfin:
+    image: 'jellyfin/jellyfin'
+    volumes:
+      - ${JELLYFIN}/config:/config
+      - ${JELLYFIN}/cache:/cache
+      - ${MEDIA}/jellyfin/:/media
+    restart: always
+  grafana:
+    image: 'grafana/grafana:latest'
+    ports:
+      - '3000:3000'
