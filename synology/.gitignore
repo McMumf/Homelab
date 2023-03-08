@@ -1,0 +1,3 @@
+# NGINX Proxy Manager Stuff
+nginx-proxy-manager/data/*
+nginx-proxy-manager/letsencrypt/*

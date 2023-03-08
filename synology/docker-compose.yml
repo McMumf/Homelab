@@ -1,29 +1,46 @@
 version: '3'
+
+networks:
+  npm-internal:
+  npm-nw:
+    # npm-nw is an external network, need to manually make it
+    external: true
+
 services:
-  cloudfare-ddns:
-    image: 'oznu/cloudfare-ddns:latest'
-    environment:
-      - API_KEY=${CLOUDFARE_API_KEY}
-      - PROXIED=true
+  # cloudfare-ddns:
+  #   image: 'oznu/cloudfare-ddns:latest'
+  #   environment:
+  #     - API_KEY=${CLOUDFARE_API_KEY}
+  #     - PROXIED=true
   nginx-proxy-manager:
     image: 'jc21/nginx-proxy-manager:latest'
     container_name: nginx-proxy-manager
-    restart: always
+    restart: unless-stopped
     ports:
       - '80:80'
       - '81:81'
       - '443:443'
     volumes:
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt
-  jellyfin:
-    image: 'jellyfin/jellyfin'
-    volumes:
-      - ${JELLYFIN}/config:/config
-      - ${JELLYFIN}/cache:/cache
-      - ${MEDIA}/jellyfin/:/media
-    restart: always
-  grafana:
-    image: 'grafana/grafana:latest'
-    ports:
-      - '3000:3000'
+      - ./nginx-proxy-manager/data:/data
+      - ./nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+    healthcheck:
+      test: [ "CMD", "/bin/check-health" ]
+      interval: 10s
+      timeout: 3s
+  # jellyfin:
+  #   image: 'jellyfin/jellyfin'
+  #   volumes:
+  #     - ${JELLYFIN}/config:/config
+  #     - ${JELLYFIN}/cache:/cache
+  #     - ${MEDIA}/jellyfin/:/media
+  #   restart: always
+  # promethus:
+  #   image: bitnami/prometheus:latest
+  #   container_name: prometheus
+  # grafana:
+  #   image: 'grafana/grafana:latest'
+  #   container_name: grafana
+  #   ports:
+  #     - '3000:3000'
+  #   volumes:
+  #     - ./grafana/grafana.ini:/etc/grafana/grafana.ini
