@@ -27,14 +27,27 @@ services:
       test: [ "CMD", "/bin/check-health" ]
       interval: 10s
       timeout: 3s
-  # jellyfin:
-  #   image: 'jellyfin/jellyfin'
-  #   volumes:
-  #     - ${JELLYFIN}/config:/config
-  #     - ${JELLYFIN}/cache:/cache
-  #     - ${MEDIA}/jellyfin/:/media
-  #   restart: always
-  # promethus:
+    networks:
+      - npm-nw
+      - npm-internal
+  jellyfin:
+    image: 'jellyfin/jellyfin'
+    container_name: jellyfin
+    restart: always
+    ports:
+      - '8096:8096'
+    # volumes:
+    #   - ${JELLYFIN}/config:/config
+    #   - ${JELLYFIN}/cache:/cache
+    #   - ${MEDIA}/jellyfin/:/media
+    healthcheck:
+      test: [ "CMD", "/bin/check-health" ]
+      interval: 10s
+      timeout: 3s
+    networks:
+      - npm-nw
+      - npm-internal
+  # prometheus:
   #   image: bitnami/prometheus:latest
   #   container_name: prometheus
   # grafana:
