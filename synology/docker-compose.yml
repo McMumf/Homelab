@@ -16,6 +16,12 @@ services:
     image: 'jc21/nginx-proxy-manager:latest'
     container_name: nginx-proxy-manager
     restart: unless-stopped
+    environment:
+      DB_MYSQL_HOST: "db"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "npm"
+      DB_MYSQL_PASSWORD: "npm"
+      DB_MYSQL_NAME: "npm"
     ports:
       - '80:80'
       - '81:81'
@@ -23,37 +29,17 @@ services:
     volumes:
       - ./nginx-proxy-manager/data:/data
       - ./nginx-proxy-manager/letsencrypt:/etc/letsencrypt
-    healthcheck:
-      test: [ "CMD", "/bin/check-health" ]
-      interval: 10s
-      timeout: 3s
+    depends_on:
+      - npm-db
     networks:
       - npm-nw
       - npm-internal
-  jellyfin:
-    image: 'jellyfin/jellyfin'
-    container_name: jellyfin
-    restart: always
-    ports:
-      - '8096:8096'
-    # volumes:
-    #   - ${JELLYFIN}/config:/config
-    #   - ${JELLYFIN}/cache:/cache
-    #   - ${MEDIA}/jellyfin/:/media
-    healthcheck:
-      test: [ "CMD", "/bin/check-health" ]
-      interval: 10s
-      timeout: 3s
-    networks:
-      - npm-nw
-      - npm-internal
-  # prometheus:
-  #   image: bitnami/prometheus:latest
-  #   container_name: prometheus
-  # grafana:
-  #   image: 'grafana/grafana:latest'
-  #   container_name: grafana
-  #   ports:
-  #     - '3000:3000'
-  #   volumes:
-  #     - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+  npm-db:
+    image: 'jc21/mariadb-aria:latest'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'npm'
+      MYSQL_DATABASE: 'npm'
+      MYSQL_USER: 'npm'
+      MYSQL_PASSWORD: 'npm'
+    volumes:
+      - ./npm-db/data/mysql:/var/lib/mysql
