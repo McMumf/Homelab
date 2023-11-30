@@ -1,0 +1,19 @@
+repositories:
+  - name: cloudflare
+    url: https://cloudflare.github.io/helm-charts
+
+releases:
+  - name: cloudflared
+    namespace: infrastructure
+    createNamespace: true
+    chart: cloudflare/cloudflared
+    values:
+      - cloudflare:
+          account: ""
+          tunnelName: ""
+          tunnelId: ""
+          secret: ""
+          secretName: null
+          ingress:
+            - hostname: mcmumf.dev
+              service: ingress-nginx-controller

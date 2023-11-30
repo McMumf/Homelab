@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: jellyfin
+  namespace: media
+spec:
+  serviceName: "jellyfin"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      containers:
+        # Container
+        - name: jellyfin
+          image: jellyfin/jellyfin
+          # Resources
+          resources:
+            requests:
+              {{- if .Values.resources.gpu.enabled }}
+              gpu.intel.com/i915: 1
+              {{- end }}
+          # Ports
+          ports:
+            - name: jellyfin-http
+              containerPort: 8096
+              protocol: TCP
+          # Probes
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: jellyfin-http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: jellyfin-http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          # Volume Mounts
+          volumeMounts:
+            - name: jellyfin-data
+              mountPath: /config
+            - name: media
+              mountPath: /mnt/media
+      volumes:
+        - name: media
+          # secret:
+          #   secretName: nfs-user
+          nfs:
+            server: homelab-nas.local
+            path: /library
+            readOnly: true
+  volumeClaimTemplates:
+    - metadata:
+        name: jellyfin-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: longhorn
+        resources:
+          requests:
+            storage: 32Gi

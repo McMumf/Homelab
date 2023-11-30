@@ -1,0 +1,28 @@
+repositories:
+  - name: ingress-nginx
+    url: https://kubernetes.github.io/ingress-nginx
+
+releases:
+  - name: ingress-nginx
+    namespace: ingress-nginx
+    createNamespace: true
+    chart: ingress-nginx/ingress-nginx
+    values:
+      - controller:
+          admissionWebhooks:
+            patch:
+              tolerations:
+                - key: "node-role.kubernetes.io/control-plane"
+                  operator: "Equal"
+                  effect: "NoSchedule"
+          config:
+            enable-real-ip: true
+            forwarded-for-header: proxy_protocol
+            ssl-protocols: "TLSv1.2 TLSv1.3"
+          service:
+            externalTrafficPolicy: Local
+            loadBalancerIP: 192.168.1.150
+          tolerations:
+            - key: "node-role.kubernetes.io/control-plane"
+              operator: "Equal"
+              effect: "NoSchedule"
