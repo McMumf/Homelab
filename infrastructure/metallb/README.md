@@ -16,7 +16,7 @@ Note: This must be done on **all** instances running k3s, including slave nodes.
 ## Installing
 
 ```sh
-$ helmfile apply -f values.yaml
+$ helmfile apply
 Adding repo metallb https://metallb.github.io/metallb
 "metallb" has been added to your repositories
 

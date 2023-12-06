@@ -12,7 +12,7 @@ releases:
           # Cloudflare Account Number
           account: ""
           # The name of the tunnel this instance will serve
-          tunnelName: ""
+          tunnelName: "k8s-tunnel"
           # The ID of the above tunnel.
           tunnelId: ""
           # The secret for the tunnel.
@@ -22,5 +22,7 @@ releases:
           # Define ingress rules for the tunnel. See
           # https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress
           ingress:
-            - hostname: mcmumf.dev
-              service: ingress-nginx-controller
+            - hostname: "*.mcmumf.dev"
+              service: https://ingress-nginx-controller.ingress-nginx.svc.cluster.local:443
+              originRequest:
+                noTLSVerify: true
