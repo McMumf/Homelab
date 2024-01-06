@@ -1,0 +1,11 @@
+repositories:
+  - name: makeplane
+    url: https://helm.plane.so/
+
+releases:
+  - name: plane
+    namespace: homelab
+    createNamespace: true
+    chart: makeplane/plane-ce
+    values:
+      - values.yaml

@@ -4,7 +4,7 @@ repositories:
 
 releases:
   - name: cloudflared
-    namespace: infrastructure
+    namespace: cloudflared
     createNamespace: true
     chart: cloudflare/cloudflare-tunnel
     values:
@@ -21,8 +21,16 @@ releases:
           secretName: null
           # Define ingress rules for the tunnel. See
           # https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress
+          originRequest:
+            http2Origin: true
           ingress:
             - hostname: "*.mcmumf.dev"
-              service: https://ingress-nginx-controller.ingress-nginx.svc.cluster.local:443
+              service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80
               originRequest:
-                noTLSVerify: true
+                originServerName: "external.mcmumf.dev"
+            # - hostname: "homer.mcmumf.dev"
+            #   service: http://homer.homelab.svc.cluster.local:8080
+            # - hostname: "ha.mcmumf.dev"
+            #   service: http://homeassistant.local:8123
+            # - hostname: "jellyfin.mcmumf.dev"
+            #   service: http://jellyfin.homelab.svc.cluster.local:8096

@@ -126,5 +126,5 @@ configmap:
                 subtitle: "Jellyfin Media"
                 tag: "app"
                 keywords: "self hosted reddit"
-                url: ""
+                url: "https://jellyfin.mcmumf.dev"
                 target: "_blank" # optional html a tag target attribute

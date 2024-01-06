@@ -1,5 +1,8 @@
 {
     "files.insertFinalNewline": true,
+    "files.associations": {
+        ".ansible-lint": "yaml"
+    },
     "[json]": {
         "editor.quickSuggestions": {
             "strings": true
