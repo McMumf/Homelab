@@ -8,4 +8,4 @@ releases:
     createNamespace: true
     chart: prometheus-community/kube-prometheus-stack
     values:
-      - kube-prometheus-values.yaml
+      - values.yaml
