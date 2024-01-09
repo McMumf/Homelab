@@ -1,0 +1,36 @@
+repositories:
+  - name: cloudflare
+    url: https://cloudflare.github.io/helm-charts
+
+releases:
+  - name: cloudflared
+    namespace: cloudflared
+    createNamespace: true
+    chart: cloudflare/cloudflare-tunnel
+    values:
+      - cloudflare:
+          # Cloudflare Account Number
+          account: "14c3f3c9589aa9f3ecd2e55fc4a38332"
+          # The name of the tunnel this instance will serve
+          tunnelName: "k8s-tunnel"
+          # The ID of the above tunnel.
+          tunnelId: "99350b6b-7102-4a0c-a1dd-6e3cf47b76f2"
+          # The secret for the tunnel.
+          secret: "Lu0OWXSzeFdNw2sJ2JoZEV5XJ3qJ3gNlb3+Cg978bJQ="
+          # If defined, no secret is created for the credentials, and instead, the secret referenced is used
+          secretName: null
+          # Define ingress rules for the tunnel. See
+          # https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress
+          originRequest:
+            http2Origin: true
+          ingress:
+            - hostname: "*.mcmumf.dev"
+              service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80
+              originRequest:
+                originServerName: "external.mcmumf.dev"
+            # - hostname: "homer.mcmumf.dev"
+            #   service: http://homer.homelab.svc.cluster.local:8080
+            # - hostname: "ha.mcmumf.dev"
+            #   service: http://homeassistant.local:8123
+            # - hostname: "jellyfin.mcmumf.dev"
+            #   service: http://jellyfin.homelab.svc.cluster.local:8096
