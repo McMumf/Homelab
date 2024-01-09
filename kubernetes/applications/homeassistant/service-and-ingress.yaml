@@ -12,10 +12,12 @@ kind: Ingress
 metadata:
   name: ha-external-ingress
   namespace: homelab
-  nginx.ingress.kubernetes.io/configuration-snippet: |
-    proxy_set_header Upgrade "websocket";
-    proxy_set_header Connection "Upgrade";
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header Upgrade "websocket";
+      proxy_set_header Connection "Upgrade";
 spec:
+  ingressClassName: nginx
   rules:
     - host: ha.mcmumf.dev
       http:
