@@ -9,9 +9,6 @@ spec:
     privateKeySecretRef:
       name: lets-encrypt
     solvers:
-      # - http01:
-      #     ingress:
-      #       class: nginx
       - selector:
           dnsZones:
             - mcmumf.dev
