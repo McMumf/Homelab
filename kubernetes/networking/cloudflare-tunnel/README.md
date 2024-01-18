@@ -43,3 +43,7 @@ Created tunnel k8s-tunnel with id something
 
 Update `helmfile.yaml` with the newly created information in `/root/cloudflared/something.json` then run `helmfile apply`. Be careful not to commit this or setup git-crypt.
 
+## Questions
+
+- How to get cloudflared traffic to talk to services behind ingress with TLS?
+  - Currently works without TLS enabled for ingresses
