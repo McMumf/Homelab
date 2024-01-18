@@ -19,9 +19,11 @@ spec:
         - name: jellyfin
           image: jellyfin/jellyfin
           # Resources
-          # resources:
-          #   requests:
-          #     gpu.intel.com/i915: 1
+          resources:
+            requests:
+              gpu.intel.com/i915: 1
+            limits:
+              gpu.intel.com/i915: 1
           # Ports
           ports:
             - name: jellyfin-http
