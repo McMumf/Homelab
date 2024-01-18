@@ -15,10 +15,14 @@ sequenceDiagram
 
   user->>+cloudflare: HTTP Request
 
-  Note over cloudflare: Check tunnel config
+  Note over cloudflare: Check tunnel config and<br>send traffic to local<br>cloudflared deployment
 
   cloudflare->>-cloudflared: HTTP Request
+
+  Note over cloudflared: Route to specified<br>Serviceor Ingress
+  activate cloudflared
   cloudflared->>ingress: HTTP Request
+  deactivate cloudflared
 ```
 
 ## Setup
