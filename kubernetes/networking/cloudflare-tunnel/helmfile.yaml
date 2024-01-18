@@ -22,12 +22,12 @@ releases:
           # Define ingress rules for the tunnel. See
           # https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress
           originRequest:
-            http2Origin: true
+            http2Origin: true # Attempts to use HTTP/2.0
           ingress:
             - hostname: "*.mcmumf.dev"
               service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80
               originRequest:
-                originServerName: "external.mcmumf.dev"
+                originServerName: mcmumf.dev
             # - hostname: "homer.mcmumf.dev"
             #   service: http://homer.homelab.svc.cluster.local:8080
             # - hostname: "ha.mcmumf.dev"
