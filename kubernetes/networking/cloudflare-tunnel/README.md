@@ -4,6 +4,23 @@ Cloudfare's Zero Trust tunnel
 
 Follow this article to understand what to do: [Use cloudflared to expose a Kubernetes app to the Internet](https://developers.cloudflare.com/cloudflare-one/tutorials/many-cfd-one-tunnel/)
 
+## How it Works
+
+```mermaid
+sequenceDiagram
+  participant user as Client's Device
+  participant cloudflare as Cloudflare's Network
+  participant cloudflared as Cloudflared
+  participant ingress as Ingress Controller
+
+  user->>+cloudflare: HTTP Request
+
+  Note over cloudflare: Check tunnel config
+
+  cloudflare->>-cloudflared: HTTP Request
+  cloudflared->>ingress: HTTP Request
+```
+
 ## Setup
 
 ```shell
@@ -25,3 +42,4 @@ Created tunnel k8s-tunnel with id something
 ```
 
 Update `helmfile.yaml` with the newly created information in `/root/cloudflared/something.json` then run `helmfile apply`. Be careful not to commit this or setup git-crypt.
+
