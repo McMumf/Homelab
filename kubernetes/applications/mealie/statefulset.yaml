@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mealie
+  namespace: homelab
+spec:
+  selector:
+    matchLabels:
+      app: mealie
+  serviceName: "mealie"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mealie
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mealie
+          image: hkotel/mealie:latest
+          env:
+            # - name: LDAP_AUTH_ENABLED
+            #   value: "True"
+            # - name: LDAP_SERVER_URL
+            #   value: "ldap://ldap.mcmumf.dev"
+            # - name: LDAP_BIND_TEMPLATE
+            #   value: "cn={},ou=users,dc=mcmumf,dc=dev"
+            - name: ALLOW_SIGNUP
+              value: "False"
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Etc/UTC"
+            - name: MAX_WORKERS
+              value: "1"
+            - name: WEB_CONCURRENCY
+              value: "1"
+            - name: BASE_URL
+              value: "https://recipes.mcmumf.dev"
+          ports:
+            - containerPort: 80
+              name: web
+          volumeMounts:
+            - name: mealie-data
+              mountPath: /app/data
+  volumeClaimTemplates:
+    - metadata:
+        name: mealie-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "longhorn"
+        resources:
+          requests:
+            storage: 8Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mealie-svc
+  namespace: homelab
+  labels:
+    app: mealie
+spec:
+  ports:
+    - port: 80
+      name: web
+  selector:
+    app: mealie
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mealie-ingress
+  namespace: homelab
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  ingressClassName: nginx
+  # tls:
+  #   - hosts:
+  #       - recipes.mcmumf.dev
+  #     secretName: recipies-cert
+  rules:
+    - host: recipes.mcmumf.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mealie-svc
+                port:
+                  number: 80
