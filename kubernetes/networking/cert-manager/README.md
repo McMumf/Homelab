@@ -1,5 +1,11 @@
 # Cert Manager
 
+X.509 certificate management for Kubernetes and OpenShift
+
+## Links
+
+- [Docs](https://cert-manager.io/docs/)
+
 ## Deploying
 
 ```shell
