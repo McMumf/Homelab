@@ -1,0 +1,16 @@
+repositories:
+  - name: metallb
+    url: https://metallb.github.io/metallb
+
+releases:
+  - name: metallb
+    version: 0.13.12
+    namespace: metallb-system
+    createNamespace: true
+    chart: metallb/metallb
+    values:
+      - controller:
+          tolerations:
+            - key: "node-role.kubernetes.io/control-plane"
+              operator: "Equal"
+              effect: "NoSchedule"

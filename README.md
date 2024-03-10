@@ -1,5 +1,9 @@
 # Homelab
 
-My documentation for setting up a home server. This repo will contain custom scripts and configurations if necessary.
+McMumf's Homelab
 
-Make sure to checkout the [wiki](https://github.com/McMumf/Homelab/wiki) for instructions.
+## Prerequisites
+
+- [Helm Diff Plugin](https://github.com/databus23/helm-diff)
+- [Helmfile](https://github.com/helmfile/helmfile)
+- [OpenLens Node Pod Menu](https://github.com/alebcay/openlens-node-pod-menu)

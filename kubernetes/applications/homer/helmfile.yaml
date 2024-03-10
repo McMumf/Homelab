@@ -1,0 +1,12 @@
+repositories:
+  - name: djjudas21
+    url: https://djjudas21.github.io/charts/
+
+releases:
+  - name: homer
+    namespace: homelab
+    createNamespace: true
+    chart: djjudas21/homer
+    version: v8.1.9
+    values:
+      - values.yaml
