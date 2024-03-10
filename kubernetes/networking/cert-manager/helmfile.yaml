@@ -7,6 +7,6 @@ releases:
     namespace: cert-manager
     createNamespace: true
     chart: jetstack/cert-manager
-    version: v1.11.0
+    version: v1.14.4
     values:
       - values.yaml
