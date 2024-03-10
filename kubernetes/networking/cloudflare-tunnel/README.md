@@ -27,6 +27,8 @@ sequenceDiagram
 
 ## Setup
 
+### Initial Configuration
+
 ```shell
 $ cloudflared tunnel login
 
@@ -46,6 +48,17 @@ Created tunnel k8s-tunnel with id something
 ```
 
 Update `helmfile.yaml` with the newly created information in `/root/cloudflared/something.json` then run `helmfile apply`. Be careful not to commit this or setup git-crypt.
+
+- Note: I need to figure out how to load this via config map....
+
+### Adding Routes
+
+To add have the tunnel route a new cname, do the following:
+
+```sh
+$ cloudflared tunnel route dns k8s-tunnel subdomain.host.whatever
+2023-04-20T16:20:52Z INF Added CNAME subdomain.host.whatever which will route to this tunnel tunnelID=<some tunnel id>
+```
 
 ## Questions
 

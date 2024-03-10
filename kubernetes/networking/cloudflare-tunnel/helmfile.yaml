@@ -10,13 +10,13 @@ releases:
     values:
       - cloudflare:
           # Cloudflare Account Number
-          account: "14c3f3c9589aa9f3ecd2e55fc4a38332"
+          account: ""
           # The name of the tunnel this instance will serve
           tunnelName: "k8s-tunnel"
           # The ID of the above tunnel.
-          tunnelId: "99350b6b-7102-4a0c-a1dd-6e3cf47b76f2"
+          tunnelId: ""
           # The secret for the tunnel.
-          secret: "Lu0OWXSzeFdNw2sJ2JoZEV5XJ3qJ3gNlb3+Cg978bJQ="
+          secret: ""
           # If defined, no secret is created for the credentials, and instead, the secret referenced is used
           secretName: null
           # Define ingress rules for the tunnel. See
@@ -25,7 +25,7 @@ releases:
             http2Origin: true # Attempts to use HTTP/2.0
           ingress:
             - hostname: "*.mcmumf.dev"
-              service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80
+              service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:443
               originRequest:
                 originServerName: mcmumf.dev
             # - hostname: "homer.mcmumf.dev"
