@@ -1,7 +1,6 @@
 - hosts: all
   roles:
     - common
-    - kubernetes
-- hosts: master
+- hosts: master-node
   roles:
-    - master
+    - kubernetes

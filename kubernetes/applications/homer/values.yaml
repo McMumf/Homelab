@@ -128,3 +128,13 @@ configmap:
                 keywords: "self hosted reddit"
                 url: "https://jellyfin.mcmumf.dev"
                 target: "_blank" # optional html a tag target attribute
+          - name: "Monitoring"
+            icon: "fas fa-area-chart"
+            items:
+              - name: "Grafana"
+                logo: "https://upload.wikimedia.org/wikipedia/commons/3/3b/Grafana_icon.svg"
+                subtitle: ""
+                tag: "monitoring"
+                keywords: "self hosted reddit"
+                url: "https://grafana.mcmumf.dev"
+                target: "_blank" # optional html a tag target attribute

@@ -44,13 +44,13 @@ spec:
           volumeMounts:
             - name: jellyfin-data
               mountPath: /config
-            - name: media-library
+            - name: homelab-nfs
               mountPath: /mnt/media
       volumes:
-        - name: media-library
-          hostPath:
-            path: /nfs/library
-            type: Directory
+        - name: homelab-nfs
+          nfs:
+            server: 192.168.1.70
+            path: /volume1/library
   volumeClaimTemplates:
     - metadata:
         name: jellyfin-data

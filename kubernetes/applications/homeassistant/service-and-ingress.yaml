@@ -13,6 +13,7 @@ metadata:
   name: ha-external-ingress
   namespace: homelab
   annotations:
+    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/configuration-snippet: |
       proxy_set_header Upgrade "websocket";
       proxy_set_header Connection "Upgrade";
