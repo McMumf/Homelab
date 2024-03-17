@@ -25,12 +25,6 @@ releases:
             http2Origin: true # Attempts to use HTTP/2.0
           ingress:
             - hostname: "*.mcmumf.dev"
-              service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:443
+              service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80
               originRequest:
                 originServerName: mcmumf.dev
-            # - hostname: "homer.mcmumf.dev"
-            #   service: http://homer.homelab.svc.cluster.local:8080
-            # - hostname: "ha.mcmumf.dev"
-            #   service: http://homeassistant.local:8123
-            # - hostname: "jellyfin.mcmumf.dev"
-            #   service: http://jellyfin.homelab.svc.cluster.local:8096

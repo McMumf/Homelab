@@ -18,7 +18,7 @@ spec:
       containers:
         # Container
         - name: jellyfin
-          image: jellyfin/jellyfin
+          image: jellyfin/jellyfin:2024031105
           # Resources
           resources:
             requests:
