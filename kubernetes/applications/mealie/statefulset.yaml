@@ -21,10 +21,10 @@ spec:
           image: hkotel/mealie:latest
           resources:
             requests:
-              memory: 500Mi
-              cpu: 500m
+              memory: 1Gi
+              cpu: 1000m
             limits:
-              memory: 2Gi
+              memory: 4Gi
               cpu: 1000m
           env:
             # - name: LDAP_AUTH_ENABLED
