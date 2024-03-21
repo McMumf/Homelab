@@ -14,10 +14,18 @@ spec:
       labels:
         app: mealie
     spec:
+      automountServiceAccountToken: false
       terminationGracePeriodSeconds: 10
       containers:
         - name: mealie
           image: hkotel/mealie:latest
+          resources:
+            requests:
+              memory: 500Mi
+              cpu: 500m
+            limits:
+              memory: 2Gi
+              cpu: 1000m
           env:
             # - name: LDAP_AUTH_ENABLED
             #   value: "True"
@@ -32,7 +40,7 @@ spec:
             - name: PGID
               value: "1000"
             - name: TZ
-              value: "Etc/UTC"
+              value: "UTC"
             - name: MAX_WORKERS
               value: "1"
             - name: WEB_CONCURRENCY
@@ -64,7 +72,7 @@ metadata:
     app: mealie
 spec:
   ports:
-    - port: 80
+    - port: 9000
       name: web
   selector:
     app: mealie
@@ -92,4 +100,4 @@ spec:
               service:
                 name: mealie-svc
                 port:
-                  number: 80
+                  number: 9000
