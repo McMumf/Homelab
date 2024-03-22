@@ -5,7 +5,19 @@ This is configured to setup an external ingress to a deployment of Home Assistan
 ## Install
 
 ```sh
-kubectl apply -f service-and-ingress.yaml
-service/homeassistant-redirect created
-ingress.networking.k8s.io/home-assistant unchanged
+λ kubectl apply -f service-and-ingress.yaml
+endpointslice.discovery.k8s.io/hassio-proxy-service created
+service/hassio-proxy-service created
+ingress.networking.k8s.io/ha-ingress created
+```
+
+## Update Home Assistant Configs
+
+You will need to configure hassio to have a trusted proxy:
+
+```yaml
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 86.57.30.9
 ```

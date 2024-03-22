@@ -118,14 +118,31 @@ configmap:
         # First level array represent a group.
         # Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
         services:
+          - name: "Apps"
+            icon: "fas fa-cloud"
+            items:
+              - name: "Mealie"
+                logo: "https://raw.githubusercontent.com/mealie-recipes/mealie/mealie-next/frontend/static/icon.png"
+                subtitle: "Recipe Manager"
+                tag: "app"
+                keywords: "self hosted recipes mealie"
+                url: "https://recipes.mcmumf.dev"
+                target: "_blank" # optional html a tag target attribute
+              - name: "Plane"
+                logo: "https://raw.githubusercontent.com/makeplane/plane/preview/web/public/plane-logos/blue-without-text.png"
+                subtitle: "Project Manager"
+                tag: "app"
+                keywords: "self hosted recipes mealie"
+                url: "https://plane.mcmumf.dev"
+                target: "_blank" # optional html a tag target attribute
           - name: "Media"
             icon: "fas fa-cloud"
             items:
               - name: "Jellyfin"
-                logo: "https://preview.redd.it/o7v88hxnht441.png?auto=webp&s=ffc118207aa72e937b6ea9e8fafe5e12a3bee10a"
+                logo: "https://raw.githubusercontent.com/jellyfin/jellyfin-web/master/src/assets/img/icon-transparent.png"
                 subtitle: "Jellyfin Media"
-                tag: "app"
-                keywords: "self hosted reddit"
+                tag: "media"
+                keywords: "self hosted media movies music shows"
                 url: "https://jellyfin.mcmumf.dev"
                 target: "_blank" # optional html a tag target attribute
           - name: "Monitoring"
@@ -135,6 +152,6 @@ configmap:
                 logo: "https://upload.wikimedia.org/wikipedia/commons/3/3b/Grafana_icon.svg"
                 subtitle: ""
                 tag: "monitoring"
-                keywords: "self hosted reddit"
+                keywords: "self hosted monitoring grafana"
                 url: "https://grafana.mcmumf.dev"
                 target: "_blank" # optional html a tag target attribute
