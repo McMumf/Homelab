@@ -28,26 +28,35 @@ spec:
               cpu: 2000m
               ephemeral-storage: 8Gi
           env:
+            # General Configs
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: BASE_URL
+              value: "https://recipes.mcmumf.dev"
+            - name: TZ
+              value: "UTC"
+            - name: ALLOW_SIGNUP
+              value: "False"
+            # Security Configs
+            - name: SECURITY_MAX_LOGIN_ATTEMPTS
+              value: "5"
+            - name: SECURITY_USER_LOCKOUT_TIME
+              value: "24"
+            # LDAP Configs
             # - name: LDAP_AUTH_ENABLED
             #   value: "True"
             # - name: LDAP_SERVER_URL
             #   value: "ldap://ldap.mcmumf.dev"
             # - name: LDAP_BIND_TEMPLATE
             #   value: "cn={},ou=users,dc=mcmumf,dc=dev"
-            - name: ALLOW_SIGNUP
-              value: "False"
-            - name: PUID
-              value: "1000"
-            - name: PGID
-              value: "1000"
-            - name: TZ
-              value: "UTC"
+            # Web Worker Configs
             - name: MAX_WORKERS
-              value: "1"
+              value: "10"
             - name: WEB_CONCURRENCY
-              value: "1"
-            - name: BASE_URL
-              value: "https://recipes.mcmumf.dev"
+              value: "2"
+
           ports:
             - containerPort: 80
               name: web
