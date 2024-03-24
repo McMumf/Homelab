@@ -29,6 +29,7 @@ sequenceDiagram
 
 ### Initial Configuration
 
+**Create a new tunnel:**
 ```shell
 $ cloudflared tunnel login
 
@@ -47,9 +48,15 @@ Tunnel credentials written to /root/.cloudflared/something.json. cloudflared cho
 Created tunnel k8s-tunnel with id something
 ```
 
-Update `helmfile.yaml` with the newly created information in `/root/cloudflared/something.json` then run `helmfile apply`. Be careful not to commit this or setup git-crypt.
+**Create the tunnel secret:**
+```
+$ kubectl create secret generic tunnel-credentials \
+--from-file=credentials.json=~/.cloudflared/ef824aef-7557-4b41-a398-4684585177ad.json -n cloudflared
+```
 
-- Note: I need to figure out how to load this via config map....
+_Note: The tunnel UUID is directly from Cloudflare's Documentation and is not real._
+
+Update `values.yaml` to have the tunnel name and the newly created secret name.
 
 ### Adding Routes
 
