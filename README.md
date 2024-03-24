@@ -6,4 +6,9 @@ McMumf's Homelab
 
 - [Helm Diff Plugin](https://github.com/databus23/helm-diff)
 - [Helmfile](https://github.com/helmfile/helmfile)
-- [OpenLens Node Pod Menu](https://github.com/alebcay/openlens-node-pod-menu)
+- [OpenLens]()
+  - [OpenLens Node Pod Menu](https://github.com/alebcay/openlens-node-pod-menu)
+
+## Considerations
+
+- Special thanks to Clay for all his help
