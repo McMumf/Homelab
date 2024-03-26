@@ -1,0 +1,40 @@
+authentik:
+  error_reporting:
+    enabled: true
+  log_level: trace
+
+global:
+  # env:
+  #   - name: AUTHENTIK_EMAIL__HOST
+  #     value: smtp.postmarkapp.com
+  #   - name: AUTHENTIK_EMAIL__PORT
+  #     value: 587
+  #   - name: AUTHENTIK_EMAIL__USE_TLS
+  #     value: true
+  #   - name: AUTHENTIK_EMAIL__FROM
+  #     VALUE: auth@juicecloud.org
+  envFrom:
+    - secretRef:
+        name: authentik-secrets
+
+postgresql:
+  enabled: true
+  auth:
+    existingSecret: authentik-secrets
+redis:
+  enabled: true
+
+server:
+  ingress: 
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-production
+      kubernetes.io/ingress.class: nginx
+    hosts:
+      - &authentikHost auth.mcmumf.dev
+    tls:
+      - hosts:
+          - *authentikHost
+        secretName: authentik-cert
+        
+        

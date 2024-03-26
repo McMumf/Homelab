@@ -1,0 +1,12 @@
+repositories:
+  - name: authentik
+    url: https://charts.goauthentik.io
+
+releases:
+  - name: authentik
+    namespace: authentik
+    createNamespace: true
+    chart: authentik/authentik
+    version: 2024.2.2
+    values:
+      - values.yaml
