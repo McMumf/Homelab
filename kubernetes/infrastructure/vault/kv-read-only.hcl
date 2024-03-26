@@ -1,6 +1,6 @@
 # external-secrets policy
 
 # vault policy write external-secrets external-secrets-policy.hcl
-path "kubernetes/*" {
+path "kv/*" {
     capabilities = ["read", "list"]
 }

@@ -1,16 +1,8 @@
 repositories:
-  - name: external-secrets
-    url: https://charts.external-secrets.io
   - name: hashicorp
     url: https://helm.releases.hashicorp.com
 
 releases:
-  - name: external-secrets
-    namespace: external-secrets
-    createNamespace: true
-    chart: external-secrets/external-secrets
-    values:
-    - installCRDs: true
   - name: vault
     namespace: secrets-management
     createNamespace: true
