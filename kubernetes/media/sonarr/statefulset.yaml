@@ -39,12 +39,12 @@ spec:
         - name: sonarr-data
           mountPath: /config
         - name: homelab-nfs
-          mountPath: /mnt/media
+          mountPath: /tv
       volumes:
         - name: homelab-nfs
           nfs:
             server: 192.168.1.70
-            path: /volume1/library
+            path: /volume1/library/Shows
   volumeClaimTemplates:
   - metadata:
       name: sonarr-data
