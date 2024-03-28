@@ -4,7 +4,7 @@ repositories:
 
 releases:
   - name: metallb
-    version: 0.14.3
+    version: 0.14.4
     namespace: metallb-system
     createNamespace: true
     chart: metallb/metallb
