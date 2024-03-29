@@ -1,6 +1,6 @@
-<div style="text-align: center";>
-<img src="assets/logo.png" alt="Homelab Logo" style="width: 512px;">
-</div>
+<p align="center">
+  <img src="assets/logo.png" alt="Homelab Logo" style="width: 512px;">
+</p>
 
 # Homelab
 
@@ -13,6 +13,8 @@
 - [Helmfile](https://github.com/helmfile/helmfile)
 - [OpenLens]()
   - [OpenLens Node Pod Menu](https://github.com/alebcay/openlens-node-pod-menu)
+
+Note: Lens closed their source code so probably no more OpenLens updates :(
 
 ## Considerations
 
