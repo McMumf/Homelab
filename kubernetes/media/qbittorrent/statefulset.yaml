@@ -15,7 +15,7 @@ spec:
         app: qbittorrent
     spec:
       securityContext:
-        fsGroup: 25343
+        fsGroup: 1000
       containers:
         - name: qbittorrent
           image: lscr.io/linuxserver/qbittorrent:4.6.4-r0-ls321
@@ -47,6 +47,15 @@ spec:
           volumeMounts:
             - name: qbittorrent-data
               mountPath: /config
+            - name: torrents
+              mountPath: /downloads
+            - name: homelab-nfs
+              mountPath: /mnt/library
+      volumes:
+        - name: homelab-nfs
+          nfs:
+            server: 192.168.1.70
+            path: /volume1/library
   volumeClaimTemplates:
     - metadata:
         name: qbittorrent-data
@@ -56,6 +65,14 @@ spec:
         resources:
           requests:
             storage: 32Gi
+    - metadata:
+        name: torrents
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: longhorn
+        resources:
+          requests:
+            storage: 256Gi
 ---
 apiVersion: v1
 kind: Service
