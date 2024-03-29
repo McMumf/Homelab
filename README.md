@@ -1,5 +1,6 @@
 <p align="center">
   <img src="assets/logo.png" alt="Homelab Logo" style="width: 512px;">
+  
   # Homelab
 </p>
 
