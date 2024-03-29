@@ -17,36 +17,36 @@ spec:
       securityContext:
         fsGroup: 25343
       containers:
-      - name: qbittorrent
-        image: lscr.io/linuxserver/qbittorrent:4.6.4-r0-ls321
-        resources:
-          requests:
-            cpu: 1
-            memory: 500Mi
-            ephemeral-storage: 32Gi
-          limits:
-            cpu: 2
-            memory: 4Gi
-            ephemeral-storage: 32Gi
-        ports:
-          - name: ui
-            containerPort: 8090
-            protocol: TCP
-          - name: torrent
-            containerPort: 6881
-            protocol: TCP
-        env:
-          - name: PUID
-            value: "1000"
-          - name: PGID
-            value: "1000"
-          - name: WEBUI_PORT
-            value: "8090"
-          - name: TORRENTING_PORT
-            value: "6881"
-        volumeMounts:
-          - name: qbittorrent-data
-            mountPath: /config
+        - name: qbittorrent
+          image: lscr.io/linuxserver/qbittorrent:4.6.4-r0-ls321
+          resources:
+            requests:
+              cpu: 1
+              memory: 500Mi
+              ephemeral-storage: 32Gi
+            limits:
+              cpu: 2
+              memory: 4Gi
+              ephemeral-storage: 32Gi
+          ports:
+            - name: ui
+              containerPort: 8090
+              protocol: TCP
+            - name: torrent
+              containerPort: 6881
+              protocol: TCP
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: WEBUI_PORT
+              value: "8090"
+            - name: TORRENTING_PORT
+              value: "6881"
+          volumeMounts:
+            - name: qbittorrent-data
+              mountPath: /config
   volumeClaimTemplates:
     - metadata:
         name: qbittorrent-data
@@ -84,7 +84,7 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - &qbittorrentIngress qbittorrent.mcmumf.dev
+        - &qbittorrentIngress qbittorrent.mcmumf.dev
       secretName: qbittorrent-cert
   rules:
     - host: *qbittorrentIngress
