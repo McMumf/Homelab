@@ -25,7 +25,7 @@ releases:
           config:
             enable-real-ip: true
             use-forwarded-headers: "true"
-            forwarded-for-header: proxy_protocol
+            forwarded-for-header: "X-Forwarded-For"
             ssl-protocols: "TLSv1.3 TLSv1.2"
           addHeaders:
             # https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html
