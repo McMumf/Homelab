@@ -7,6 +7,6 @@ releases:
     namespace: homelab
     createNamespace: true
     chart: makeplane/plane-ce
-    version: 1.0.12
+    version: 1.0.15
     values:
       - values.yaml
