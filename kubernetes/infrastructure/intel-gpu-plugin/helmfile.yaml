@@ -1,0 +1,29 @@
+repositories:
+  - name: nfd
+    url: https://kubernetes-sigs.github.io/node-feature-discovery/charts
+  - name: intel
+    url: https://intel.github.io/helm-charts/
+
+releases:
+  - name: nfd
+    namespace: node-feature-discovery
+    chart: nfd/node-feature-discovery
+    version: 0.15.1
+  - name: dp-operator
+    namespace: inteldeviceplugins-system
+    chart: intel/intel-device-plugins-operator
+    version: 0.29.0
+  - name: gpu
+    namespace: inteldeviceplugins-system
+    chart: intel/intel-device-plugins-gpu
+    version: 0.29.0
+    values:
+      - nodeFeatureRule: true
+
+helmDefaults:
+  cleanupOnFail: true
+  verify: true
+  wait: true
+  waitForJobs: true
+  timeout: 300
+  createNamespace: true
