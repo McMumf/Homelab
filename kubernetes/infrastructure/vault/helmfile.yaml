@@ -7,6 +7,6 @@ releases:
     namespace: secrets-management
     createNamespace: true
     chart: hashicorp/vault
-    version: 0.27.0
+    version: 0.28.0
     values:
       - includeCRDs: true
