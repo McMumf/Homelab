@@ -8,7 +8,7 @@ releases:
   - name: nfd
     namespace: node-feature-discovery
     chart: nfd/node-feature-discovery
-    version: 0.15.3
+    version: 0.15.4
   - name: dp-operator
     namespace: inteldeviceplugins-system
     chart: intel/intel-device-plugins-operator
