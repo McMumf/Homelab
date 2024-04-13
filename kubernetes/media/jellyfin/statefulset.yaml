@@ -18,7 +18,7 @@ spec:
       containers:
         # Container
         - name: jellyfin
-          image: jellyfin/jellyfin:2024031105
+          image: jellyfin/jellyfin:2024040105
           # Resources
           resources:
             requests:
@@ -73,6 +73,7 @@ kind: Service
 metadata:
   name: jellyfin
   namespace: homelab
+  annotations:
   labels:
     app: jellyfin
 spec:
@@ -92,6 +93,9 @@ metadata:
   namespace: homelab
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
     nginx.ingress.kubernetes.io/client-max-body-size: "20m"
     nginx.ingress.kubernetes.io/configuration-snippet: |
       proxy_set_header Upgrade "websocket";

@@ -7,6 +7,6 @@ releases:
     namespace: homelab
     createNamespace: true
     chart: djjudas21/homer
-    version: v8.1.9
+    version: 8.1.11
     values:
       - values.yaml
