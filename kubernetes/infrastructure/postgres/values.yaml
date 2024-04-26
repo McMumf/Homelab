@@ -1,0 +1,18 @@
+auth:
+  username: mealie
+  password: mealie
+
+primary:
+  initdb:
+    scripts:
+      init.sql: |
+        CREATE USER mealie WITH PASSWORD 'mealie';
+        CREATE DATABASE mealie;
+        GRANT ALL PRIVILEGES ON DATABASE mealie TO mealie;
+  persistence:
+    size: 32Gi
+
+securityContext:
+  enabled: true
+  fsGroup: 1000
+  runAsUser: 1000

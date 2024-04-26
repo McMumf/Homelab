@@ -16,6 +16,10 @@ spec:
     spec:
       automountServiceAccountToken: false
       terminationGracePeriodSeconds: 10
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
         - name: mealie
           image: hkotel/mealie:latest
@@ -35,6 +39,8 @@ spec:
               value: "1000"
             - name: BASE_URL
               value: "https://recipes.mcmumf.dev"
+            - name: TOKEN_TIME
+              value: "24"
             - name: TZ
               value: "UTC"
             - name: ALLOW_SIGNUP
@@ -56,7 +62,19 @@ spec:
               value: "10"
             - name: WEB_CONCURRENCY
               value: "2"
-
+            # Database Settings
+            - name: DB_ENGINE
+              value: postgres
+            - name: POSTGRES_USER
+              value: mealie
+            - name: POSTGRES_PASSWORD
+              value: mealie
+            - name: POSTGRES_SERVER
+              value: postgres-postgresql.storage.svc.cluster.local
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name : POSTGRES_DB
+              value: mealie
           ports:
             - containerPort: 80
               name: web
