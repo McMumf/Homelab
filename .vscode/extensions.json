@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "bierner.markdown-mermaid",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "SonarSource.sonarlint-vscode",
+        "Tim-Koehler.helm-intellisense",
+        "yzhang.markdown-all-in-one"
+    ]
+}
