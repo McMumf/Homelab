@@ -1,0 +1,10 @@
+apiVersion: v1
+appVersion: "1.5.1"
+description: Self-hosted recipe manager
+name: Mealie
+version: 1.0.0
+keywords:
+- mealie
+- recipes
+home: https://github.com/mealie-recipes/mealie
+icon: https://raw.githubusercontent.com/mealie-recipes/mealie/mealie-next/frontend/static/favicon.ico

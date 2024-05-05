@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  serviceName: {{ .Release.Name }}
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      {{- if .Values.hostNetwork }}
+      hostNetwork: true #fix me
+      {{- end }}
+      containers:
+        - name: {{ .Release.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            privileged: true # fix me
+          resources:
+            requests:
+              cpu: {{ .Values.statefulset.resources.requests.cpu }}
+              memory: {{ .Values.statefulset.resources.requests.memory }}
+              ephemeral-storage: {{ .Values.statefulset.resources.requests.ephemeralStorage }}
+            limits: 
+              cpu: {{ .Values.statefulset.resources.limits.cpu }}
+              memory: {{ .Values.statefulset.resources.limits.memory }}
+              ephemeral-storage: {{ .Values.statefulset.resources.limits.ephemeralStorage }}
+          ports:
+            - name: {{ .Release.Name }}-web
+              containerPort: 8123
+              protocol: TCP
+          volumeMounts:
+            - name: {{ .Release.Name }}-data
+              mountPath: /config
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ .Release.Name }}-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: longhorn
+        resources:
+          requests:
+            storage: {{ .Values.statefulset.volumeClaim.requests.storage }}

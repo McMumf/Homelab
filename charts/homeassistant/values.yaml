@@ -1,0 +1,40 @@
+replicaCount: 1
+
+# Image settings
+image:
+  # Repository for the Home Assistant image
+  repository: ghcr.io/home-assistant/home-assistant
+  # Image pull policy
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+statefulset:
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 500Mi
+      ephemeralStorage: &haStorage 32Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+      ephemeralStorage: *haStorage
+  volumeClaim:
+    requests:
+      storage: *haStorage
+
+configMap:
+  externalUrl: https://hassio.mcmumf.dev
+  # For when hassio is running behind a proxy
+  proxy:
+    enabled: true
+    trustedProxies: 
+      - 192.168.1.185
+
+ingress:
+  host: hassio.mcmumf.dev
+  tls:
+    enabled: true
+  certManager:
+    enabled: true
+    issuer: letsencrypt-production
