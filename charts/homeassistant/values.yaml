@@ -4,6 +4,7 @@ replicaCount: 1
 image:
   # Repository for the Home Assistant image
   repository: ghcr.io/home-assistant/home-assistant
+  version: 2024.5
   # Image pull policy
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
