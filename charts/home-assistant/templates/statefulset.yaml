@@ -42,6 +42,15 @@ spec:
             - name: {{ .Release.Name }}-config
               mountPath: /config/configuration.yaml
               subPath: configuration.yaml
+            - name: {{ .Release.Name }}-config
+              mountPath: /config/automations.yaml
+              subPath: automations.yaml
+            - name: {{ .Release.Name }}-config
+              mountPath: /config/scenes.yaml
+              subPath: scenes.yaml
+            - name: {{ .Release.Name }}-config
+              mountPath: /config/scripts.yaml
+              subPath: scripts.yaml
       volumes:
         - name: {{ .Release.Name }}-config
           configMap:
@@ -49,6 +58,12 @@ spec:
             items:
               - key: configuration.yaml
                 path: configuration.yaml
+              - key: automations.yaml
+                path: automations.yaml
+              - key: scenes.yaml
+                path: scenes.yaml
+              - key: scripts.yaml
+                path: scripts.yaml
   volumeClaimTemplates:
     - metadata:
         name: {{ .Release.Name }}-data

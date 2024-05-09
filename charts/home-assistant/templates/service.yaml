@@ -11,3 +11,4 @@ spec:
   ports:
   - port: 8123
     name: {{ .Release.Name }}
+    protocol: TCP
