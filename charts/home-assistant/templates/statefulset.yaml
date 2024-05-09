@@ -19,7 +19,7 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Release.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.version }}"
+          image: "{{ .Values.image.repository}}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
             privileged: true # fix me
@@ -28,7 +28,7 @@ spec:
               cpu: {{ .Values.statefulset.resources.requests.cpu }}
               memory: {{ .Values.statefulset.resources.requests.memory }}
               ephemeral-storage: {{ .Values.statefulset.resources.requests.ephemeralStorage }}
-            limits: 
+            limits:
               cpu: {{ .Values.statefulset.resources.limits.cpu }}
               memory: {{ .Values.statefulset.resources.limits.memory }}
               ephemeral-storage: {{ .Values.statefulset.resources.limits.ephemeralStorage }}
@@ -39,6 +39,16 @@ spec:
           volumeMounts:
             - name: {{ .Release.Name }}-data
               mountPath: /config
+            - name: {{ .Release.Name }}-config
+              mountPath: /config/configuration.yaml
+              subPath: configuration.yaml
+      volumes:
+        - name: {{ .Release.Name }}-config
+          configMap:
+            name: {{ .Release.Name }}-configmap
+            items:
+              - key: configuration.yaml
+                path: configuration.yaml
   volumeClaimTemplates:
     - metadata:
         name: {{ .Release.Name }}-data

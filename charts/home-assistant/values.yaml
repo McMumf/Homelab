@@ -4,7 +4,6 @@ replicaCount: 1
 image:
   # Repository for the Home Assistant image
   repository: ghcr.io/home-assistant/home-assistant
-  version: 2024.5
   # Image pull policy
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
@@ -29,8 +28,9 @@ configMap:
   # For when hassio is running behind a proxy
   proxy:
     enabled: true
-    trustedProxies: 
-      - 192.168.1.185
+    trustedProxies:
+      - 10.42.0.168
+      - 127.0.0.1
 
 ingress:
   host: hassio.mcmumf.dev

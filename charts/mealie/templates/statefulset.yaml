@@ -22,16 +22,16 @@ spec:
         fsGroup: 1000
       containers:
         - name: {{ .Release.Name }}-service
-          image: image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          image: image: "{{ .Values.image.repository}}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           resources:
             requests:
               cpu: {{ .Values.statefulset.resources.requests.cpu }}
               memory: {{ .Values.statefulset.resources.requests.memory }}
               ephemeral-storage: {{ .Values.statefulset.resources.requests.ephemeral-storage }}
-            limits: 
+            limits:
               cpu: {{ .Values.statefulset.resources.limits.cpu }}
               memory: {{ .Values.statefulset.resources.limits.memory }}
-              ephemeral-storage: {{ .Values.statefulset.resources.limits.ephemeral-storage }}          
+              ephemeral-storage: {{ .Values.statefulset.resources.limits.ephemeral-storage }}
           env: {{ .Values.statefulset.env }}
           ports:
             - containerPort: {{ .Values.statefulset.port.web }}

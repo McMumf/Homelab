@@ -1,14 +1,12 @@
 {
     "files.insertFinalNewline": true,
-    "files.associations": {
-        ".ansible-lint": "yaml"
-    },
     "[json]": {
         "editor.quickSuggestions": {
             "strings": true
         },
         "editor.suggest.insertMode": "replace"
     },
+    "[markdown-math]": {},
     "[yaml]": {
         "editor.insertSpaces": true,
         "editor.tabSize": 2,
