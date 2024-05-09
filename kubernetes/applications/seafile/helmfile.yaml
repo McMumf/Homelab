@@ -7,6 +7,6 @@ releases:
     namespace: homelab
     createNamespace: true
     chart: dr300481/seafile
-    version: 0.11.3
+    version: 0.12.0
     values:
       - values.yaml
