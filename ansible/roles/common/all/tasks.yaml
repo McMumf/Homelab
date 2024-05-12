@@ -1,3 +1,0 @@
-- name: Install common packages
-  become: yes
-  ansible.builtin.apt:

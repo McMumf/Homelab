@@ -5,23 +5,51 @@ image:
   # Repository for the Home Assistant image
   repository: ghcr.io/home-assistant/home-assistant
   # Image pull policy
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
-statefulset:
-  resources:
-    requests:
-      cpu: 1000m
-      memory: 500Mi
-      ephemeralStorage: &haStorage 32Gi
-    limits:
-      cpu: 2000m
-      memory: 4Gi
-      ephemeralStorage: *haStorage
-  volumeClaim:
-    requests:
-      storage: *haStorage
+# Override the default name of the Helm chart
+nameOverride: ""
+# Override the default full name of the Helm chart
+fullnameOverride: ""
+
+resources:
+  requests:
+    memory: 128Mi
+    cpu: 100m
+    ephemeralStorage: &ephemeralHaStorage 8Gi
+  limits:
+    memory: 2Gi
+    cpu: 1000m
+    ephemeralStorage: *ephemeralHaStorage
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 8Gi
+  storageClass: ""
+  existingVolume: ""
+  matchLabels: {}
+  matchExpressions: {}
+
+# Pod security context settings
+podSecurityContext:
+  {}
+  # runAsUser: 568
+  # runAsGroup: 568
+  # fsGroup: 568
+  # fsGroupChangePolicy: "OnRootMismatch"
+
+# Container security context settings
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
 configMap:
   externalUrl: https://hassio.mcmumf.dev
@@ -29,10 +57,15 @@ configMap:
   proxy:
     enabled: true
     trustedProxies:
-      - 10.42.0.0/24
+      - 10.42.0.0/16
       - 10.43.0.0/16
       - 192.168.1.0/24
       - ::1
+
+service:
+  port: 8123
+  type: ClusterIP
+  annotations: {}
 
 ingress:
   host: hassio.mcmumf.dev

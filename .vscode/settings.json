@@ -1,5 +1,9 @@
 {
     "files.insertFinalNewline": true,
+    "[helm]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2
+    },
     "[json]": {
         "editor.quickSuggestions": {
             "strings": true

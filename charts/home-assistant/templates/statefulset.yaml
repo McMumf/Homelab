@@ -1,60 +1,71 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ .Release.Name }}
-  namespace: {{ .Release.Namespace }}
+  name: {{ include "home-assistant.fullname" . }}
+  labels:
+    {{- include "home-assistant.labels" . | nindent 4 }}
 spec:
-  serviceName: {{ .Release.Name }}
+  serviceName: {{ include "home-assistant.fullname" . }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
+      {{- include "home-assistant.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}
+        {{- include "home-assistant.selectorLabels" . | nindent 8 }}
     spec:
       {{- if .Values.hostNetwork }}
-      hostNetwork: true #fix me
+      hostNetwork: true
       {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Release.Name }}
+        - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository}}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
-            privileged: true # fix me
+            {{- toYaml .Values.securityContext | nindent 12 }}
           resources:
             requests:
-              cpu: {{ .Values.statefulset.resources.requests.cpu }}
-              memory: {{ .Values.statefulset.resources.requests.memory }}
-              ephemeral-storage: {{ .Values.statefulset.resources.requests.ephemeralStorage }}
+              memory: {{ .Values.resources.requests.memory }}
+              cpu: {{ .Values.resources.requests.cpu }}
+              ephemeral-storage: {{ .Values.resources.requests.ephemeralStorage }}
             limits:
-              cpu: {{ .Values.statefulset.resources.limits.cpu }}
-              memory: {{ .Values.statefulset.resources.limits.memory }}
-              ephemeral-storage: {{ .Values.statefulset.resources.limits.ephemeralStorage }}
+              memory: {{ .Values.resources.limits.memory }}
+              cpu: {{ .Values.resources.limits.cpu }}
+              ephemeral-storage: {{ .Values.resources.limits.ephemeralStorage }}
           ports:
-            - name: {{ .Release.Name }}-web
+            - name: http
               containerPort: 8123
               protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
           volumeMounts:
-            - name: {{ .Release.Name }}-data
+            - name: {{ include "home-assistant.fullname" . }}
               mountPath: /config
-            - name: {{ .Release.Name }}-config
+            - name: {{ include "home-assistant.fullname" . }}-config
               mountPath: /config/configuration.yaml
               subPath: configuration.yaml
-            - name: {{ .Release.Name }}-config
+            - name: {{ include "home-assistant.fullname" . }}-config
               mountPath: /config/automations.yaml
               subPath: automations.yaml
-            - name: {{ .Release.Name }}-config
+            - name: {{ include "home-assistant.fullname" . }}-config
               mountPath: /config/scenes.yaml
               subPath: scenes.yaml
-            - name: {{ .Release.Name }}-config
+            - name: {{ include "home-assistant.fullname" . }}-config
               mountPath: /config/scripts.yaml
               subPath: scripts.yaml
       volumes:
-        - name: {{ .Release.Name }}-config
+        - name: {{ include "home-assistant.fullname" . }}-config
           configMap:
-            name: {{ .Release.Name }}-configmap
+            name: {{ include "home-assistant.fullname" . }}-config
             items:
               - key: configuration.yaml
                 path: configuration.yaml
@@ -66,10 +77,11 @@ spec:
                 path: scripts.yaml
   volumeClaimTemplates:
     - metadata:
-        name: {{ .Release.Name }}-data
+        name: {{ include "home-assistant.fullname" . }}
       spec:
-        accessModes: ["ReadWriteOnce"]
-        storageClassName: longhorn
+        accessModes:
+          - {{ .Values.persistence.accessMode }}
+        storageClassName: {{ .Values.persistence.storageClass }}
         resources:
           requests:
-            storage: {{ .Values.statefulset.volumeClaim.requests.storage }}
+            storage: {{ .Values.persistence.size }}

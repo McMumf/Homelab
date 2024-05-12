@@ -1,0 +1,19 @@
+resources:
+  requests:
+    memory: 128Mi
+    cpu: 100m
+    ephemeralStorage: &ephemeralHaStorage 8Gi
+  limits:
+    memory: 2Gi
+    cpu: 1000m
+    ephemeralStorage: *ephemeralHaStorage
+
+persistence:
+  accessMode: ReadWriteOnce
+  size: 32Gi
+  storageClass: longhorn
+
+podSecurityContext:
+  runAsUser: 568
+  runAsGroup: 568
+  fsGroup: 568

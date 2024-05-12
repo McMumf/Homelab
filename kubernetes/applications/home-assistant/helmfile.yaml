@@ -1,6 +1,8 @@
 releases:
-  - name: hassio
+  - name: home-assistant
     namespace: homelab
     createNamespace: true
     chart: ../../../charts/home-assistant
     version: 1.0.0
+    values:
+      - values.yaml

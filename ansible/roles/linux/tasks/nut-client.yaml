@@ -1,7 +1,0 @@
----
-- name: Install nut-client
-  ansible.builtin.apt:
-    name: "nut-client"
-
-- name: Connect to nut-server
-  ansible.builtin.command: upsc nut-user@nut-server.com
