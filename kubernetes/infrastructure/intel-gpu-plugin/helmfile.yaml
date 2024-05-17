@@ -7,19 +7,21 @@ repositories:
 releases:
   - name: nfd
     namespace: node-feature-discovery
+    createNamespace: true
     chart: nfd/node-feature-discovery
     version: 0.15.4
-  - name: dp-operator
+  - name: intel-device-plugins-operator
     namespace: inteldeviceplugins-system
+    createNamespace: true
     chart: intel/intel-device-plugins-operator
     version: 0.30.0
-  - name: gpu
+  - name: intel-device-plugins-gpu
     namespace: inteldeviceplugins-system
+    createNamespace: true
     chart: intel/intel-device-plugins-gpu
     version: 0.30.0
     values:
       - nodeFeatureRule: true
-
 helmDefaults:
   cleanupOnFail: true
   verify: true

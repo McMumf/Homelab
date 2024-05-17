@@ -1,0 +1,88 @@
+---
+- name: Enforce minimum Ansible version
+  ansible.builtin.assert:
+    that:
+      - ansible_version.full is version('2.14', '>=')
+    msg: "Minimum ansible-core version required is 2.14"
+
+- name: Set Time Zone
+  community.general.timezone:
+    name: "{{ system_timezone }}"
+  when: (system_timezone is defined) and (system_timezone != "Etc/UTC")
+
+# Add debian backports repository
+- name: Add modified sources.list
+  ansible.builtin.copy:
+    src: sources.list
+    dest: /etc/apt/sources.list
+    mode: "0644"
+  become: true
+
+# Update Kernel
+- name: Update kernel
+  ansible.builtin.apt:
+    name: linux-image-amd64
+    state: latest
+    default_release: bookworm-backports
+  become: true
+
+- name: Enable IPv4 forwarding
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: "1"
+    state: present
+    reload: true
+  tags: sysctl
+
+- name: Enable IPv6 forwarding
+  sysctl:
+    name: net.ipv6.conf.all.forwarding
+    value: "1"
+    state: present
+    reload: yes
+  tags: sysctl
+
+- name: Add /usr/local/bin to sudo secure_path
+  lineinfile:
+    line: "Defaults    secure_path = /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin"
+    regexp: "Defaults(\\s)*secure_path(\\s)*="
+    state: present
+    insertafter: EOF
+    path: /etc/sudoers
+    validate: "visudo -cf %s"
+  when: ansible_distribution in ['CentOS', 'Red Hat Enterprise Linux', 'Debian']
+
+- name: Install Required Longhorn Dependencies
+  apt:
+    name:
+      - parted
+      - open-isci
+      - nfs-common
+      - jq
+      - kubectl
+    state: latest
+    update_cache: yes
+
+- name: Install Required Helm Dependencies
+  apt:
+    name:
+      - git
+    state: latest
+    update_cache: yes
+
+- name: Install Misc Packages
+  apt:
+    name:
+      - needrestart
+    state: latest
+    update_cache: yes
+
+# Upgrade everything to latest (use full upgrade)
+- name: Upgrade packages to the latest version
+  apt:
+    upgrade: full
+    update_cache: yes
+
+- name: Free up disk space
+  command: apt clean
+  become: true

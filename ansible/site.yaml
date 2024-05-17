@@ -1,6 +1,15 @@
-- hosts: all
+- name: Pre tasks
+  hosts: test-group
+  pre_tasks:
+    - name: Verify Ansible is version 2.11 or above. (If this fails you may need to update Ansible)
+      assert:
+        that: "ansible_version.full is version_compare('2.11', '>=')"
+        msg: >
+          "Ansible is out of date. See here for more info: https://docs.technotim.live/posts/ansible-automation/"
+
+- name: Prep nodes
+  hosts: test-group
+  gather_facts: true
   roles:
-    - common
-- hosts: master-node
-  roles:
-    - kubernetes
+    - role: prereq
+      become: true

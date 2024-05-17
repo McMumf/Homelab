@@ -5,12 +5,24 @@
         "editor.tabSize": 2
     },
     "[json]": {
+        "editor.tabSize": 4,
         "editor.quickSuggestions": {
             "strings": true
         },
         "editor.suggest.insertMode": "replace"
     },
-    "[markdown-math]": {},
+    "[markdown]": {
+        "editor.tabSize": 4,
+        "editor.unicodeHighlight.ambiguousCharacters": false,
+        "editor.unicodeHighlight.invisibleCharacters": false,
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.wordWrap": "on",
+        "editor.quickSuggestions": {
+            "comments": "off",
+            "strings": "off",
+            "other": "off"
+        }
+    },
     "[yaml]": {
         "editor.insertSpaces": true,
         "editor.tabSize": 2,
@@ -21,5 +33,6 @@
             "comments": false,
             "strings": true
         }
-    }
+    },
+    "ansible.python.interpreterPath": "c:\\Users\\mccaf\\miniconda3\\python.exe"
 }
