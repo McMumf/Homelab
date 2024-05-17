@@ -1,0 +1,29 @@
+- name: Add /usr/local/bin to sudo secure_path
+  lineinfile:
+    line: "Defaults    secure_path = /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin"
+    regexp: "Defaults(\\s)*secure_path(\\s)*="
+    state: present
+    insertafter: EOF
+    path: /etc/sudoers
+    validate: "visudo -cf %s"
+  when: ansible_distribution in ['CentOS', 'Red Hat Enterprise Linux', 'Debian']
+
+- name: Remove old Kubernetes Repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main"
+    state: absent
+
+- name: Install Common Packages
+  become: true
+  apt:
+    name:
+      - vim
+      - git
+      - apt-transport-https
+      - ca-certificates
+      - python3
+      - python3-pip
+      - needrestart
+    state: latest
+    update_cache: yes

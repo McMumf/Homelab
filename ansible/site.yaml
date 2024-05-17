@@ -11,5 +11,7 @@
   hosts: test-group
   gather_facts: true
   roles:
+    - role: common
+      become: true
     - role: prereq
       become: true
