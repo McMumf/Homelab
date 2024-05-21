@@ -11,6 +11,6 @@ releases:
     namespace: homelab
     createNamespace: true
     chart: bitnami/mariadb
-    version: 18.0.6
+    version: 18.1.0
     values:
       - mariadb-values.yaml
