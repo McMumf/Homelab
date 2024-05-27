@@ -8,10 +8,9 @@ metadata:
     {{- if .Values.ingress.certManager.enabled }}
     cert-manager.io/cluster-issuer: {{ .Values.ingress.certManager.issuer }}
     {{- end }}
-    nginx.ingress.kubernetes.io/configuration-snippet: |
+    nginx.ingress.kubernetes.io/server-snippet: |
       proxy_set_header Upgrade "websocket";
       proxy_set_header Connection "Upgrade";
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   tls:

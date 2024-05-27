@@ -73,7 +73,7 @@ spec:
               value: postgres-postgresql.storage.svc.cluster.local
             - name: POSTGRES_PORT
               value: "5432"
-            - name : POSTGRES_DB
+            - name: POSTGRES_DB
               value: mealie
           ports:
             - containerPort: 80
@@ -112,12 +112,15 @@ metadata:
   namespace: homelab
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
+    nginx.ingress.kubernetes.io/server-snippet: |
+      proxy_set_header Upgrade "websocket";
+      proxy_set_header Connection "Upgrade";
 spec:
   ingressClassName: nginx
-  # tls:
-  #   - hosts:
-  #       - recipes.mcmumf.dev
-  #     secretName: recipies-cert
+  tls:
+    - hosts:
+        - recipes.mcmumf.dev
+      secretName: recipies-cert
   rules:
     - host: recipes.mcmumf.dev
       http:

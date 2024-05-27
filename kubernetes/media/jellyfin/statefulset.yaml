@@ -96,15 +96,15 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
     nginx.ingress.kubernetes.io/client-max-body-size: "20m"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
+    nginx.ingress.kubernetes.io/server-snippet: |
       proxy_set_header Upgrade "websocket";
       proxy_set_header Connection "Upgrade";
 spec:
   ingressClassName: nginx
-  # tls:
-  #   - hosts:
-  #       - jellyfin.mcmumf.dev
-  #     secretName: jellyfin-cert
+  tls:
+    - hosts:
+        - jellyfin.mcmumf.dev
+      secretName: jellyfin-cert
   rules:
     - host: jellyfin.mcmumf.dev
       http:

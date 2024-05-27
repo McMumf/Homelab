@@ -43,7 +43,11 @@ podSecurityContext:
 
 # Container security context settings
 securityContext:
-  {}
+  capabilities:
+    add:
+      - NET_ADMIN
+      - NET_RAW
+      - NET_BROADCAST
   # capabilities:
   #   drop:
   #   - ALL

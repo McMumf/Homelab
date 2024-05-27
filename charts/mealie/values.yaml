@@ -72,4 +72,4 @@ service:
 ingress:
   host: recipes.mcmumf.dev
   tls:
-    enabled: false
+    enabled: true
