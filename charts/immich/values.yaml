@@ -1,0 +1,3 @@
+secrets:
+  vault:
+    enabled: false

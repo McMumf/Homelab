@@ -9,7 +9,6 @@
 
 ## Potential Hostings
 
-- [Immich](https://immich.app/)
 - [FreshRSS](https://www.freshrss.org/)
 - [paperless-ngx](https://github.com/paperless-ngx/paperless-ngx)
 - [standardnotes](https://github.com/standardnotes/app)

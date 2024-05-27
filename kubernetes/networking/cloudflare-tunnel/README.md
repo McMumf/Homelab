@@ -30,6 +30,7 @@ sequenceDiagram
 ### Initial Configuration
 
 **Create a new tunnel:**
+
 ```shell
 $ cloudflared tunnel login
 
@@ -49,7 +50,8 @@ Created tunnel k8s-tunnel with id something
 ```
 
 **Create the tunnel secret:**
-```
+
+```shell
 $ kubectl create secret generic tunnel-credentials \
 --from-file=credentials.json=~/.cloudflared/ef824aef-7557-4b41-a398-4684585177ad.json -n cloudflared
 ```
@@ -62,7 +64,7 @@ Update `values.yaml` to have the tunnel name and the newly created secret name.
 
 To add have the tunnel route a new cname, do the following:
 
-```sh
+```shell
 $ cloudflared tunnel route dns k8s-tunnel subdomain.host.whatever
 2023-04-20T16:20:52Z INF Added CNAME subdomain.host.whatever which will route to this tunnel tunnelID=<some tunnel id>
 ```

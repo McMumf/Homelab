@@ -1,0 +1,15 @@
+apiVersion: v2
+name: immich
+description: High performance self-hosted photo and video management solution
+version: 1.0.0
+appVersion: v1.105.1
+type: application
+
+home: https://github.com/immich-app/immich
+icon: https://raw.githubusercontent.com/immich-app/immich/main/web/static/favicon.ico
+
+maintainers:
+  - name: mcmumf
+
+keywords:
+  - immich
