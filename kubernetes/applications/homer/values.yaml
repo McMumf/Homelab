@@ -31,7 +31,7 @@ ingress:
   # -- Enable and configure ingress settings for the chart under this key.
   # @default -- See values.yaml
   main:
-    enabled: false
+    enabled: true
 
 securityContext:
   # -- Specify the user ID the application will run as
