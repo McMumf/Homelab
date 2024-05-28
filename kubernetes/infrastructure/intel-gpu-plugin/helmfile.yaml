@@ -9,7 +9,7 @@ releases:
     namespace: node-feature-discovery
     createNamespace: true
     chart: nfd/node-feature-discovery
-    version: 0.15.4
+    version: 0.16.0
   - name: intel-device-plugins-operator
     namespace: inteldeviceplugins-system
     createNamespace: true
