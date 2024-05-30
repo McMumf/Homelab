@@ -42,11 +42,18 @@ spec:
           volumeMounts:
             - name: pgdata
               mountPath: /var/lib/postgresql
+            - name: pg-config
+              mountPath: /etc/postgresql.conf
+              subPath: postgresql.conf
+      volumes:
+        - name: pg-config
+          configMap:
+            name: immich-postgres-config
   volumeClaimTemplates:
-  - metadata:
-      name: pgdata
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      resources:
-        requests:
-          storage: 10Gi # Adjust size based on your requirements
+    - metadata:
+        name: pgdata
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi # Adjust size based on your requirements
