@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: immich-microservices
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: immich-microservices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: immich-microservices
+  template:
+    metadata:
+      labels:
+        app: immich-microservices
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: immich-microservices
+          image: ghcr.io/immich-app/immich-server:v1.105.1
+          # resources:
+          #   requests:
+          #     gpu.intel.com/i915: 1
+          #   limits:
+          #     gpu.intel.com/i915: 1
+          resources:
+            limits:
+              cpu:
+              memory: 6Gi
+          command: ["/bin/sh"]
+          args: ["./start-microservices.sh"]
+          ports:
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: immich-postgres-secrets
+                  key: DB_PASSWORD
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: immich-postgres-secrets
+                  key: DB_USERNAME
+          envFrom:
+            - configMapRef:
+                name: immich-env
+          volumeMounts:
+            - name: nfs-volume
+              mountPath: /usr/src/app/upload
+      volumes:
+        - name: nfs-volume
+          nfs:
+            server: 192.168.1.70
+            path: /volume1/photos

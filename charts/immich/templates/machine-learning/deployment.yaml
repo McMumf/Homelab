@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: immich-ml
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: immich-ml
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: immich-ml
+  template:
+    metadata:
+      labels:
+        app: immich-ml
+    spec:
+      containers:
+        - name: immich-machine-learning
+          image: ghcr.io/immich-app/immich-machine-learning:v1.105.1
+          resources:
+            limits:
+              cpu: 500m
+              ephemeral-storage: 5Gi
+              memory: 2Gi
+          ports:
+            - containerPort: 3003
+              name: http
+          livenessProbe: &probe
+            httpGet:
+              path: /ping
+              port: http
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 1
+            failureThreshold: 3
+          readinessProbe: *probe
+          envFrom:
+            - configMapRef:
+                name: immich-env

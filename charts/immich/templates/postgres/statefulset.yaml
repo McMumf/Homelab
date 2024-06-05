@@ -36,9 +36,14 @@ spec:
                   key: DB_USERNAME
             - name: POSTGRES_DB
               valueFrom:
-                secretKeyRef:
-                  name: immich-postgres-secrets
+                configMapKeyRef:
+                  name: immich-env
                   key: DB_DATABASE_NAME
+            - name: POSTGRES_INITDB_ARGS
+              valueFrom:
+                configMapKeyRef:
+                  name: immich-env
+                  key: DB_INIT_ARGS
           volumeMounts:
             - name: pgdata
               mountPath: /var/lib/postgresql

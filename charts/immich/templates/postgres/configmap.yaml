@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: immich-postgres-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: immich-postgres
+data:
+  postgresql.conf: |-
+    shared_preload_libraries=vectors.so
+    search_path="$$user", public, vectors
+    logging_collector=on
+    max_wal_size = 2GB
+    shared_buffers=512MB
+    wal_compression=on
