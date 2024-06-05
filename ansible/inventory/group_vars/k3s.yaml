@@ -1,0 +1,7 @@
+# Set the System's Timezone
+system_timezone: "Etc/UTC"
+
+ansible_user: ansible-admin
+
+k3s_version: v1.29.4+k3s1
+k3s_token: super_secure_password

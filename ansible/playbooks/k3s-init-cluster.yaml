@@ -1,0 +1,13 @@
+- hosts: k3s_cluster
+  gather_facts: yes
+  become: yes
+  roles:
+    - role: debian
+    - role: k3s_cluster/prereq
+    - role: k3s_cluster/download
+
+- hosts: master
+  remote_user: ansible
+  become: yes
+  roles:
+    - role: k3s/master
