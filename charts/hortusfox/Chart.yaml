@@ -2,7 +2,7 @@ apiVersion: v1
 description: A self-hosted collaborative plant management system (C) 2023 - 2024 by Daniel Brendel
 name: HortusFoxx
 version: 1.0.0
-appVersion: "v3.0"
+appVersion: "v3.1"
 keywords:
   - hortusfox
   - plants

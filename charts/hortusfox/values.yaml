@@ -5,9 +5,9 @@ image:
   # Repository for the Mealie image
   repository: ghcr.io/danielbrendel/hortusfox-web
   # Image pull policy
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "v3.1"
 
 statefulset:
   resources:
@@ -21,18 +21,20 @@ statefulset:
     host: &hostPortNumber 8080
     container: &containerPortNumber 80
   env:
+    - name: APP_SERVICE_URL
+      value: https://plants.mcmumf.dev
     - name: APP_LANG
       value: en
     - name: APP_ADMIN_EMAIL
       value: homelab-admin@mcmumf.dev
     - name: APP_ADMIN_PASSWORD
       value: test
-    - name: DB_CHARSET
-      value: utf8mb4
-    - name: DB_DATABASE
-      value: hortusfox
+    - name: DB_ENABLE
+      value: "true"
     - name: DB_HOST
       value: hortusfox-mariadb.homelab.svc.cluster.local
+    - name: DB_USERNAME
+      value: root
     - name: DB_PASSWORD
       valueFrom:
         secretKeyRef:
@@ -40,8 +42,10 @@ statefulset:
           key: mariadb-password
     - name: DB_PORT
       value: "3306"
-    - name: DB_USERNAME
-      value: root
+    - name: DB_DATABASE
+      value: hortusfox
+    - name: DB_DRIVER
+      value: mysql
   volumeClaimTemplate:
     size: 8Gi
     imagesSize: 4Gi

@@ -2,3 +2,21 @@ auth:
   database: hortusfox
   user: hortusfox-user
   existingSecret: hortusfox-secrets
+
+primary:
+  resources:
+    requests:
+      cpu: 2
+      memory: 512Mi
+    limits:
+      cpu: 3
+      memory: 1Gi
+
+secondary:
+  resources:
+    requests:
+      cpu: 2
+      memory: 512Mi
+    limits:
+      cpu: 3
+      memory: 1Gi

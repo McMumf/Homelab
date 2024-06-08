@@ -3,10 +3,13 @@ repositories:
     url: https://charts.bitnami.com/bitnami
 
 releases:
-  # - name: hortusfox
-  #   namespace: homelab
-  #   creaetNamespace: true
-  #   chart: ../../../charts/hortusfox
+  - name: hortusfox
+    namespace: homelab
+    createNamespace: true
+    chart: ../../../charts/hortusfox
+    version: 1.0.0
+    values:
+      - hortusfox-values.yaml
   - name: hortusfox-mariadb
     namespace: homelab
     createNamespace: true

@@ -1,10 +1,10 @@
-a +++++++++++++piVersion: apps/v1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
 spec:
-  serviceName: "{{ .Release.Name }}"
+  serviceName: {{ .Release.Name }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
@@ -12,9 +12,13 @@ spec:
   template:
     metadata:
       labels:
-        app: s.Name }}++++    spec:
+        app: {{ .Release.Name }}
+    spec:
       automountServiceAccountToken: false
       terminationGracePeriodSeconds: 10
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
       containers:
         - name: {{ .Release.Name }}
           image: "{{ .Values.image.repository}}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -23,7 +27,7 @@ spec:
             limits: {{ toYaml .Values.statefulset.resources.limits | nindent 14 }}
           env: {{ toYaml .Values.statefulset.env  | nindent 12 }}
           ports:
-            - containerPort: 80++++++++++++++++++++++++++++++++++++++++++++++
+            - containerPort: 80
               hostPort: {{ .Values.statefulset.port.number }}
               protocol: TCP
           volumeMounts:
@@ -43,7 +47,7 @@ spec:
     - metadata:
         name: {{ .Release.Name }}-data
       spec:
-        accessModes: ["ReadWriteOnce"]++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-``
+        accessModes: ["ReadWriteOnce"]
         storageClassName: "longhorn"
         resources:
           requests:
@@ -63,7 +67,7 @@ spec:
     #     storageClassName: "longhorn"
     #     resources:
     #       requests:
-    #         storage: {{ .-+++++++++++++++++++++++++++++++++++++++++-Values.statefulset.volumeClaimTemplate.logsSize }}
+    #         storage: {{ .Values.statefulset.volumeClaimTemplate.logsSize }}
     # - metadata:
     #     name: {{ .Release.Name }}-backup
     #   spec:
