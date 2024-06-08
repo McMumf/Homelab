@@ -26,7 +26,7 @@ spec:
           #     gpu.intel.com/i915: 1
           resources:
             limits:
-              cpu:
+              cpu: 500m
               memory: 6Gi
           command: ["/bin/sh"]
           args: ["./start-microservices.sh"]
