@@ -18,7 +18,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: immich-microservices
-          image: ghcr.io/immich-app/immich-server:v1.106.3
+          image: ghcr.io/immich-app/immich-server:v1.106.4
           # resources:
           #   requests:
           #     gpu.intel.com/i915: 1
