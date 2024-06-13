@@ -18,13 +18,11 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: immich-server
-          image: ghcr.io/immich-app/immich-server:v1.106.3
+          image: ghcr.io/immich-app/immich-server:v1.106.4
           # securityContext:
           #   runAsUser: 1000
           #   runAsGroup: 3000
           #   fsGroup: 2000
-          command: ["/bin/sh"]
-          args: ["./start-server.sh"]
           ports:
             - containerPort: 3001
               name: http

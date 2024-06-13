@@ -8,8 +8,6 @@ server:
       enabled: false
       issuer: letsencrypt
 
-microservices:
-
 machine-learning:
 
 postgres:
