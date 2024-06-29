@@ -7,6 +7,6 @@ releases:
     namespace: argocd
     createNamespace: true
     chart: argo/argo-cd
-    version: 7.2.1
+    version: 7.3.3
     values:
       - values.yaml
