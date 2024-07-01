@@ -1,0 +1,12 @@
+repositories:
+  - name: itzg
+    url: https://itzg.github.io/minecraft-server-charts/
+
+releases:
+  - name: minecraft-vanilla
+    namespace: games
+    createNamespace: true
+    chart: itzg/minecraft
+    version: 4.19.0
+    values:
+      - values.yaml

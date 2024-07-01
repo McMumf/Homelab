@@ -1,0 +1,19 @@
+image:
+  tag: java17
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+
+minecraftServer:
+  eula: "TRUE"
+  type: "VANILLA"
+  difficulty: easy
+  motd: "Hello, there"
+  wordSaveName: "mcmumfland"
+
+persistence:
+  storageClassName: longhorn
+  dataDir:
+    enabled: "true"

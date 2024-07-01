@@ -1,0 +1,12 @@
+repositories:
+  - name: itzg
+    url: https://itzg.github.io/minecraft-server-charts/
+
+releases:
+  - name: mc-router
+    namespace: games
+    createNamespace: true
+    chart: itzg/mc-router
+    version: 1.2.0
+    values:
+      - values.yaml
