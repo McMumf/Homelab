@@ -11,3 +11,7 @@ cloudflare:
       service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80
       originRequest:
         originServerName: mcmumf.dev
+    - hostname: "mc.mcmumf.dev"
+      service: http://minecraft-vanilla-lb.games.svc.cluster.local:25565
+      originRequest:
+        originServerName: mc.mcmumf.dev
