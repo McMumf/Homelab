@@ -9,8 +9,4 @@ releases:
     createNamespace: true
     chart: metallb/metallb
     values:
-      - controller:
-          tolerations:
-            - key: "node-role.kubernetes.io/control-plane"
-              operator: "Equal"
-              effect: "NoSchedule"
+      - values.yaml

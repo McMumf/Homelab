@@ -1,2 +1,23 @@
 image:
   tag: 1.20.3
+
+services:
+  api:
+    type: ClusterIP
+    port: 8080
+
+minecraftRouter:
+  mappings:
+    - externalHostname: mc.mcmumf.dev
+      host: mc.mcmumf.dev
+      port: 25565
+  debug:
+    enabled: true
+
+resources:
+  limits:
+    cpu: 250m
+    memory: 100Mi
+  requests:
+    cpu: 100m
+    memory: 50Mi

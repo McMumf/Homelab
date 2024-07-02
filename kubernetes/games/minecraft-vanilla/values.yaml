@@ -1,5 +1,5 @@
 image:
-  tag: java17
+  tag: java21
 
 resources:
   requests:
@@ -8,10 +8,13 @@ resources:
 
 minecraftServer:
   eula: "TRUE"
+  version: "1.21"
   type: "VANILLA"
   difficulty: easy
   motd: "Hello, there"
   wordSaveName: "mcmumfland"
+  ops: |
+    McMumf
 
 persistence:
   storageClassName: longhorn
