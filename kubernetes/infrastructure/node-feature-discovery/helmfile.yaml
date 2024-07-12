@@ -8,3 +8,5 @@ releases:
     createNamespace: true
     chart: nfd/node-feature-discovery
     version: 0.16.2
+    values:
+      - values.yaml
