@@ -5,7 +5,7 @@ metadata:
   namespace: games
 spec:
   type: LoadBalancer
-  loadBalancerIP: 192.168.1.155
+  loadBalancerIP: 192.168.1.7
   selector:
     app: minecraft-vanilla-minecraft
   ports:
