@@ -22,19 +22,19 @@ podDnsConfig:
     - 1.1.1.1
 
 serviceWeb:
-  loadBalancerIP: 192.168.1.161
+  loadBalancerIP: &loadBalancerIp 192.168.1.6
   annotations:
     metallb.universe.tf/allow-shared-ip: pihole-svc
   type: LoadBalancer
 
 serviceDns:
-  loadBalancerIP: 192.168.1.161
+  loadBalancerIP: *loadBalancerIp
   annotations:
     metallb.universe.tf/allow-shared-ip: pihole-svc
   type: LoadBalancer
 
 serviceDhcp:
-  loadBalancerIP: 192.168.1.161
+  loadBalancerIP: *loadBalancerIp
   annotations:
     metallb.universe.tf/allow-shared-ip: pihole-svc
   type: LoadBalancer

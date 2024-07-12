@@ -14,7 +14,7 @@ spec:
       labels:
         app: jellyfin
     spec:
-      automountServiceAccountToken: false
+      automountServiceAccountToken: true
       containers:
         # Container
         - name: jellyfin
