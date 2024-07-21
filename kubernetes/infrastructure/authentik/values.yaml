@@ -21,6 +21,11 @@ global:
     - secretRef:
         name: authentik-secrets
 
+postgresql:
+  enabled: true
+  auth:
+    existingSecret: authentik-secrets
+
 redis:
   enabled: true
 
