@@ -18,7 +18,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: immich-server
-          image: ghcr.io/immich-app/immich-server:v1.110.0
+          image: ghcr.io/immich-app/immich-server:v1.111.0
           # securityContext:
           #   runAsUser: 1000
           #   runAsGroup: 3000
