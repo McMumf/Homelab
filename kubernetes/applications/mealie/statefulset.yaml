@@ -1,3 +1,26 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: mealie-secrets
+  namespace: homelab
+spec:
+  refreshInterval: 24h
+  secretStoreRef:
+    name: vault-backend
+    kind: ClusterSecretStore
+  target:
+    name: mealie-secrets
+  data:
+    - secretKey: smtp-user
+      remoteRef:
+        key: kv/postmark
+        property: smtp_user
+
+    - secretKey: smtp-password
+      remoteRef:
+        key: kv/postmark
+        property: smtp_password
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -57,6 +80,27 @@ spec:
             #   value: "ldap://ldap.mcmumf.dev"
             # - name: LDAP_BIND_TEMPLATE
             #   value: "cn={},ou=users,dc=mcmumf,dc=dev"
+            # SMTP Config
+            - name: SMTP_HOST
+              value: smtp.postmarkapp.com
+            - name: SMPT_PORT
+              value: "587"
+            - name: SMTP_FROM_NAME
+              value: Mealie
+            - name: SMTP_AUTH_STRATEGY
+              value: TLS
+            - name: SMTP_FROM_EMAIL
+              value: mealie@mcmumf.dev
+            - name: SMTP_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-secrets
+                  key: smtp-user
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-secrets
+                  key: smtp-password
             # Web Worker Configs
             - name: MAX_WORKERS
               value: "10"
