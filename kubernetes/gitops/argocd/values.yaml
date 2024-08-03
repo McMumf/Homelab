@@ -1,2 +1,28 @@
+crds:
+  install: true
 global:
-  domain: &argoHost argo.mcmumf.dev
+  tolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Equal"
+      effect: "NoSchedule"
+config:
+  params:
+    server.insecure: true
+server:
+  ingress:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      cert-manager.io/cluster-issuer: letsencrypt-production
+    ingressClassName: "nginx"
+    hostname: argocd.mcmumf.dev
+    tls: true
+  ingressGrpc:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+      cert-manager.io/cluster-issuer: letsencrypt-production
+    ingressClassName: "nginx"
+    hostname: grpc.argocd.mcmumf.dev
+    tls: true
