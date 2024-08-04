@@ -24,12 +24,12 @@ spec:
             requests:
               gpu.intel.com/i915: "1"
               cpu: 1000m
-              memory: 500Mi
+              memory: 1Gi
               ephemeral-storage: 32Gi
             limits:
               gpu.intel.com/i915: "1"
               cpu: 2000m
-              memory: 4Gi
+              memory: 6Gi
               ephemeral-storage: 32Gi
           # Ports
           ports:
