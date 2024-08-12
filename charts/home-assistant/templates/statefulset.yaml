@@ -19,6 +19,7 @@ spec:
       hostNetwork: true
       {{- end }}
       securityContext:
+        privileged: true
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
@@ -48,6 +49,8 @@ spec:
               path: /
               port: http
           volumeMounts:
+            - name: zigbee
+              mountPath: /dev/ttyUSB0
             - name: {{ include "home-assistant.fullname" . }}
               mountPath: /config
             - name: {{ include "home-assistant.fullname" . }}-config
@@ -63,6 +66,9 @@ spec:
               mountPath: /config/scripts.yaml
               subPath: scripts.yaml
       volumes:
+        - name: zigbee
+          hostPath:
+            path: /dev/ttyUSB0
         - name: {{ include "home-assistant.fullname" . }}-config
           configMap:
             name: {{ include "home-assistant.fullname" . }}-config
