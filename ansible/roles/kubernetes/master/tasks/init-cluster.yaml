@@ -32,5 +32,7 @@
     mode: 0755
     remote_src: true
 
-- name: Tain the master
+- name: Taint the master
   shell: kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+  environment:
+    KUBECONFIG: "/etc/kubernetes/admin.conf"

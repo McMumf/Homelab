@@ -26,13 +26,19 @@
     - kubeadm
     - kubectl
 
-- name: Hold k8s packages
-  become: true
-  ansible.builtin.dpkg_selections:
-    name:
-      - kubelet
-      - kubeadm
-      - kubectl
+- name: Hold k8s packages - kubelet
+  dpkg_selections:
+    name: kubelet
+    selection: hold
+
+- name: Hold k8s packages - kubeadm
+  dpkg_selections:
+    name: kubeadm
+    selection: hold
+
+- name: Hold k8s packages - kubectl
+  dpkg_selections:
+    name: kubectl
     selection: hold
 
 - name: Disable system swap
