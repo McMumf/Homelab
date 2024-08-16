@@ -19,5 +19,5 @@
 - name: Setup k3s server
   hosts: test-group
   roles:
-    - role: k3s/k3s_server
+    - role: kubernetes/init
       become: true

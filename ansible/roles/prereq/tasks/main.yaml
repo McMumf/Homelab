@@ -42,7 +42,7 @@
     reload: yes
   tags: sysctl
 
-- name: Install Required Longhorn Dependencies
+- name: Install Extra File Store Dependencies
   apt:
     name:
       - parted

@@ -1,15 +1,17 @@
 ---
-
-- name: Add k8s APT GPG Key
+- name: Add k8s APT GPG key
   apt_key:
-    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    url: https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key
+    keyring: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     state: present
 
 - name: Add k8s apt repo
-  apt_repository:
-    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
-    state: present
-    filename: 'kubernetes'
+  # This overwrites any existing configuration in /etc/apt/sources.list.d/kubernetes.list
+  shell: "echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list"
+
+- name: Update to get k8s packages
+  apt:
+    update_cache: yes
 
 - name: Install kubernetes packages
   apt:
@@ -19,10 +21,10 @@
       - kubectl
     update_cache: yes
     state: present
-  with_item:
-      - kubelet
-      - kubeadm
-      - kubectl
+  with_items:
+    - kubelet
+    - kubeadm
+    - kubectl
 
 - name: Disable system swap
   shell: "swapoff -a"
@@ -41,8 +43,7 @@
     value: "{{ item.value }}"
     state: present
   with_items:
-    - { name: 'vm.swappiness', value: '0' }
-    - { name: 'net.bridge.bridge-nf-call-iptables', value: '1' }
+    - { name: "vm.swappiness", value: "0" }
 
 - name: Create service drop-in directory
   file:
