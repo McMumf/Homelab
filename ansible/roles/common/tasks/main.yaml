@@ -8,6 +8,12 @@
     validate: "visudo -cf %s"
   when: ansible_distribution in ['CentOS', 'Red Hat Enterprise Linux', 'Debian']
 
+- name: Remove old Kubernetes Repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main"
+    state: absent
+
 - name: Install Common Packages
   become: true
   apt:

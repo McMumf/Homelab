@@ -1,4 +1,0 @@
-# Set the System's Timezone
-system_timezone: "Etc/UTC"
-
-ansible_user: ansible-admin
