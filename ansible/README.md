@@ -23,6 +23,6 @@ Ansible roles and playbooks to initialize a fresh k3s cluster.
 4. Run the playbook
 
     ```shell
-    ansible-playbook site.yaml
+    ansible-playbook -i inventory/hosts.yaml site.yaml
     ```
 

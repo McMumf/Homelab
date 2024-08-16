@@ -22,5 +22,6 @@
       - python3-pip
       - needrestart
       - nut-client
+      - software-properties-common
     state: latest
     update_cache: yes
