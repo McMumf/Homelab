@@ -54,15 +54,6 @@ spec:
             - name: {{ include "home-assistant.fullname" . }}-config
               mountPath: /config/configuration.yaml
               subPath: configuration.yaml
-            - name: {{ include "home-assistant.fullname" . }}-config
-              mountPath: /config/automations.yaml
-              subPath: automations.yaml
-            - name: {{ include "home-assistant.fullname" . }}-config
-              mountPath: /config/scenes.yaml
-              subPath: scenes.yaml
-            - name: {{ include "home-assistant.fullname" . }}-config
-              mountPath: /config/scripts.yaml
-              subPath: scripts.yaml
       volumes:
         - name: zigbee
           hostPath:
@@ -76,12 +67,12 @@ spec:
             items:
               - key: configuration.yaml
                 path: configuration.yaml
-              - key: automations.yaml
-                path: automations.yaml
-              - key: scenes.yaml
-                path: scenes.yaml
-              - key: scripts.yaml
-                path: scripts.yaml
+              # - key: automations.yaml
+              #   path: automations.yaml
+              # - key: scenes.yaml
+              #   path: scenes.yaml
+              # - key: scripts.yaml
+              #   path: scripts.yaml
   volumeClaimTemplates:
     - metadata:
         name: {{ include "home-assistant.fullname" . }}
