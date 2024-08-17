@@ -15,17 +15,13 @@ spec:
       labels:
         {{- include "home-assistant.selectorLabels" . | nindent 8 }}
     spec:
-      {{- if .Values.hostNetwork }}
       hostNetwork: true
-      {{- end }}
-      securityContext:
-        privileged: true
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository}}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
+            privileged: true
             {{- toYaml .Values.securityContext | nindent 12 }}
           resources:
             requests:
@@ -51,6 +47,8 @@ spec:
           volumeMounts:
             - name: zigbee
               mountPath: /dev/ttyUSB0
+            # - name: serial
+            #   mountPath: /dev/serial/by-id
             - name: {{ include "home-assistant.fullname" . }}
               mountPath: /config
             - name: {{ include "home-assistant.fullname" . }}-config
@@ -69,6 +67,9 @@ spec:
         - name: zigbee
           hostPath:
             path: /dev/ttyUSB0
+        # - name: serial
+        #   hostPath:
+        #     path: /dev/serial/by-id
         - name: {{ include "home-assistant.fullname" . }}-config
           configMap:
             name: {{ include "home-assistant.fullname" . }}-config
