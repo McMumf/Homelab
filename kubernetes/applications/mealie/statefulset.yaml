@@ -13,13 +13,18 @@ spec:
   data:
     - secretKey: smtp-user
       remoteRef:
-        key: kv/postmark
-        property: smtp_user
+        key: kv/recipes
+        property: smtp-username
 
     - secretKey: smtp-password
       remoteRef:
-        key: kv/postmark
-        property: smtp_password
+        key: kv/recipes
+        property: smtp-token
+
+    - secretKey: smtp-server
+      remoteRef:
+        key: kv/recipes
+        property: smtp-server
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -82,7 +87,10 @@ spec:
             #   value: "cn={},ou=users,dc=mcmumf,dc=dev"
             # SMTP Config
             - name: SMTP_HOST
-              value: smtp.postmarkapp.com
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-secrets
+                  key: smtp-server
             - name: SMPT_PORT
               value: "587"
             - name: SMTP_FROM_NAME
@@ -90,7 +98,7 @@ spec:
             - name: SMTP_AUTH_STRATEGY
               value: TLS
             - name: SMTP_FROM_EMAIL
-              value: mealie@mcmumf.dev
+              value: recipes@mcmumf.dev
             - name: SMTP_USER
               valueFrom:
                 secretKeyRef:
