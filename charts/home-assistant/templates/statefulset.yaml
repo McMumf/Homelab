@@ -47,8 +47,6 @@ spec:
           volumeMounts:
             - name: zigbee
               mountPath: /dev/ttyUSB0
-            # - name: serial
-            #   mountPath: /dev/serial/by-id
             - name: {{ include "home-assistant.fullname" . }}
               mountPath: /config
             - name: {{ include "home-assistant.fullname" . }}-config
@@ -58,21 +56,12 @@ spec:
         - name: zigbee
           hostPath:
             path: /dev/ttyUSB0
-        # - name: serial
-        #   hostPath:
-        #     path: /dev/serial/by-id
         - name: {{ include "home-assistant.fullname" . }}-config
           configMap:
             name: {{ include "home-assistant.fullname" . }}-config
             items:
               - key: configuration.yaml
                 path: configuration.yaml
-              # - key: automations.yaml
-              #   path: automations.yaml
-              # - key: scenes.yaml
-              #   path: scenes.yaml
-              # - key: scripts.yaml
-              #   path: scripts.yaml
   volumeClaimTemplates:
     - metadata:
         name: {{ include "home-assistant.fullname" . }}
