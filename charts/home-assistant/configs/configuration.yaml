@@ -8,13 +8,14 @@ homeassistant:
 
 # Loads default set of integrations. Do not remove.
 default_config:
+
 {{ if .Values.configMap.proxy.enabled }}
 http:
   use_x_forwarded_for: true
   trusted_proxies:
-  {{- range $v := .Values.configMap.proxy.trustedProxies }}
+  {{ range $v := .Values.configMap.proxy.trustedProxies }}
     - {{ $v }}
-  {{- end }}
+  {{ end }}
 {{ end }}
 
 #################################################################
@@ -22,13 +23,3 @@ http:
 #################################################################
 
 automation ui: !include automations.yaml
-
-- platform: rest
-  resource: "http://mealie.homelab.svc.cluster.local:9000/api/households/mealplans/today"
-  method: GET
-  name: Mealie todays meal
-  headers:
-    Authorization: Bearer ${MEALIE_API_TOKEN}
-  value_template: "{{ value_json[0].recipe.name }}"
-  force_update: true
-  scan_interval: 30

@@ -25,11 +25,6 @@ spec:
       remoteRef:
         key: kv/recipes
         property: smtp-server
-
-    - secretKey: api-token
-      remoteRef:
-        key: kv/recipes
-        property: api-token
 ---
 apiVersion: apps/v1
 kind: StatefulSet
