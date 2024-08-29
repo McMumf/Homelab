@@ -32,6 +32,12 @@ spec:
               memory: {{ .Values.resources.limits.memory }}
               cpu: {{ .Values.resources.limits.cpu }}
               ephemeral-storage: {{ .Values.resources.limits.ephemeralStorage }}
+          env:
+            - name: MEALIE_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-secrets
+                  key: api-token
           ports:
             - name: http
               containerPort: 8123

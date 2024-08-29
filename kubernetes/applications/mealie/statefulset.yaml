@@ -25,6 +25,11 @@ spec:
       remoteRef:
         key: kv/recipes
         property: smtp-server
+
+    - secretKey: api-token
+      remoteRef:
+        key: kv/recipes
+        property: api-token
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -55,6 +60,7 @@ spec:
             requests:
               memory: 2Gi
               cpu: 1000m
+              ephemeral-storage: 8Gi
             limits:
               memory: 8Gi
               cpu: 2000m
