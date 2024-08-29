@@ -7,6 +7,6 @@ releases:
     namespace: external-secrets
     createNamespace: true
     chart: external-secrets/external-secrets
-    version: 0.10.0
+    version: 0.10.2
     values:
       - installCRDs: true
