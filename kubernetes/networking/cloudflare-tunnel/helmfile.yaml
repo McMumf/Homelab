@@ -7,6 +7,6 @@ releases:
     namespace: cloudflared
     createNamespace: true
     chart: cloudflare/cloudflare-tunnel
-    version: 0.3.0
+    version: 0.3.2
     values:
       - values.yaml
