@@ -18,7 +18,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: redis
-          image: redis:7.4-alpine@sha256:c9a84aa6b7de7188a6f329be38cd5371232185467d9ffb38187d5a1debe3d86d
+          image: redis:7.4-alpine@sha256:c35af3bbcef51a62c8bae5a9a563c6f1b60d7ebaea4cb5a3ccbcc157580ae098
           resources:
             limits:
               cpu: 500m
