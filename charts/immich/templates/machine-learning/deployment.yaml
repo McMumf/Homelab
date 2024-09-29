@@ -15,6 +15,7 @@ spec:
       labels:
         app: immich-ml
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: immich-machine-learning
           image: ghcr.io/immich-app/immich-machine-learning:v1.116.2

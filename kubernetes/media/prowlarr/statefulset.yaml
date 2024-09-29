@@ -16,6 +16,7 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000
+      automountServiceAccountToken: false
       containers:
         - name: prowlarr
           image: lscr.io/linuxserver/prowlarr:1.24.3

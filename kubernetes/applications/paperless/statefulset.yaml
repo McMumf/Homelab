@@ -97,6 +97,7 @@ spec:
           resources:
             limits:
               memory: 2Gi
+              ephemeral-storage: "2Gi"
             requests:
               memory: 512Mi
           ports:

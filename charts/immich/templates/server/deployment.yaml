@@ -23,6 +23,10 @@ spec:
           #   runAsUser: 1000
           #   runAsGroup: 3000
           #   fsGroup: 2000
+          resources:
+            limits:
+              memory: "4Gi"
+              ephemeral-storage: "8Gi"
           ports:
             - containerPort: 3001
               name: http
