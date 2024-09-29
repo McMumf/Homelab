@@ -1,0 +1,22 @@
+- name: Get CRI-O Release key
+  shell: "curl -fsSL https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/cri-o-apt-keyring.gpg"
+
+- name: Add CRI-O to apt sources
+  shell: "echo 'deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.gpg] https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/deb/ /' | tee /etc/apt/sources.list.d/cri-o.list"
+
+- name: Update apt cache
+  become: true
+  apt:
+    update_cache: true
+
+- name: Install CRI-O
+  become: true
+  apt:
+    name: cri-o
+
+- name: Reload CRI-O daemon
+  systemd:
+    name: crio
+    daemon_reload: yes
+    state: started
+    enabled: yes
