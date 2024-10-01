@@ -15,7 +15,6 @@ spec:
       labels:
         {{- include "home-assistant.selectorLabels" . | nindent 8 }}
     spec:
-      {{- if .Values.hostNetwork }}
       hostNetwork: true
       {{- end }}
       automountServiceAccountToken: false
@@ -26,6 +25,7 @@ spec:
           image: "{{ .Values.image.repository}}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
+            privileged: true
             {{- toYaml .Values.securityContext | nindent 12 }}
           resources:
             requests:
@@ -49,33 +49,23 @@ spec:
               path: /
               port: http
           volumeMounts:
+            - name: zigbee
+              mountPath: /dev/ttyUSB0
             - name: {{ include "home-assistant.fullname" . }}
               mountPath: /config
             - name: {{ include "home-assistant.fullname" . }}-config
               mountPath: /config/configuration.yaml
               subPath: configuration.yaml
-            - name: {{ include "home-assistant.fullname" . }}-config
-              mountPath: /config/automations.yaml
-              subPath: automations.yaml
-            - name: {{ include "home-assistant.fullname" . }}-config
-              mountPath: /config/scenes.yaml
-              subPath: scenes.yaml
-            - name: {{ include "home-assistant.fullname" . }}-config
-              mountPath: /config/scripts.yaml
-              subPath: scripts.yaml
       volumes:
+        - name: zigbee
+          hostPath:
+            path: /dev/ttyUSB0
         - name: {{ include "home-assistant.fullname" . }}-config
           configMap:
             name: {{ include "home-assistant.fullname" . }}-config
             items:
               - key: configuration.yaml
                 path: configuration.yaml
-              - key: automations.yaml
-                path: automations.yaml
-              - key: scenes.yaml
-                path: scenes.yaml
-              - key: scripts.yaml
-                path: scripts.yaml
   volumeClaimTemplates:
     - metadata:
         name: {{ include "home-assistant.fullname" . }}
