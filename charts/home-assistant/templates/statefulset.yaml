@@ -16,6 +16,10 @@ spec:
         {{- include "home-assistant.selectorLabels" . | nindent 8 }}
     spec:
       hostNetwork: true
+      {{- end }}
+      automountServiceAccountToken: false
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository}}:{{ .Values.image.tag | default .Chart.AppVersion }}"

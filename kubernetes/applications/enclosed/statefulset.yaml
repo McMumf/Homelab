@@ -1,0 +1,112 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: enclosed-secrets
+  namespace: homelab
+spec:
+  refreshInterval: 24h
+  secretStoreRef:
+    name: vault-backend
+    kind: ClusterSecretStore
+  target:
+    name: enclosed-secrets
+  data:
+    - secretKey: jwt-secret
+      remoteRef:
+        key: kv/enclosed
+        property: jwt-secret
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: enclosed
+  namespace: homelab
+spec:
+  selector:
+    matchLabels:
+      app: "enclosed"
+  serviceName: "enclosed"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: enclosed
+    spec:
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 10
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: enclosed
+          image: corentinth/enclosed:1.6.9-rootless
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 500m
+              ephemeral-storage: 8Gi
+            limits:
+              memory: 1Gi
+              cpu: 500m
+              ephemeral-storage: 8Gi
+          env:
+            - name: AUTHENTICATION_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: enclosed-secrets
+                  key: jwt-secret
+          ports:
+            - containerPort: 8787
+              name: web
+          volumeMounts:
+            - name: enclosed-data
+              mountPath: /app/.data
+  volumeClaimTemplates:
+    - metadata:
+        name: enclosed-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "longhorn"
+        resources:
+          requests:
+            storage: 8Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: enclosed-svc
+  namespace: homelab
+  labels:
+    app: enclosed
+spec:
+  ports:
+    - port: 8787
+      name: web
+  selector:
+    app: enclosed
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: enclosed-ingress
+  namespace: homelab
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - enclosed.mcmumf.dev
+      secretName: enclosed-cert
+  rules:
+    - host: enclosed.mcmumf.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: enclosed-svc
+                port:
+                  number: 8787

@@ -1,0 +1,10 @@
+apiVersion: v1
+appVersion: "5c02435ee478b893747d3f9e41062aae12d7ff10"
+description: An end-to-end encrypted note-taking app for digitalists and professionals. Capture your notes, files, and life’s work all in one secure place.
+name: Standardnotes Server
+version: 1.0.0
+keywords:
+  - standardnotes
+  - standardnotes-server
+home: https://standardnotes.com
+icon: https://raw.githubusercontent.com/mealie-recipes/mealie/mealie-next/frontend/static/favicon.ico

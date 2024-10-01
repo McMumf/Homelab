@@ -1,0 +1,6 @@
+---
+# - name: Setup CRI-O
+#   include_tasks: cri-o.yaml
+
+- name: Setup K8s
+  include_tasks: k8s.yaml

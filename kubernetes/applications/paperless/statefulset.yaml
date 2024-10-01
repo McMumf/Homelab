@@ -47,7 +47,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: paperless-ngx
-          image: ghcr.io/paperless-ngx/paperless-ngx:2.11
+          image: ghcr.io/paperless-ngx/paperless-ngx:2.12
           resources:
             limits:
               memory: 4Gi
@@ -97,6 +97,7 @@ spec:
           resources:
             limits:
               memory: 2Gi
+              ephemeral-storage: "2Gi"
             requests:
               memory: 512Mi
           ports:

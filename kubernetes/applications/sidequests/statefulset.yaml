@@ -1,0 +1,137 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: sidequests-secrets
+  namespace: homelab
+spec:
+  refreshInterval: 24h
+  secretStoreRef:
+    name: vault-backend
+    kind: ClusterSecretStore
+  target:
+    name: sidequests-secrets
+  data:
+    - secretKey: admin-user
+      remoteRef:
+        key: kv/sidequests
+        property: admin-user
+
+    - secretKey: admin-password
+      remoteRef:
+        key: kv/sidequests
+        property: admin-password
+
+    - secretKey: secret-key
+      remoteRef:
+        key: kv/sidequests
+        property: secret-key
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sidequests
+  namespace: homelab
+spec:
+  selector:
+    matchLabels:
+      app: "sidequests"
+  serviceName: "sidequests"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sidequests
+    spec:
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 10
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      imagePullSecrets:
+        - name: docker-reg
+      containers:
+        - name: sidequest
+          image: need4swede/sidequests:1.1.5
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 500m
+              ephemeral-storage: 8Gi
+            limits:
+              memory: 1Gi
+              cpu: 500m
+              ephemeral-storage: 8Gi
+          env:
+            - name: PORT
+              value: "8080"
+            - name: ADMIN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: sidequests-secrets
+                  key: admin-user
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sidequests-secrets
+                  key: admin-password
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: sidequests-secrets
+                  key: secret-key
+          ports:
+            - containerPort: 8080
+              name: web
+          volumeMounts:
+            - name: sidequests-data
+              mountPath: /app/instance
+  volumeClaimTemplates:
+    - metadata:
+        name: sidequests-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "longhorn"
+        resources:
+          requests:
+            storage: 8Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sidequests-svc
+  namespace: homelab
+  labels:
+    app: sidequests
+spec:
+  ports:
+    - port: 8080
+      name: web
+  selector:
+    app: sidequests
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sidequests-ingress
+  namespace: homelab
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - &sidequestsHost sidequests.mcmumf.dev
+      secretName: sidequests-cert
+  rules:
+    - host: *sidequestsHost
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sidequests-svc
+                port:
+                  number: 8080

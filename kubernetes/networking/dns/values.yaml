@@ -49,9 +49,18 @@ doh:
 
 dnsmasq:
   customDnsEntries:
-    - address=/storage.internal.mcmumf.dev/192.168.1.70
-  additionalHostEntries:
+    - address=/ingress.mcmumf.dev/192.168.1.5
+    - address=/ldap.mcmumf.dev/192.168.1.2
+  customCnameEntries:
+    - cname=vault.mcmumf.dev,ingress.mcmumf.dev
+    - cname=argocd.mcmumf.dev,ingress.mcmumf.dev
+    - cname=auth.mcmumf.dev,ingress.mcmumf.dev
+    - cname=enclosed.mcmumf.dev,ingress.mcmumf.dev
+    - cname=fasten.mcmumf.dev,ingress.mcmumf.dev
+    - cname=sidequests.mcmumf.dev,ingress.mcmumf.dev
+  additionalHostsEntries:
     - 192.168.1.1 RT-AX88U-D058
+    - 192.168.1.5 ingress-nginx
 
 resources:
   requests:

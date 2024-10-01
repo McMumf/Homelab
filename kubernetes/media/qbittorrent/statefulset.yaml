@@ -16,6 +16,7 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000
+      automountServiceAccountToken: false
       containers:
         - name: qbittorrent
           image: lscr.io/linuxserver/qbittorrent:4.6.4-r0-ls321
