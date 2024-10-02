@@ -1,31 +1,3 @@
-apiVersion: external-secrets.io/v1beta1
-kind: ExternalSecret
-metadata:
-  name: mealie-secrets
-  namespace: homelab
-spec:
-  refreshInterval: 24h
-  secretStoreRef:
-    name: vault-backend
-    kind: ClusterSecretStore
-  target:
-    name: mealie-secrets
-  data:
-    - secretKey: smtp-user
-      remoteRef:
-        key: kv/recipes
-        property: smtp-username
-
-    - secretKey: smtp-password
-      remoteRef:
-        key: kv/recipes
-        property: smtp-token
-
-    - secretKey: smtp-server
-      remoteRef:
-        key: kv/recipes
-        property: smtp-server
----
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -143,45 +115,3 @@ spec:
         resources:
           requests:
             storage: 8Gi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mealie-svc
-  namespace: homelab
-  labels:
-    app: mealie
-spec:
-  ports:
-    - port: 9000
-      name: web
-  selector:
-    app: mealie
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: mealie-ingress
-  namespace: homelab
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-production
-    nginx.ingress.kubernetes.io/server-snippet: |
-      proxy_set_header Upgrade "websocket";
-      proxy_set_header Connection "Upgrade";
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - recipes.mcmumf.dev
-      secretName: recipies-cert
-  rules:
-    - host: recipes.mcmumf.dev
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: mealie-svc
-                port:
-                  number: 9000

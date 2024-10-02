@@ -1,13 +1,10 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "home-assistant.fullname" . }}
+  name: hassio
   labels:
-    {{- include "home-assistant.labels" . | nindent 4 }}
   annotations:
-    {{- if .Values.ingress.certManager.enabled }}
-    cert-manager.io/cluster-issuer: {{ .Values.ingress.certManager.issuer }}
-    {{- end }}
+    cert-manager.io/cluster-issuer: letsencrypt-production
     nginx.ingress.kubernetes.io/server-snippet: |
       proxy_set_header Upgrade "websocket";
       proxy_set_header Connection "Upgrade";
@@ -15,16 +12,16 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - {{ .Values.ingress.host }}
-      secretName: {{ .Release.Name }}-cert
+        - &hostName hassio.mcmumf.dev
+      secretName: hassio-cert
   rules:
-    - host: {{ .Values.ingress.host }}
+    - host: *hostName
       http:
         paths:
           - path: /
             pathType: ImplementationSpecific
             backend:
               service:
-                name: {{ include "home-assistant.fullname" . }}
+                name: hassio
                 port:
                   number: 8123
