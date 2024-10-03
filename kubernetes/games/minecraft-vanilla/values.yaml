@@ -1,0 +1,22 @@
+image:
+  tag: java21
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+
+minecraftServer:
+  eula: "TRUE"
+  version: "1.21"
+  type: "VANILLA"
+  difficulty: easy
+  motd: "Hello, there"
+  wordSaveName: "mcmumfland"
+  ops: |
+    McMumf
+
+persistence:
+  storageClassName: longhorn
+  dataDir:
+    enabled: "true"
