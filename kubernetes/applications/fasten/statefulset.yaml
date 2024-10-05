@@ -1,21 +1,3 @@
-apiVersion: external-secrets.io/v1beta1
-kind: ExternalSecret
-metadata:
-  name: fasten-secrets
-  namespace: homelab
-spec:
-  refreshInterval: 24h
-  secretStoreRef:
-    name: vault-backend
-    kind: ClusterSecretStore
-  target:
-    name: fasten-secrets
-  data:
-    - secretKey: jwt-secret
-      remoteRef:
-        key: kv/fasten
-        property: jwt_secret
----
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -83,42 +65,3 @@ spec:
         resources:
           requests:
             storage: 8Gi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: fasten-svc
-  namespace: homelab
-  labels:
-    app: fasten
-spec:
-  ports:
-    - port: 8080
-      name: web
-  selector:
-    app: fasten
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: fasten-ingress
-  namespace: homelab
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-production
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - &fastenHost fasten.mcmumf.dev
-      secretName: fasten-cert
-  rules:
-    - host: *fastenHost
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: fasten-svc
-                port:
-                  number: 8080
