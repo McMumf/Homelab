@@ -7,6 +7,6 @@ releases:
     namespace: plane
     createNamespace: true
     chart: makeplane/plane-ce
-    version: 1.0.22
+    version: 1.0.25
     values:
       - values.yaml
