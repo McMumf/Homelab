@@ -7,6 +7,6 @@ releases:
     namespace: monitoring
     createNamespace: true
     chart: prometheus-community/kube-prometheus-stack
-    version: 65.2.0
+    version: 65.3.1
     values:
       - values.yaml
