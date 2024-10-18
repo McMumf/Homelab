@@ -5,9 +5,9 @@ global:
     - key: "node-role.kubernetes.io/control-plane"
       operator: "Equal"
       effect: "NoSchedule"
-config:
-  params:
-    server.insecure: true
+configs:
+  cm:
+    kustomize.buildOptions: --enable-helm
 server:
   ingress:
     enabled: true
