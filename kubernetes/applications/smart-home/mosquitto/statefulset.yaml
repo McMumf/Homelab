@@ -27,24 +27,27 @@ spec:
               cpu: 1000m
               memory: 1Gi
               ephemeral-storage: 2Gi
+          env:
+            - name: TZ
+              value: "America/New_York"
           ports:
-          - name: mqtt
-            containerPort: 1883
-            protocol: TCP
+            - name: mqtt
+              containerPort: 1883
+              protocol: TCP
           volumeMounts:
-          - name: mosquitto-data
-            mountPath: /etc/mosquitto
-          - name: mosquitto-config
-            mountPath: "/mosquitto/config/mosquitto.conf"
-            subPath: mosquitto.conf
-            readOnly: true
+            - name: mosquitto-data
+              mountPath: /etc/mosquitto
+            - name: mosquitto-config
+              mountPath: "/mosquitto/config/mosquitto.conf"
+              subPath: mosquitto.conf
+              readOnly: true
       volumes:
         - name: mosquitto-config
           configMap:
             name: mosquitto-config
             items:
-            - key: "mosquitto.conf"
-              path: "mosquitto.conf"
+              - key: "mosquitto.conf"
+                path: "mosquitto.conf"
   volumeClaimTemplates:
     - metadata:
         name: mosquitto-data

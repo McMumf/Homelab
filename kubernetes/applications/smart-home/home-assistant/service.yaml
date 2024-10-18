@@ -9,7 +9,7 @@ spec:
   type: ClusterIP
   selector: {}
   ports:
-  - port: 8123
-    name: http
-    targetPort: http
-    protocol: TCP
+    - port: 8123
+      name: http
+      targetPort: http
+      protocol: TCP

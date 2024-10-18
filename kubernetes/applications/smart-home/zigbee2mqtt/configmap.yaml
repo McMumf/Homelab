@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zigbee2mqtt-config
+  namespace: smart-home
+  labels:
+    app: zigbee2mqtt
+data:
+  configuration.yaml: |-
+    # Let new devices join our zigbee network
+    permit_join: true
+    # Docker-Compose makes the MQTT-Server available using "mqtt" hostname
+    # MQTT server URL
+    mqtt:
+      base_topic: zigbee2mqtt
+      server: "mqtt://mosquitto.smart-home.svc.cluster.local:1883" # mqtt://<name_of_pod>.<name_of_namespace> (mosquitto)
+    # Zigbee Adapter path
+    serial:
+    # Location of SLZB-06M
+      port: tcp://192.168.1.54:6638
+      baudrate: 460800
+      adapter: ember
+    # Disable green led?
+      disable_led: false
+    # Set output power to max 20
+    advanced:
+      transmit_power: 20
+    # Enable the Zigbee2MQTT frontend
+    frontend:
+      port: 8080
+    ## Map devices to persistent /data directory
+    devices: devices.yaml
+    groups: groups.yaml
