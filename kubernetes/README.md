@@ -10,7 +10,6 @@
 ## Potential Hostings
 
 - [FreshRSS](https://www.freshrss.org/)
-- [paperless-ngx](https://github.com/paperless-ngx/paperless-ngx)
 - [standardnotes](https://github.com/standardnotes/app)
 - [seafile](https://www.seafile.com/en/home/)
 - [grocy](https://grocy.info/)
