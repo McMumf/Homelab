@@ -7,4 +7,4 @@ releases:
     namespace: inteldeviceplugins-system
     createNamespace: true
     chart: intel/intel-device-plugins-operator
-    version: 0.31.0
+    version: 0.31.1
