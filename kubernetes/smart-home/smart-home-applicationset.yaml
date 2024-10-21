@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: smart-home
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - appName: home-assistant
+          - appName: mosquitto
+          - appName: zigbee2mqtt
+  template:
+    metadata:
+      name: "{{appName}}"
+    spec:
+      project: smart-home
+      source:
+        repoURL: https://github.com/McMumf/Homelab.git
+        targetRevision: HEAD
+        path: kubernetes/smart-home/{{appName}}
+      destination:
+        server: "https://kubernetes.default.svc"
+        namespace: "smart-home"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+        retry:
+          limit: 2
+          backoff:
+            duration: "5s"
+            factor: 2
+            maxDuration: "3m0s"

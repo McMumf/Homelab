@@ -13,3 +13,15 @@ spec:
       name: http
       targetPort: http
       protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: code-server
+spec:
+  type: ClusterIP
+  selector: {}
+  ports:
+    - port: 8443
+      name: code-server-http
+      targetPort: code-server-http
