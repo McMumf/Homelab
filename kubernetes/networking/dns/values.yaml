@@ -58,6 +58,7 @@ dnsmasq:
     - cname=enclosed.mcmumf.dev,ingress.mcmumf.dev
     - cname=fasten.mcmumf.dev,ingress.mcmumf.dev
     - cname=sidequests.mcmumf.dev,ingress.mcmumf.dev
+    - cname=z2m.mcmumf.dev,ingress.mcmumf.dev
   additionalHostsEntries:
     - 192.168.1.1 RT-AX88U-D058
     - 192.168.1.5 ingress-nginx
