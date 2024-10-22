@@ -22,11 +22,11 @@ spec:
           image: lscr.io/linuxserver/qbittorrent:4.6.4-r0-ls321
           resources:
             requests:
-              cpu: 1
+              cpu: 1000m
               memory: 500Mi
               ephemeral-storage: 32Gi
             limits:
-              cpu: 2
+              cpu: 2000m
               memory: 4Gi
               ephemeral-storage: 32Gi
           ports:
@@ -74,44 +74,3 @@ spec:
         resources:
           requests:
             storage: 256Gi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: qbittorrent
-  namespace: media
-  labels:
-    app: qbittorrent
-spec:
-  selector:
-    app: qbittorrent
-  ports:
-    - port: 8090
-      name: ui
-    - port: 6811
-      name: torrent
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: qbittorrent
-  namespace: media
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-production
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - &qbittorrentIngress qbittorrent.mcmumf.dev
-      secretName: qbittorrent-cert
-  rules:
-    - host: *qbittorrentIngress
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: qbittorrent
-                port:
-                  number: 8090
