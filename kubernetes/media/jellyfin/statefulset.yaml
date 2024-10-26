@@ -28,8 +28,8 @@ spec:
               ephemeral-storage: 32Gi
             limits:
               gpu.intel.com/i915: "1"
-              cpu: 2000m
-              memory: 6Gi
+              cpu: 5000m
+              memory: 8Gi
               ephemeral-storage: 32Gi
           # Ports
           ports:
