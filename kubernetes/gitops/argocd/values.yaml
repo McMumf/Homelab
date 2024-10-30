@@ -7,7 +7,7 @@ global:
       effect: "NoSchedule"
 config:
   params:
-    server.insecure: true
+    server.insecure: false
 server:
   ingress:
     enabled: true

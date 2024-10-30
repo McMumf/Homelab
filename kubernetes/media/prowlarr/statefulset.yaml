@@ -55,7 +55,7 @@ spec:
         name: prowlarr-data
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: longhorn
+        storageClassName: "ceph-block"
         resources:
           requests:
             storage: 32Gi
