@@ -7,6 +7,6 @@ releases:
     namespace: node-feature-discovery
     createNamespace: true
     chart: nfd/node-feature-discovery
-    version: 0.16.5
+    version: 0.16.6
     values:
       - values.yaml
