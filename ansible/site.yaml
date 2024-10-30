@@ -8,14 +8,14 @@
         msg: >
           "Ansible is out of date. See here for more info: https://docs.technotim.live/posts/ansible-automation/"
 
-# - name: Prep nodes
-#   hosts: all
-#   gather_facts: true
-#   roles:
-#     - role: common
-#       become: true
-#     - role: prereq
-#       become: true
+- name: Prep nodes
+  hosts: all
+  gather_facts: true
+  roles:
+    - role: common
+      become: true
+    - role: prereq
+      become: true
 
 - name: Setup k8s control plane
   hosts:
