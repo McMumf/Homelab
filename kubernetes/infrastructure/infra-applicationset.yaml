@@ -14,7 +14,6 @@ spec:
           - appName: longhorn
           - appName: node-feature-discovery
           - appName: prometheus-stack
-          - appName: rook-ceph
           - appName: vault
   template:
     metadata:

@@ -1,0 +1,4 @@
+defaultSettings:
+  createDefaultDiskLabeledNodes: "true"
+  defaultDataPath: "/mnt/longhorn"
+  storageReservedPercentageForDefaultDisk: 0
