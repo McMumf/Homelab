@@ -12,7 +12,7 @@ ingress:
 
 persistentVolumeClaim:
   enabled: true
-  storageClass: "ceph-block"
+  storageClass: "longhorn"
 
 podDnsConfig:
   enabled: true

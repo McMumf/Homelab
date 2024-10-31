@@ -53,7 +53,7 @@ spec:
         name: mosquitto-data
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: "rook-ceph-block"
+        storageClassName: "longhorn"
         resources:
           requests:
             storage: 32Gi

@@ -111,7 +111,7 @@ spec:
         name: mealie-data
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: "ceph-block"
+        storageClassName: "longhorn"
         resources:
           requests:
             storage: 8Gi

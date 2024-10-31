@@ -69,7 +69,7 @@ spec:
         name: jellyfin-data
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: "ceph-block"
+        storageClassName: "longhorn"
         resources:
           requests:
             storage: 32Gi
