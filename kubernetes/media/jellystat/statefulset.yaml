@@ -1,52 +1,55 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: jellyfin
+  name: jellystat
   namespace: media
 spec:
-  serviceName: "jellyfin"
+  serviceName: "jellystat"
   replicas: 1
   selector:
     matchLabels:
-      app: jellyfin
+      app: jellystat
   template:
     metadata:
       labels:
-        app: jellyfin
+        app: jellystat
     spec:
       automountServiceAccountToken: false
       containers:
         # Container
-        - name: jellyfin
-          image: jellyfin/jellyfin:10.9.11
+        - name: jellystat
+          image: cyfershepard/jellystat:1.1.0
           # Resources
           resources:
             requests:
-              gpu.intel.com/i915: "1"
               cpu: 1000m
               memory: 1Gi
               ephemeral-storage: 32Gi
             limits:
               gpu.intel.com/i915: "1"
               cpu: 2000m
-              memory: 6Gi
+              memory: 1Gi
               ephemeral-storage: 32Gi
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: jellystat-secrets
+                  key: pg-user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: jellystat-secrets
+                  key: pg-password
+            - name: POSTGRES_IP
+              value: ""
+            - name: POSTGRES_PORT
+              value: "5432"
           # Ports
           ports:
-            - name: jellyfin-http
-              containerPort: 8096
+            - name: jellystat-http
+              containerPort: 3000
               protocol: TCP
-          # Probes
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: jellyfin-http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: jellyfin-http
-            initialDelaySeconds: 5
-            periodSeconds: 5
           # Volume Mounts
           volumeMounts:
             - name: jellyfin-data
@@ -66,7 +69,7 @@ spec:
             secretName: jellyfin-cert
   volumeClaimTemplates:
     - metadata:
-        name: jellyfin-data
+        name: jellystat-data
       spec:
         accessModes: ["ReadWriteOnce"]
         storageClassName: "longhorn"
