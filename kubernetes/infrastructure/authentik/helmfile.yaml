@@ -7,6 +7,6 @@ releases:
     namespace: authentik
     createNamespace: true
     chart: authentik/authentik
-    version: 2024.8.4
+    version: 2024.10.0
     values:
       - values.yaml
