@@ -28,6 +28,7 @@
       - python3-pip
       - needrestart
       - nut-client
+      - cryptsetup
       - software-properties-common
     state: latest
     update_cache: yes
