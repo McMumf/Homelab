@@ -5,6 +5,7 @@ Ansible roles and playbooks to initialize a fresh k3s cluster.
 ## Setup
 
 1. Configure Debian instance(s)
+   1. Note: May need to install sudo depending on how you install
 2. Configure Ansible User
     1. Create a new ansible user
 
@@ -31,4 +32,3 @@ Ansible roles and playbooks to initialize a fresh k3s cluster.
     ```shell
     ansible-playbook -i inventory/hosts.yaml site.yaml
     ```
-
