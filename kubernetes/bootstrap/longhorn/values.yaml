@@ -1,25 +1,5 @@
-global:
-  nodeSelector:
-    node.longhorn.io/create-default-disk: "true"
-
-persistence:
-  defaultClass: false
-  defaultFsType: ext4
-  defaultClassReplicaCount: 2
-  reclaimPolicy: Delete
-
-csi:
-  attacherReplicaCount: 2
-  provisionerReplicaCount: 2
-  resizerReplicaCount: 2
-  snapshotterReplicaCount: 2
-
 defaultSettings:
   allowCollectingLonghornUsageMetrics: false
   createDefaultDiskLabeledNodes: "true"
   defaultReplicaCount: 2
   defaultDataPath: "/mnt/longhorn"
-  storageReservedPercentageForDefaultDisk: 25 # default value
-
-longhornUI:
-  replicas: 1
