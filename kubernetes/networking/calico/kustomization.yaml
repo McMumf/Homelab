@@ -3,10 +3,6 @@ kind: Kustomization
 
 namespace: tigera-operator
 
-helmCharts:
-  - name: tigera-operator
-    repo: https://docs.tigera.io/calico/charts
-    releaseName: calico
-    namespace: tigera-operator
-    version: v3.29.0
-    valuesFile: values.yaml
+resources:
+  - tigera-operator.yaml
+  - custom-resources.yaml
