@@ -1,6 +1,6 @@
 # Set the System's Timezone
 system_timezone: "Etc/UTC"
-ansible_user: ansible-admin
+ansible_user: ansible-user
 OS: Debian_12
 CRIO_VERSION: v1.31
 K8S_VERSION: v1.31
