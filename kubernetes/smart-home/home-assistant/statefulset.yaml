@@ -65,7 +65,7 @@ spec:
               cpu: 2000m
               ephemeral-storage: *ephemeralHaStorage
           ports:
-            - name: code-server-http
+            - name: code-http
               containerPort: 8080
               protocol: TCP
           volumeMounts:
