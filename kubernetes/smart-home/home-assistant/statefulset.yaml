@@ -23,6 +23,9 @@ spec:
           image: "ghcr.io/home-assistant/home-assistant:2024.9.3"
           imagePullPolicy: IfNotPresent
           securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
             capabilities:
               add:
                 - NET_ADMIN
@@ -55,6 +58,10 @@ spec:
         - name: code-server
           image: codercom/code-server:4.93.1
           imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
           resources:
             requests:
               memory: 1Gi
