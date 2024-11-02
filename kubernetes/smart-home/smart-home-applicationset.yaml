@@ -14,10 +14,10 @@ spec:
     metadata:
       name: "{{appName}}"
     spec:
-      project: smart-home
+      project: default
       source:
         repoURL: https://github.com/McMumf/Homelab.git
-        targetRevision: HEAD
+        targetRevision: homelab-2.0
         path: kubernetes/smart-home/{{appName}}
       destination:
         server: "https://kubernetes.default.svc"
