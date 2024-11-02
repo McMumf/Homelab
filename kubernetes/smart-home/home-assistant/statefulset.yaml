@@ -62,8 +62,7 @@ spec:
           imagePullPolicy: IfNotPresent
           securityContext:
             runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
+            runAsGroup: 1002
           resources:
             requests:
               memory: 1Gi
@@ -96,6 +95,20 @@ spec:
       #     volumeMounts:
       #       - name: hassio-code-server-data
       #         mountPath: /home/coder
+      initContainers:
+        - name: hassio-init
+          image: "ghcr.io/home-assistant/home-assistant:2024.9.3"
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - |
+              groupadd coder -g 1002
+              chgrp coder config
+              chmod +x 770
+          volumeMounts:
+            - name: hassio
+              mountPath: /config
   volumeClaimTemplates:
     - metadata:
         name: hassio
