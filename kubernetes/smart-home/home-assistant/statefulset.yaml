@@ -18,6 +18,8 @@ spec:
     spec:
       hostNetwork: false
       automountServiceAccountToken: false
+      securityContext:
+        fsgroup: 1000
       containers:
         - name: hassio
           image: "ghcr.io/home-assistant/home-assistant:2024.9.3"
