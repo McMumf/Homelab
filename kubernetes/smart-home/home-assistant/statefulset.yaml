@@ -74,19 +74,19 @@ spec:
               subPath: config
             - name: hassio-code-server-data
               mountPath: /home/coder
-      initContainers:
-        - name: code-server-init
-          image: codercom/code-server:4.93.1
-          imagePullPolicy: IfNotPresent
-          command:
-            - sh
-            - -c
-            - |
-              code-server install-extension redhat.vscode-yaml
-              code-server install-extension keesschollaart.vscode-home-assistant
-          volumeMounts:
-            - name: hassio-code-server-data
-              mountPath: /home/coder
+      # initContainers:
+      #   - name: code-server-init
+      #     image: codercom/code-server:4.93.1
+      #     imagePullPolicy: IfNotPresent
+      #     command:
+      #       - sh
+      #       - -c
+      #       - |
+      #         code-server install-extension redhat.vscode-yaml
+      #         code-server install-extension keesschollaart.vscode-home-assistant
+      #     volumeMounts:
+      #       - name: hassio-code-server-data
+      #         mountPath: /home/coder
   volumeClaimTemplates:
     - metadata:
         name: hassio
