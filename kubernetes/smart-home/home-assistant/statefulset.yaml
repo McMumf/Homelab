@@ -71,9 +71,9 @@ spec:
           volumeMounts:
             - name: hassio
               mountPath: /home/coder/hassio
-              subPath: config
-            - name: hassio-code-server-data
-              mountPath: /home/coder
+            #   subPath: config
+            # - name: hassio-code-server-data
+            #   mountPath: /home/coder
       # initContainers:
       #   - name: code-server-init
       #     image: codercom/code-server:4.93.1
