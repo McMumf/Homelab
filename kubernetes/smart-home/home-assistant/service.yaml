@@ -25,3 +25,4 @@ spec:
     - port: 8443
       name: code-server-http
       targetPort: code-server-http
+      protocol: TCP
