@@ -19,7 +19,7 @@ spec:
       hostNetwork: false
       automountServiceAccountToken: false
       securityContext:
-        fsgroup: 1000
+        fsGroup: 1000
       containers:
         - name: hassio
           image: "ghcr.io/home-assistant/home-assistant:2024.9.3"
@@ -27,7 +27,6 @@ spec:
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
-            fsGroup: 1000
             capabilities:
               add:
                 - NET_ADMIN
@@ -60,9 +59,19 @@ spec:
         - name: code-server
           image: codercom/code-server:4.93.1
           imagePullPolicy: IfNotPresent
+          args:
+            - --auth
+            - none
+            - --user-data-dir
+            - "/config/.vscode"
+            - --extensions-dir
+            - "/config/.vscode"
+            - --port
+            - "12321"
+            - "/config"
           securityContext:
             runAsUser: 1000
-            runAsGroup: 1002
+            runAsGroup: 1000
           resources:
             requests:
               memory: 1Gi
@@ -74,41 +83,24 @@ spec:
               ephemeral-storage: *ephemeralHaStorage
           ports:
             - name: code-http
-              containerPort: 8080
+              containerPort: 12321
               protocol: TCP
           volumeMounts:
             - name: hassio
-              mountPath: /home/coder/hassio
-            #   subPath: config
-            # - name: hassio-code-server-data
-            #   mountPath: /home/coder
-      # initContainers:
-      #   - name: code-server-init
-      #     image: codercom/code-server:4.93.1
-      #     imagePullPolicy: IfNotPresent
-      #     command:
-      #       - sh
-      #       - -c
-      #       - |
-      #         code-server install-extension redhat.vscode-yaml
-      #         code-server install-extension keesschollaart.vscode-home-assistant
-      #     volumeMounts:
-      #       - name: hassio-code-server-data
-      #         mountPath: /home/coder
-      initContainers:
-        - name: hassio-init
-          image: "ghcr.io/home-assistant/home-assistant:2024.9.3"
-          imagePullPolicy: IfNotPresent
-          command:
-            - sh
-            - -c
-            - |
-              groupadd coder -g 1002
-              chgrp coder config
-              chmod +x 770
-          volumeMounts:
-            - name: hassio
               mountPath: /config
+      # initContainers:
+      # - name: code-server-init
+      #   image: codercom/code-server:4.93.1
+      #   imagePullPolicy: IfNotPresent
+      #   command:
+      #     - sh
+      #     - -c
+      #     - |
+      #       code-server install-extension redhat.vscode-yaml
+      #       code-server install-extension keesschollaart.vscode-home-assistant
+      #   volumeMounts:
+      #     - name: hassio-code-server-data
+      #       mountPath: /home/coder
   volumeClaimTemplates:
     - metadata:
         name: hassio

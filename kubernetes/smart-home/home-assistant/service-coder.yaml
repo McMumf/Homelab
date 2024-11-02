@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: hassio
+  name: code-server
   namespace: smart-home
   labels:
     app: hassio
@@ -12,7 +12,7 @@ spec:
     app.kubernetes.io/name: hassio
     app.kubernetes.io/instance: hassio
   ports:
-    - port: 8123
-      name: http
-      targetPort: http
+    - port: 12321
+      name: code-http
+      targetPort: code-http
       protocol: TCP
