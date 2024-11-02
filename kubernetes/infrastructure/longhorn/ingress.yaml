@@ -5,13 +5,11 @@ metadata:
   namespace: longhorn-system
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
-    nginx.ingress.kubernetes.io/auth-snippet: |
-      proxy_set_header X-Forwarded-Host $http_host;
     nginx.ingress.kubernetes.io/server-snippet: |
       proxy_set_header Upgrade "websocket";
       proxy_set_header Connection "Upgrade";
 spec:
-  ingressClassName: internal-nginx
+  ingressClassName: nginx
   tls:
     - hosts:
         - &longhornHost longhorn.mcmumf.dev
