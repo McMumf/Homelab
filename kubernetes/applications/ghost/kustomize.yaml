@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: homelab
 
 resources:
-  - external-secrets.yaml
+  # - external-secrets.yaml
   - ingress.yaml
   - statefulset.yaml
   - service.yaml

@@ -25,11 +25,11 @@ spec:
           image: corentinth/enclosed:1.6.9-rootless
           resources:
             requests:
-              memory: 1Gi
+              memory: 512Mi
               cpu: 500m
               ephemeral-storage: 8Gi
             limits:
-              memory: 1Gi
+              memory: 512Mi
               cpu: 500m
               ephemeral-storage: 8Gi
           env:
@@ -52,4 +52,4 @@ spec:
         storageClassName: "longhorn"
         resources:
           requests:
-            storage: 8Gi
+            storage: 4Gi

@@ -13,6 +13,8 @@ spec:
             namespace: cert-manager
           - appName: external-secrets
             namespace: external-secrets
+          - appName: ingress-nginx
+            namespace: ingress-nginx
           - appName: intel-device-plugins
             namespace: inteldeviceplugins-system
           - appName: longhorn
