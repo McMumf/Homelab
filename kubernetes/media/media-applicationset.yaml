@@ -18,7 +18,7 @@ spec:
     metadata:
       name: "{{appName}}"
     spec:
-      project: media
+      project: default
       source:
         repoURL: https://github.com/McMumf/Homelab.git
         targetRevision: HEAD
@@ -26,6 +26,13 @@ spec:
       destination:
         server: "https://kubernetes.default.svc"
         namespace: "media"
+      ignoreDifferences:
+        - kind: ExternalSecret
+          group: external-secrets.io
+          jqPathExpressions:
+            - ".spec.data[] | select(.remoteRef) | .remoteRef.conversionStrategy"
+            - ".spec.data[] | select(.remoteRef) | .remoteRef.decodingStrategy"
+            - ".spec.data[] | select(.remoteRef) | .remoteRef.metadataPolicy"
       syncPolicy:
         automated:
           prune: true

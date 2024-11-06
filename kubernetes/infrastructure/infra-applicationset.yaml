@@ -15,8 +15,6 @@ spec:
             namespace: cnpg-system
           - appName: external-secrets
             namespace: external-secrets
-          - appName: ingress-nginx
-            namespace: ingress-nginx
           - appName: intel-device-plugins
             namespace: inteldeviceplugins-system
           - appName: longhorn
@@ -25,6 +23,8 @@ spec:
             namespace: node-feature-discovery
           - appName: prometheus-stack
             namespace: monitoring
+          - appName: vault
+            namespace: vault
   template:
     metadata:
       name: "{{appName}}"
@@ -37,6 +37,13 @@ spec:
       destination:
         server: "https://kubernetes.default.svc"
         namespace: "{{namespace}}"
+      ignoreDifferences:
+        - kind: ExternalSecret
+          group: external-secrets.io
+          jqPathExpressions:
+            - ".spec.data[] | select(.remoteRef) | .remoteRef.conversionStrategy"
+            - ".spec.data[] | select(.remoteRef) | .remoteRef.decodingStrategy"
+            - ".spec.data[] | select(.remoteRef) | .remoteRef.metadataPolicy"
       syncPolicy:
         automated:
           prune: true
