@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: external-secrets
 
 resources:
-  - namespace.yaml
   - apps-secret-store.yaml
   - infra-secret-store.yaml
   - media-secret-store.yaml
