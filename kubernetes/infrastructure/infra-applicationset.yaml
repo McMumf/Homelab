@@ -11,6 +11,8 @@ spec:
             namespace: authentik
           - appName: cert-manager
             namespace: cert-manager
+          - appName: cnpg-operator
+            namespace: cnpg-system
           - appName: external-secrets
             namespace: external-secrets
           - appName: ingress-nginx
