@@ -6,8 +6,16 @@ version:
 
 cluster:
   instances: 3
+  resources:
+    limits:
+      memory: 8Gi
+    requests:
+      cpu: 2000m
+      memory: 8Gi
   postgresql:
     parameters:
+      log_hostname: "off"
+      log_timezone: "UTC"
       max_connections: "200"
       shared_buffers: "2GB"
 
@@ -15,23 +23,28 @@ backups:
   enabled: false
 
 poolers:
-  - name: rw
+  - name: pgbouncer
     type: rw
     instances: 1
-    monitoring:
-      enabled: true
-      podMonitor:
-        enabled: true
-        relabelings:
-          - targetLabel: type
-            replacement: rw
-  - name: ro
-    type: ro
-    instances: 1
-    monitoring:
-      enabled: true
-      podMonitor:
-        enabled: true
-        relabelings:
-          - targetLabel: type
-            replacement: ro
+    parameters:
+      max_client_conn: "1000"
+      default_pool_size: "300"
+    template:
+      spec:
+        containers:
+          - name: pgbouncer
+            image: cloudnative-pg/pg-bouncer:1.23.0
+            resources:
+              limits:
+                memory: 500Mi
+              requests:
+                cpu: 100m
+                memory: 100Mi
+        initContainers:
+          - name: bootstrap-controller
+            resources:
+              limits:
+                memory: 500Mi
+              requests:
+                cpu: 100m
+                memory: 100Mi
