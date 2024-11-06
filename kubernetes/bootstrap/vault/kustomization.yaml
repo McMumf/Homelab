@@ -14,5 +14,4 @@ helmCharts:
     releaseName: vault
     namespace: vault
     includeCRDs: true
-    valuesInline:
-      includeCRDs: true
+    valuesFile: values.yaml
