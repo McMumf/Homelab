@@ -7,6 +7,6 @@ releases:
     namespace: dns
     createNamespace: true
     chart: mojo2600/pihole
-    version: 2.26.1
+    version: 2.26.2
     values:
       - values.yaml
