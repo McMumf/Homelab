@@ -17,8 +17,6 @@ spec:
             namespace: external-secrets
           - appName: intel-device-plugins
             namespace: inteldeviceplugins-system
-          - appName: longhorn
-            namespace: longhorn-system
           - appName: node-feature-discovery
             namespace: node-feature-discovery
           - appName: prometheus-stack
