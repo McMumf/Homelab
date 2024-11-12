@@ -11,8 +11,12 @@ spec:
             namespace: authentik
           - appName: cert-manager
             namespace: cert-manager
+          # - appName: cloudflare-tunnel
+          #   namespace: cloudflared
           - appName: cnpg-operator
             namespace: cnpg-system
+          # - appName: dns
+          #   namespace: dns
           - appName: external-secrets
             namespace: external-secrets
           - appName: intel-device-plugins
@@ -45,7 +49,6 @@ spec:
       syncPolicy:
         automated:
           prune: true
-          selfHeal: true
         syncOptions:
           - CreateNamespace=true
           - ServerSideApply=true

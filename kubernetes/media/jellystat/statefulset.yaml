@@ -45,6 +45,11 @@ spec:
               value: ""
             - name: POSTGRES_PORT
               value: "5432"
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jellystat-secrets
+                  key: jwt
           # Ports
           ports:
             - name: jellystat-http
