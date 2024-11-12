@@ -12,6 +12,6 @@ helmCharts:
     releaseName: pihole
     namespace: dns
     repo: https://mojo2600.github.io/pihole-kubernetes/
-    version: 2.26.1
+    version: 2.26.2
     includeCRDs: true
     valuesFile: values.yaml
