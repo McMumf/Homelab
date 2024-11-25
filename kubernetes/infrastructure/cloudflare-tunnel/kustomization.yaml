@@ -3,6 +3,9 @@ kind: Kustomization
 
 namespace: cloudflared
 
+resources:
+  - external-secrets.yaml
+
 helmCharts:
   - name: cloudflare-tunnel
     repo: https://cloudflare.github.io/helm-charts

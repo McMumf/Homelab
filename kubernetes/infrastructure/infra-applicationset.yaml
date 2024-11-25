@@ -11,12 +11,10 @@ spec:
             namespace: authentik
           - appName: cert-manager
             namespace: cert-manager
-          # - appName: cloudflare-tunnel
-          #   namespace: cloudflared
+          - appName: cloudflare-tunnel
+            namespace: cloudflared
           - appName: cnpg-operator
             namespace: cnpg-system
-          # - appName: dns
-          #   namespace: dns
           - appName: external-secrets
             namespace: external-secrets
           - appName: intel-device-plugins
