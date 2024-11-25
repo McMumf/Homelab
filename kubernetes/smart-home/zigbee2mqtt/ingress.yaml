@@ -6,9 +6,6 @@ metadata:
   labels: {}
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
-    nginx.ingress.kubernetes.io/server-snippet: |
-      proxy_set_header Upgrade "websocket";
-      proxy_set_header Connection "Upgrade";
 spec:
   ingressClassName: nginx
   tls:
@@ -20,7 +17,7 @@ spec:
       http:
         paths:
           - path: /
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: zigbee2mqtt
