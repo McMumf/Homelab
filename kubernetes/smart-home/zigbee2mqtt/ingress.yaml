@@ -3,7 +3,8 @@ kind: Ingress
 metadata:
   name: zigbee2mqtt
   namespace: smart-home
-  labels: {}
+  labels:
+    app: zigbee2mqtt
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
