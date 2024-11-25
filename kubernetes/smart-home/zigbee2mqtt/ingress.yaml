@@ -11,6 +11,8 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/cors-allow-origin: "https://www.zigbee2mqtt.io"
+    nginx.ingress.kubernetes.io/cors-allow-headers: Content-Type
+    nginx.ingress.kubernetes.io/cors-allow-methods: GET, OPTIONS
 spec:
   ingressClassName: nginx
   tls:
