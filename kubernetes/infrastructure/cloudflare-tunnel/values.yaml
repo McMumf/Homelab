@@ -11,3 +11,6 @@ cloudflare:
       service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80
       originRequest:
         originServerName: mcmumf.dev
+
+image:
+  tag: "2024.11.1"
