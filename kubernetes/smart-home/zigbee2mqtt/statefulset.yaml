@@ -25,13 +25,13 @@ spec:
             privileged: true
           resources:
             limits:
-              cpu: 500m
-              memory: 512Mi
-              ephemeral-storage: 256Mi
+              cpu: 1500m
+              memory: 2Gi
+              ephemeral-storage: 1Gi
             requests:
               cpu: 100m
               memory: 256Mi
-              ephemeral-storage: 256Mi
+              ephemeral-storage: 1Gi
           env:
             - name: TZ
               value: "America/New_York"
