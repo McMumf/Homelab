@@ -8,7 +8,7 @@ This will explain how to configure a linux machine to connect to Synology's Netw
 sudo apt install nut nut-client
 ```
 
-## 2, Verify Connectivity
+## 2. Verify Connectivity
 
 Run the following command where `SYNOLOGY-IP` is the IP/Hostname of your Synology NAS
 

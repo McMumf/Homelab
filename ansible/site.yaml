@@ -1,6 +1,6 @@
 - name: Pre tasks
   hosts:
-    - control-plane
+    - all
   pre_tasks:
     - name: Verify Ansible is version 2.11 or above. (If this fails you may need to update Ansible)
       assert:
@@ -16,12 +16,12 @@
       become: true
     - role: prereq
       become: true
+    - role: kubernetes/init
+      become: true
 
 - name: Setup k8s control plane
   hosts:
     - control-plane
   roles:
-    - role: kubernetes/init
-      become: true
     - role: kubernetes/master
       become: true
