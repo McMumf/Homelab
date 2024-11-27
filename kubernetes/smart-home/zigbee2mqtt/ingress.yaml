@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: zigbee2mqtt
+  namespace: smart-home
+  labels:
+    app: zigbee2mqtt
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "https://www.zigbee2mqtt.io"
+    nginx.ingress.kubernetes.io/cors-allow-headers: Accept,Access-Control-Allow-Origin,Cache-Control,Content-Type,DNT,Origin,User-Agent
+    nginx.ingress.kubernetes.io/cors-allow-methods: GET, OPTIONS
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - &hostName z2m.mcmumf.dev
+      secretName: z2m-cert
+  rules:
+    - host: *hostName
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: zigbee2mqtt
+                port:
+                  number: 8080

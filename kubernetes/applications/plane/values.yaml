@@ -1,5 +1,0 @@
-ingress:
-  appHost: "plane.mcmumf.dev"
-  minioHost: "plane-minio.mcmumf.dev"
-  ingressClass: "nginx"
-  clientMaxBodySize: 10m

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: jellyfin
-  namespace: homelab
+  namespace: media
 spec:
   serviceName: "jellyfin"
   replicas: 1
@@ -53,66 +53,23 @@ spec:
               mountPath: /config
             - name: homelab-nfs
               mountPath: /mnt/media
+            - name: tls-certs
+              mountPath: /config/tls
+              readOnly: true
       volumes:
         - name: homelab-nfs
           nfs:
             server: 192.168.1.70
             path: /volume1/library
+        - name: tls-certs
+          secret:
+            secretName: jellyfin-cert
   volumeClaimTemplates:
     - metadata:
         name: jellyfin-data
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: longhorn
+        storageClassName: "longhorn"
         resources:
           requests:
             storage: 32Gi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: jellyfin
-  namespace: homelab
-  labels:
-    app: jellyfin
-spec:
-  selector:
-    app: jellyfin
-  ports:
-    - port: 8096
-      name: jellyfin
-    - port: 1900
-      name: dlna
-      protocol: UDP
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: jellyfin
-  namespace: homelab
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-production
-    nginx.ingress.kubernetes.io/proxy-body-size: "0"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-    nginx.ingress.kubernetes.io/client-max-body-size: "20m"
-    nginx.ingress.kubernetes.io/server-snippet: |
-      proxy_set_header Upgrade "websocket";
-      proxy_set_header Connection "Upgrade";
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - jellyfin.mcmumf.dev
-      secretName: jellyfin-cert
-  rules:
-    - host: jellyfin.mcmumf.dev
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: jellyfin
-                port:
-                  number: 8096

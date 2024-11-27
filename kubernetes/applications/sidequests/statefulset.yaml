@@ -1,31 +1,3 @@
-apiVersion: external-secrets.io/v1beta1
-kind: ExternalSecret
-metadata:
-  name: sidequests-secrets
-  namespace: homelab
-spec:
-  refreshInterval: 24h
-  secretStoreRef:
-    name: vault-backend
-    kind: ClusterSecretStore
-  target:
-    name: sidequests-secrets
-  data:
-    - secretKey: admin-user
-      remoteRef:
-        key: kv/sidequests
-        property: admin-user
-
-    - secretKey: admin-password
-      remoteRef:
-        key: kv/sidequests
-        property: admin-password
-
-    - secretKey: secret-key
-      remoteRef:
-        key: kv/sidequests
-        property: secret-key
----
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -96,42 +68,3 @@ spec:
         resources:
           requests:
             storage: 8Gi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: sidequests-svc
-  namespace: homelab
-  labels:
-    app: sidequests
-spec:
-  ports:
-    - port: 8080
-      name: web
-  selector:
-    app: sidequests
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: sidequests-ingress
-  namespace: homelab
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-production
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - &sidequestsHost sidequests.mcmumf.dev
-      secretName: sidequests-cert
-  rules:
-    - host: *sidequestsHost
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: sidequests-svc
-                port:
-                  number: 8080

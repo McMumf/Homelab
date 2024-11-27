@@ -1,6 +1,19 @@
-# external-secrets policy
+path "apps/*" {
+    capabilities = ["read", "list"]
+}
 
-# vault policy write external-secrets external-secrets-policy.hcl
-path "kv/*" {
+path "infrastructure/*" {
+    capabilities = ["read", "list"]
+}
+
+path "media/*" {
+    capabilities = ["read", "list"]
+}
+
+path "networking/*" {
+    capabilities = ["read", "list"]
+}
+
+path "smart-home/*" {
     capabilities = ["read", "list"]
 }

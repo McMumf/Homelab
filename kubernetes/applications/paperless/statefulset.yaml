@@ -1,33 +1,3 @@
-apiVersion: external-secrets.io/v1beta1
-kind: ExternalSecret
-metadata:
-  name: paperless-secrets
-  namespace: homelab
-spec:
-  refreshInterval: 24h
-  secretStoreRef:
-    name: vault-backend
-    kind: ClusterSecretStore
-  target:
-    name: paperless-secrets
-  data:
-    - secretKey: secret_key
-      remoteRef:
-        key: kv/paperless
-        property: secret_key
-    - secretKey: admin_user
-      remoteRef:
-        key: kv/paperless
-        property: admin_user
-    - secretKey: admin_email
-      remoteRef:
-        key: kv/paperless
-        property: admin_email
-    - secretKey: admin_password
-      remoteRef:
-        key: kv/paperless
-        property: admin_password
----
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -50,10 +20,13 @@ spec:
           image: ghcr.io/paperless-ngx/paperless-ngx:2.13
           resources:
             limits:
+              cpu: 1500m
               memory: 4Gi
               ephemeral-storage: 32Gi
             requests:
+              cpu: 250m
               memory: 1Gi
+              ephemeral-storage: 32Gi
           ports:
             - name: paperless-web
               containerPort: 8000
@@ -61,8 +34,6 @@ spec:
           env:
             - name: PAPERLESS_URL
               value: "https://paperless.mcmumf.dev"
-            # - name: PAPERLESS_ENABLE_HTTP_REMOTE_USER
-            #   value: "TRUE"
             - name: PAPERLESS_HTTP_REMOTE_USER_HEADER_NAME
               value: "HTTP_X_AUTHENTIK_USERNAME"
             - name: PAPERLESS_SECRET_KEY
@@ -96,10 +67,13 @@ spec:
           image: docker.io/library/redis:7.4
           resources:
             limits:
+              cpu: 1000m
               memory: 2Gi
-              ephemeral-storage: "2Gi"
+              ephemeral-storage: 2Gi
             requests:
+              cpu: 500m
               memory: 512Mi
+              ephemeral-storage: 2Gi
           ports:
             - name: redis
               containerPort: 6379
@@ -108,7 +82,7 @@ spec:
         name: paperless-data
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: longhorn
+        storageClassName: "longhorn"
         resources:
           requests:
             storage: 32Gi
@@ -116,7 +90,7 @@ spec:
         name: paperless-media
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: longhorn
+        storageClassName: "longhorn"
         resources:
           requests:
             storage: 32Gi
@@ -124,66 +98,7 @@ spec:
         name: paperless-export
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: longhorn
+        storageClassName: "longhorn"
         resources:
           requests:
             storage: 32Gi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: paperless-ngx
-  namespace: homelab
-  labels:
-    app: paperless-ngx
-spec:
-  selector:
-    app: paperless-ngx
-  ports:
-    - port: 8000
-      name: paperless-ngx-web
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: paperless-ngx
-  namespace: homelab
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-production
-    nginx.ingress.kubernetes.io/proxy-body-size: "10g"
-    nginx.org/client-max-body-size: "10g"
-    # nginx.ingress.kubernetes.io/auth-url: |-
-    #   http://ak-outpost-internalproxy.authentik.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
-    # nginx.ingress.kubernetes.io/auth-signin: |-
-    #   https://paperless.mcmumf.dev/outpost.goauthentik.io/start?rd=$escaped_request_uri
-    # nginx.ingress.kubernetes.io/auth-response-headers: |-
-    #   Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
-    nginx.ingress.kubernetes.io/auth-snippet: |
-
-    nginx.ingress.kubernetes.io/server-snippet: |
-      proxy_http_version 1.1;
-      proxy_set_header Upgrade "websocket";
-      proxy_set_header Connection "Upgrade";
-
-      proxy_set_header Host $host;
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header X-Forwarded-Host $server_name;
-      add_header Referrer-Policy "strict-origin-when-cross-origin";
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - &hostName paperless.mcmumf.dev
-      secretName: paperless-cert
-  rules:
-    - host: *hostName
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: paperless-ngx
-                port:
-                  number: 8000

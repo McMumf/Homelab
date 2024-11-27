@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mealie-svc
+  namespace: homelab
+  labels:
+    app: mealie
+spec:
+  ports:
+    - port: 9000
+      name: web
+  selector:
+    app: mealie

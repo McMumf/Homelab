@@ -22,11 +22,11 @@ spec:
           image: lscr.io/linuxserver/lidarr:2.1.7.4030-ls162
           resources:
             requests:
-              cpu: 1
+              cpu: 1000m
               memory: 500Mi
               ephemeral-storage: 32Gi
             limits:
-              cpu: 2
+              cpu: 2000m
               memory: 4Gi
               ephemeral-storage: 32Gi
           ports:
@@ -55,46 +55,7 @@ spec:
         name: lidarr-data
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: longhorn
+        storageClassName: "longhorn"
         resources:
           requests:
             storage: 32Gi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: lidarr
-  namespace: media
-  labels:
-    app: lidarr
-spec:
-  selector:
-    app: lidarr
-  ports:
-    - port: 8686
-      name: lidarr-http
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: lidarr
-  namespace: media
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-production
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - &lidarrIngress lidarr.mcmumf.dev
-      secretName: lidarr-cert
-  rules:
-    - host: *lidarrIngress
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: lidarr
-                port:
-                  number: 8686
