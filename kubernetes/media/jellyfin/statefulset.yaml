@@ -18,7 +18,7 @@ spec:
       containers:
         # Container
         - name: jellyfin
-          image: jellyfin/jellyfin:10.10.1
+          image: jellyfin/jellyfin:10.10.3
           # Resources
           resources:
             requests:
@@ -28,8 +28,8 @@ spec:
               ephemeral-storage: 32Gi
             limits:
               gpu.intel.com/i915: "1"
-              cpu: 2000m
-              memory: 6Gi
+              cpu: 4000m
+              memory: 8Gi
               ephemeral-storage: 32Gi
           # Ports
           ports:
