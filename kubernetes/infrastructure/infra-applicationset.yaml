@@ -33,7 +33,7 @@ spec:
       source:
         repoURL: https://github.com/McMumf/Homelab.git
         path: kubernetes/infrastructure/{{appName}}
-        targetRevision: homelab-2.0
+        targetRevision: HEAD
       destination:
         server: "https://kubernetes.default.svc"
         namespace: "{{namespace}}"
