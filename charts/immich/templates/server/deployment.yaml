@@ -18,11 +18,15 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: immich-server
-          image: ghcr.io/immich-app/immich-server:v1.106.4
+          image: ghcr.io/immich-app/immich-server:v1.121.0
           # securityContext:
           #   runAsUser: 1000
           #   runAsGroup: 3000
           #   fsGroup: 2000
+          resources:
+            limits:
+              memory: "4Gi"
+              ephemeral-storage: "8Gi"
           ports:
             - containerPort: 3001
               name: http

@@ -1,0 +1,8 @@
+# Set the System's Timezone
+system_timezone: "Etc/UTC"
+ansible_user: ansible-user
+OS: Debian_12
+CRIO_VERSION: v1.31
+K8S_VERSION: v1.31
+K8S_SEMANTIC_VERSION: v1.31.0
+KUBE_ADMIN_CONFIG: "/etc/kubernetes/admin.conf"

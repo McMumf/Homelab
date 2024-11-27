@@ -22,8 +22,13 @@
       - git
       - apt-transport-https
       - ca-certificates
+      - curl
+      - gpg
       - python3
       - python3-pip
       - needrestart
+      - nut-client
+      - cryptsetup
+      - software-properties-common
     state: latest
     update_cache: yes

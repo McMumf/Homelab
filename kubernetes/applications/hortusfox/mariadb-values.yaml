@@ -1,4 +1,0 @@
-auth:
-  database: hortusfox
-  user: hortusfox-user
-  existingSecret: hortusfox-secrets

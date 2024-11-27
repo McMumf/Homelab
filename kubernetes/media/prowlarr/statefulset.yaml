@@ -16,16 +16,17 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000
+      automountServiceAccountToken: false
       containers:
         - name: prowlarr
-          image: lscr.io/linuxserver/prowlarr:1.19.0
+          image: lscr.io/linuxserver/prowlarr:1.27.0
           resources:
             requests:
-              cpu: 1
+              cpu: 1000m
               memory: 500Mi
               ephemeral-storage: 32Gi
             limits:
-              cpu: 2
+              cpu: 2000m
               memory: 4Gi
               ephemeral-storage: 32Gi
           ports:
@@ -54,46 +55,7 @@ spec:
         name: prowlarr-data
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: longhorn
+        storageClassName: "longhorn"
         resources:
           requests:
             storage: 32Gi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: prowlarr
-  namespace: media
-  labels:
-    app: prowlarr
-spec:
-  selector:
-    app: prowlarr
-  ports:
-    - port: 9696
-      name: prowlarr-http
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: prowlarr
-  namespace: media
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-production
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - &prowlarrIngress prowlarr.mcmumf.dev
-      secretName: prowlarr-cert
-  rules:
-    - host: *prowlarrIngress
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: prowlarr
-                port:
-                  number: 9696

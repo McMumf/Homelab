@@ -16,6 +16,7 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000
+      automountServiceAccountToken: false
       containers:
         - name: sabnzbd
           image: lscr.io/linuxserver/sabnzbd:4.2.3-ls156
@@ -47,7 +48,7 @@ spec:
         name: sabnzbd-data
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: longhorn
+        storageClassName: "longhorn"
         resources:
           requests:
             storage: 32Gi
@@ -83,10 +84,10 @@ spec:
     - host: *sabnzbIngress
       http:
         paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: sabnzbd
-              port:
-                number: 8080
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sabnzbd
+                port:
+                  number: 8080

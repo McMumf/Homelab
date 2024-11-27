@@ -1,0 +1,5 @@
+resources:
+  - external-secrets.yaml
+  - statefulset.yaml
+  - service.yaml
+  - ingress.yaml

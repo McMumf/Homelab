@@ -1,5 +1,6 @@
 - name: Pre tasks
-  hosts: test-group
+  hosts:
+    - control-plane
   pre_tasks:
     - name: Verify Ansible is version 2.11 or above. (If this fails you may need to update Ansible)
       assert:
@@ -8,10 +9,19 @@
           "Ansible is out of date. See here for more info: https://docs.technotim.live/posts/ansible-automation/"
 
 - name: Prep nodes
-  hosts: test-group
+  hosts: all
   gather_facts: true
   roles:
     - role: common
       become: true
     - role: prereq
+      become: true
+
+- name: Setup k8s control plane
+  hosts:
+    - control-plane
+  roles:
+    - role: kubernetes/init
+      become: true
+    - role: kubernetes/master
       become: true

@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: jellystat
+  namespace: media
+spec:
+  serviceName: "jellystat"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellystat
+  template:
+    metadata:
+      labels:
+        app: jellystat
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        # Container
+        - name: jellystat
+          image: cyfershepard/jellystat:1.1.0
+          # Resources
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 1Gi
+              ephemeral-storage: 32Gi
+            limits:
+              gpu.intel.com/i915: "1"
+              cpu: 2000m
+              memory: 1Gi
+              ephemeral-storage: 32Gi
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: jellystat-secrets
+                  key: pg-user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: jellystat-secrets
+                  key: pg-password
+            - name: POSTGRES_IP
+              value: ""
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jellystat-secrets
+                  key: jwt
+          # Ports
+          ports:
+            - name: jellystat-http
+              containerPort: 3000
+              protocol: TCP
+          # Volume Mounts
+          volumeMounts:
+            - name: jellyfin-data
+              mountPath: /config
+            - name: homelab-nfs
+              mountPath: /mnt/media
+            - name: tls-certs
+              mountPath: /config/tls
+              readOnly: true
+      volumes:
+        - name: homelab-nfs
+          nfs:
+            server: 192.168.1.70
+            path: /volume1/library
+        - name: tls-certs
+          secret:
+            secretName: jellyfin-cert
+  volumeClaimTemplates:
+    - metadata:
+        name: jellystat-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "longhorn"
+        resources:
+          requests:
+            storage: 32Gi

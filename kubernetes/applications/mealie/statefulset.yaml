@@ -22,11 +22,12 @@ spec:
         fsGroup: 1000
       containers:
         - name: mealie
-          image: hkotel/mealie:v1.9.0
+          image: hkotel/mealie:v2.2.0
           resources:
             requests:
               memory: 2Gi
               cpu: 1000m
+              ephemeral-storage: 8Gi
             limits:
               memory: 8Gi
               cpu: 2000m
@@ -57,6 +58,30 @@ spec:
             #   value: "ldap://ldap.mcmumf.dev"
             # - name: LDAP_BIND_TEMPLATE
             #   value: "cn={},ou=users,dc=mcmumf,dc=dev"
+            # SMTP Config
+            - name: SMTP_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-secrets
+                  key: smtp-server
+            - name: SMPT_PORT
+              value: "587"
+            - name: SMTP_FROM_NAME
+              value: Mealie
+            - name: SMTP_AUTH_STRATEGY
+              value: TLS
+            - name: SMTP_FROM_EMAIL
+              value: recipes@mcmumf.dev
+            - name: SMTP_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-secrets
+                  key: smtp-user
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-secrets
+                  key: smtp-password
             # Web Worker Configs
             - name: MAX_WORKERS
               value: "10"
@@ -90,45 +115,3 @@ spec:
         resources:
           requests:
             storage: 8Gi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mealie-svc
-  namespace: homelab
-  labels:
-    app: mealie
-spec:
-  ports:
-    - port: 9000
-      name: web
-  selector:
-    app: mealie
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: mealie-ingress
-  namespace: homelab
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-production
-    nginx.ingress.kubernetes.io/server-snippet: |
-      proxy_set_header Upgrade "websocket";
-      proxy_set_header Connection "Upgrade";
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - recipes.mcmumf.dev
-      secretName: recipies-cert
-  rules:
-    - host: recipes.mcmumf.dev
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: mealie-svc
-                port:
-                  number: 9000

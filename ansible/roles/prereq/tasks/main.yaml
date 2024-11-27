@@ -18,31 +18,10 @@
     mode: "0644"
   become: true
 
-# Update Kernel
-# - name: Update kernel
-#   ansible.builtin.apt:
-#     name: linux-image-amd64
-#     state: latest
-#     default_release: bookworm-backports
-#   become: true
+- name: Bridge Network Traffic
+  include_tasks: bridged-traffic.yaml
 
-- name: Enable IPv4 forwarding
-  ansible.posix.sysctl:
-    name: net.ipv4.ip_forward
-    value: "1"
-    state: present
-    reload: true
-  tags: sysctl
-
-- name: Enable IPv6 forwarding
-  sysctl:
-    name: net.ipv6.conf.all.forwarding
-    value: "1"
-    state: present
-    reload: yes
-  tags: sysctl
-
-- name: Install Required Longhorn Dependencies
+- name: Install Extra File Store Dependencies
   apt:
     name:
       - parted
