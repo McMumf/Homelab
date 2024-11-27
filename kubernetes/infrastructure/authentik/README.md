@@ -66,6 +66,45 @@ When updating to a new version, we need to make sure to pass in the postgres aut
    2. Delete `default-authentication-password` from stage bindings
 7. **Logout and test**
 
+### Invitation Setup
+
+1. **Create a New Group**
+    - Name: `Authentik Users`
+2. **Create a New Email Stage**
+   - Name: `email-account-confirmation`
+   - Subject: `Account Confirmation`
+   - Template: `Account Confirmation`
+3. **Create User Write Stage**
+    - Name: `enrollment-invitation-write`
+    - Uncheck `Create users as inactive`
+    - Group: `Authentik Users`
+4. **Create Invitation Stage**
+    - Name: `enrollment-invitation`
+5. **Create a new Flow**
+    - Name: `Enrollment Invitation`
+    - Title: `Enrollment Invitation`
+    - Slug: `enrollment-invitation`
+    - Designation: `Enrollment`
+    - Enable compatibility mode under behavior settings
+6. **Bind Stages to Enrollment Invitation Flow**
+   1. Bind `enrollment-invitation`
+        - Order: `10`
+   2. Bind `default-source-enrollment-prompt`
+        - Order: `20`
+   3. Edit `default-source-enrollment-prompt`
+        - Ensure the fields for `username`, `name`, `email`, `password`, `password_repeat` are all selected
+        - Add `password-complexity` as a validation policy
+   4. Bind `enrollment-invitation-write`
+        - Order: `30`
+   5. Bind `default-source-enrollment-login`
+        - Order: `40`
+7. **Create Single Use Invitaiton**
+    - Name: `enrollment-invitation-link`
+    - Set expiration to how you see fit
+    - Flow: `enrollment-invitation`
+8. **Send Out Invitation**
+    - Expand `enrollment-invitation-link` to retrieve link
+
 ### LDAP
 
 1. **Create a new `ldapservice` user**
