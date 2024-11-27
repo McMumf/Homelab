@@ -31,6 +31,41 @@ When updating to a new version, we need to make sure to pass in the postgres aut
 
 ### Branding
 
+### Email
+
+1. **Creat Password Policy**
+    - Name: `password-complexity`
+    - Minimum Length: `12`
+    - Error Message: `Please enter a minimum of 12 characters with at least 2 uppercase, 2 lowercase, 2 digits, and 2 symbols`
+2. **Create Stages**
+   1. Identification Stage
+        - Name: `recovery-authentication-identification`
+        - User Fields: `Username`, `Email`
+   2. Email Recovery
+        - Name: `recovery-email`
+        - Subject: `Password Recovery`
+        - Template: `Password Reset`
+3. **Create Recovery Flow**
+    - Name: `Recovery`
+    - Title: `Recovery`
+    - Slug: `recovery`
+    - Designation: `Recovery`
+4. **Bind Stages to `Recovery` Flow**
+   1. `recovery-authentication-identification`
+   2. `recovery-email`
+      - Order: `10`
+   3. `default-password-change-prompt`
+      - Order: `20`
+   4. `default-password-change-write`
+      - Order: `30`
+5. **Add the `password-complexity` policy to `default-password-change-prompt` Validation Policies**
+6. **Update the `default-identification-flow` Flow**
+   1. Edit `default-authentication-identification` Stage
+      1. Set `Password Stage` to `default-authentication-password`
+      2. Under "Flow Settings", set `Recvovery Flow` to `recovery`
+   2. Delete `default-authentication-password` from stage bindings
+7. **Logout and test**
+
 ### LDAP
 
 1. **Create a new `ldapservice` user**
@@ -53,7 +88,7 @@ When updating to a new version, we need to make sure to pass in the postgres aut
     - Title: `ldap-authentication-flow`
     - Designation: `Authentication`
     - Enable `Compatibility Mode` under behavior settings
-6. Bind Existing Stages to `ldap-authentication-flow`
+6. **Bind Existing Stages to `ldap-authentication-flow`**
     1. `ldap-identification-stage`
         - Order: `10`
     2. `ldap-authentication-login`
@@ -72,7 +107,7 @@ When updating to a new version, we need to make sure to pass in the postgres aut
     - Type: `LDAP`
     - Add LDAP Application to "Selected Application"
     - Under "Advanced Settings", set `kubernetes_servbice_type` to `LoadBalancer`
-11. Test Connection
+11. **Test LDAP**
 
     ```sh
     ldapsearch -x \
