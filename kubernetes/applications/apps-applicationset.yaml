@@ -1,20 +1,28 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: media
+  name: apps
   namespace: argocd
 spec:
   generators:
     - list:
         elements:
-          - appName: cnpg-media-cluster
-          - appName: jellyfin
-          - appName: jellystat
-          # - appName: lidarr
-          # - appName: prowlarr
-          # - appName: qbittorrent
-          # - appName: radarr
-          # - appName: sonarr
+          - appName: cnpg-app-cluster
+            namespace: apps
+          - appName: enclosed
+            namespace: apps
+          # - appName: fasten
+          #   namespace: apps
+          # - appName: ghost
+          #   namespace: apps
+          - appName: homer
+            namespace: apps
+          # - appName: immich
+          #   namespace: immich
+          - appName: mealie
+            namespace: apps
+          - appName: paperless
+            namespace: apps
   template:
     metadata:
       name: "{{appName}}"
@@ -22,11 +30,11 @@ spec:
       project: default
       source:
         repoURL: https://github.com/McMumf/Homelab.git
+        path: kubernetes/applications/{{appName}}
         targetRevision: HEAD
-        path: kubernetes/media/{{appName}}
       destination:
         server: "https://kubernetes.default.svc"
-        namespace: "media"
+        namespace: "{{namespace}}"
       ignoreDifferences:
         - kind: ExternalSecret
           group: external-secrets.io
@@ -37,7 +45,6 @@ spec:
       syncPolicy:
         automated:
           prune: true
-          selfHeal: true
         syncOptions:
           - CreateNamespace=true
           - ServerSideApply=true
