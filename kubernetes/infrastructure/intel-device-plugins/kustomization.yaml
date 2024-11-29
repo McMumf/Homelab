@@ -17,4 +17,6 @@ helmCharts:
     namespace: inteldeviceplugins-system
     includeCRDs: true
     valuesInline:
-      nodeFeatureRule: true
+      nodeSelector:
+        intel.feature.node.kubernetes.io/gpu: "true"
+        gpu.intel.com/family: "A_Series"
