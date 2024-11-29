@@ -12,8 +12,6 @@
   hosts: all
   gather_facts: true
   roles:
-    - role: common
-      become: true
     - role: prereq
       become: true
     - role: kubernetes/init
@@ -24,4 +22,11 @@
     - control-plane
   roles:
     - role: kubernetes/master
+      become: true
+
+- name: Setup k8s workers
+  hosts:
+    - workers
+  roles:
+    - role: kubernetes/worker
       become: true

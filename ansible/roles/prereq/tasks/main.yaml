@@ -10,6 +10,22 @@
     name: "{{ system_timezone }}"
   when: (system_timezone is defined) and (system_timezone != "Etc/UTC")
 
+- name: Add /usr/local/bin to sudo secure_path
+  lineinfile:
+    line: "Defaults    secure_path = /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin"
+    regexp: "Defaults(\\s)*secure_path(\\s)*="
+    state: present
+    insertafter: EOF
+    path: /etc/sudoers
+    validate: "visudo -cf %s"
+  when: ansible_distribution in ['CentOS', 'Red Hat Enterprise Linux', 'Debian']
+
+- name: Remove old Kubernetes Repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main"
+    state: absent
+
 # Add debian backports repository
 - name: Add modified sources.list
   ansible.builtin.copy:
@@ -21,9 +37,25 @@
 - name: Bridge Network Traffic
   include_tasks: bridged-traffic.yaml
 
-- name: Install Extra File Store Dependencies
+- name: Install Common Packages
+  become: true
   apt:
     name:
+      - vim
+      - git
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gpg
+      - python3
+      - python3-pip
+      - needrestart
+      - nut-client
+      - cryptsetup
+      - software-properties-common
+      - ldap-utils
+      - iptables
+      - ufw
       - parted
       - open-iscsi
       - nfs-common
@@ -44,3 +76,6 @@
 - name: Setup GPU
   include_tasks: i915.yaml
   when: "intel_gpu is defined and intel_gpu"
+
+- name: Configure Network UPS
+  include_tasks: nut.yaml
