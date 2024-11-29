@@ -1,24 +1,24 @@
 infra/authentik
     {
     "email_host": "smtp.protonmail.ch",
-    "email_password": "SSDYG49E663E2G4P",
+    "email_password": "",
     "email_port": "587",
     "email_user": "auth@mcmumf.dev",
-    "postgresql_password": "z7uSSt#4e9P$9stgM!$87b",
-    "secret_key": "3SivonHETmw5H6n8BJz9dllDYkQTQnZEeBbWqGSXq9xdKkaRB3+sgHjALunvMUAX\n6ue2aMBlgU/NSDYm53T48w=="
+    "postgresql_password": "",
+    "secret_key": ""
 }
 
 infra/cert-manager
     {
-    "cloudflare-api-token": "s6hnMK4r0tVJoNmdMufOIYR8p1vM_asaRhthJ5lP"
+    "cloudflare-api-token": ""
 }
 
 infra/cloudflare-tunnel
     {
-    "credentials.json": "{\"AccountTag\":\"14c3f3c9589aa9f3ecd2e55fc4a38332\",\"TunnelSecret\":\"Lu0OWXSzeFdNw2sJ2JoZEV5XJ3qJ3gNlb3+Cg978bJQ=\",\"TunnelID\":\"99350b6b-7102-4a0c-a1dd-6e3cf47b76f2\"}"
+    "credentials.json": ""
 }
 
 media/jellystat
     {
-    "jwt": "1936af2f551cfd6826e102f24d0e26ee9a1da771ef9f1f6730ff3295767d2de68ab2792f482703ea1cca3e29728ee95a8fe9032f4b8e34944669a5682f61b16a0b3c02a414a56c91b2845c439a486cf0450fc84fb46f070c7f044a624db485012ad00e184300b0d25d8249c2b2cfff6f7f13c98948122d15c36af3196d25d9434397a57c624535c126c367d5cc4b435db43079867013f593a4a96a7f8ce550de9483d06ab2d8fca3e1755e06a27efd398a4f6a7aefc5b10d6073601bca0c7492c9857d2a2411a748979162ef4ff47c88578c84a0b77503c38f4b5e28a118aa6186bd0c8e96e59a7c181cada929d3762abbf3aaf8baa745556ea2ed83bb07acc8"
+    "jwt": ""
 }

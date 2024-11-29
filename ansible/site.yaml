@@ -23,7 +23,6 @@
   roles:
     - role: kubernetes/master
       become: true
-
 - name: Setup k8s workers
   hosts:
     - workers

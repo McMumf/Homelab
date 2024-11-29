@@ -19,7 +19,7 @@
   community.general.ufw:
     rule: "allow"
     port: "{{ item }}"
-    proto: "UDP"
+    proto: "ud"
   with_items:
     - "4789" # Kubernetes networking plugin for overlay networking
 
