@@ -18,13 +18,7 @@ cluster:
       log_hostname: "off"
       log_timezone: "UTC"
       max_connections: "200"
-      shared_buffers: "2GB"
-
-  initDb:
-    database: apps
-    owner: apps
-    secret:
-      name: cnpg-app-user
+      shared_buffers: "256MB"
 
 backups:
   enabled: false

@@ -18,5 +18,5 @@ helmCharts:
     includeCRDs: true
     valuesInline:
       nodeSelector:
-        intel.feature.node.kubernetes.io/gpu: "true"
         gpu.intel.com/family: "A_Series"
+        intel.feature.node.kubernetes.io/gpu: "true"

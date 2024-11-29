@@ -30,5 +30,6 @@
       - nut-client
       - cryptsetup
       - software-properties-common
+      - ldap-utils
     state: latest
     update_cache: yes
