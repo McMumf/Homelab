@@ -40,3 +40,7 @@
 - name: Free up disk space
   command: apt clean
   become: true
+
+- name: Setup GPU
+  include_tasks: i915.yaml
+  when: "intel_gpu is defined and intel_gpu"

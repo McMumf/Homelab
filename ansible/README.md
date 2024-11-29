@@ -1,6 +1,6 @@
 # Ansible
 
-Ansible roles and playbooks to initialize a fresh k3s cluster.
+Ansible roles and playbooks to initialize a fresh kubeadm cluster.
 
 ## Setup
 
@@ -32,3 +32,6 @@ Ansible roles and playbooks to initialize a fresh k3s cluster.
     ```shell
     ansible-playbook -i inventory/hosts.yaml site.yaml
     ```
+
+## Reset
+

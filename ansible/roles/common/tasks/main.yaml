@@ -31,5 +31,10 @@
       - cryptsetup
       - software-properties-common
       - ldap-utils
+      - iptables
+      - ufw
     state: latest
     update_cache: yes
+
+- name: Configure Network UPS
+  include_tasks: nut.yaml

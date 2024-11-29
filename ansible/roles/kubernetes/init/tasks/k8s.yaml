@@ -39,12 +39,24 @@
     - kubeadm
     - kubectl
 
+- name: Load modprobe overlay
+  shell: modprobe overlay
+
+- name: load br_netfilter
+  shell: modprobe br_netfilter
+
 - name: Reload CRI-O daemon
   systemd:
     name: crio
     daemon_reload: yes
     state: started
     enabled: yes
+
+- name: ufw enabled
+  community.general.ufw:
+    state: "enabled"
+    policy: "deny"
+    logging: "on"
 
 - name: Hold k8s packages - kubelet
   dpkg_selections:
@@ -64,13 +76,9 @@
 - name: Disable system swap
   shell: "swapoff -a"
 
-- name: Remove current swaps from fstab
-  lineinfile:
-    dest: /etc/fstab
-    regexp: '(?i)^([^#][\S]+\s+(none|swap)\s+swap.*)'
-    line: '# \1'
-    backrefs: yes
-    state: present
+- name: Prevent Swap at Boot
+  become: true
+  shell: "sed -i '/swap/d' /etc/fstab"
 
 - name: Disable swappiness and pass bridged IPv4 traffic to iptable's chains
   sysctl:

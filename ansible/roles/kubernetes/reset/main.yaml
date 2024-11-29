@@ -6,7 +6,7 @@
 - name: Purge apt things
   become: true
   shell: |
-    apt purge kubectl kubeadm kubelet kubernetes-cni cri-o -y
+    apt purge kubectl kubeadm kubelet kubernetes-cni cri-o -y --allow-change-held-packages
 
 - name: apt autoremove
   become: true
