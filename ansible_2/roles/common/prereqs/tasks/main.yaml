@@ -38,3 +38,19 @@
     name: kubelet
     daemon_reload: yes
     enabled: yes
+
+# Add debian backports repository
+- name: Add modified sources.list
+  ansible.builtin.copy:
+    src: sources.list
+    dest: /etc/apt/sources.list
+    mode: "0644"
+  become: true
+
+# Update Kernel
+- name: Update kernel
+  ansible.builtin.apt:
+    name: linux-image-amd64
+    state: latest
+    default_release: bookworm-backports
+  become: true

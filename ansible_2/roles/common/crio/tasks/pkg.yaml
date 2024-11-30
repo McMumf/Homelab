@@ -1,0 +1,73 @@
+---
+- name: Ensure /usr/share/keyrings directory exists
+  become: true
+  ansible.builtin.file:
+    path: /usr/share/keyrings
+    state: directory
+    mode: "0755"
+
+- name: Download libcontainers release key
+  become: true
+  ansible.builtin.get_url:
+    url: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ OS }}/Release.key"
+    dest: "/tmp/libcontainers-archive-keyring.gpg"
+    mode: "0644"
+
+- name: Dearmor libcontainers key
+  become: true
+  ansible.builtin.shell:
+    cmd: gpg --dearmor -o /usr/share/keyrings/libcontainers-archive-keyring.gpg /tmp/libcontainers-archive-keyring.gpg
+    creates: /usr/share/keyrings/libcontainers-archive-keyring.gpg
+
+- name: Download CRI-O release key
+  become: true
+  ansible.builtin.get_url:
+    url: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ VERSION }}/{{ OS }}/Release.key"
+    dest: "/tmp/libcontainers-crio-archive-keyring.gpg"
+    mode: "0644"
+
+- name: Dearmor CRI-O key
+  become: true
+  ansible.builtin.shell:
+    cmd: gpg --dearmor -o /usr/share/keyrings/libcontainers-crio-archive-keyring.gpg /tmp/libcontainers-crio-archive-keyring.gpg
+    creates: /usr/share/keyrings/libcontainers-crio-archive-keyring.gpg
+
+- name: Add CRI-O Repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/libcontainers-crio-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ VERSION }}/{{ OS }}/ /"
+
+- name: Add libcontainers Repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/libcontainers-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ OS }}/ /"
+
+- name: Install cri-o packages
+  become: true
+  ansible.builtin.apt:
+    name:
+      - cri-o
+      - cri-o-runc
+      - cri-tools
+    state: present
+    update_cache: true
+    install_recommends: no
+
+- name: Hold CRI-O package cri-o
+  become: true
+  ansible.builtin.dpkg_selections:
+    name: cri-o
+    selection: hold
+
+- name: Hold CRI-O package cri-o-runc
+  become: true
+  ansible.builtin.dpkg_selections:
+    name: cri-o-runc
+    selection: hold
+
+- name: Hold CRI-O package cri-tools
+  become: true
+  ansible.builtin.dpkg_selections:
+    name: cri-tools
+    selection: hold
+

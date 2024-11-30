@@ -1,9 +1,16 @@
 # Ansible
 # ansible_user: root
 
+OS: Debian_12 #OS Version
+
 # Kubernetes
-kube_version: v1.31.0
+kube_version: v1.31
+kube_version_semantic: v1.31.0
+
 token: b0f7b8.8d1767876297d85c
+
+# CRI-O
+crio_version: 1.31
 
 # 1.8.x feature: --feature-gates SelfHosting=true
 init_opts: ""
@@ -23,7 +30,7 @@ network: calico
 # For example, on DigitalOcean, you would use eth1 as that is the default private network interface.
 network_interface: ""
 
-enable_dashboard: yes
+enable_dashboard: no
 
 # A list of insecure registries you might need to define
 # insecure_registries: []
@@ -45,7 +52,7 @@ additional_features:
 tmp_dir: /tmp/kubeadm-ansible-files
 
 # Container runtimes ('containerd', 'crio')
-container_runtime: containerd
+container_runtime: crio
 
 # helm helm version
 helm_version: "v2.17.0"
