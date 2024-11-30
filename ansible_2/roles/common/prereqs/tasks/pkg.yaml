@@ -1,0 +1,47 @@
+---
+- name: Install common packages
+  become: true
+  ansible.builtin.apt:
+    update_cache: yes
+    name:
+      - curl
+      - gnupg2
+      - software-properties-common
+      - apt-transport-https
+      - ca-certificates
+      - vim
+      - ldap-utils
+      - needrestart
+      - nut-client
+      - cryptsetup
+      - parted
+      - open-iscsi
+      - nfs-common
+      - jq
+    state: present
+
+- name: Remove old Kubernetes Repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main"
+    state: absent
+
+- name: Add Kubernetes APT GPG key
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Add Kubernetes APT repository
+  apt_repository:
+    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+    filename: "kubernetes"
+
+- name: Install kubernetes packages
+  apt:
+    name:
+      - kubelet
+      - kubeadm
+      - kubectl
+    update_cache: yes
+    state: present
