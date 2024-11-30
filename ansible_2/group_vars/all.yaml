@@ -44,9 +44,7 @@ kube_addon_dir: /etc/kubernetes/addon
 
 # Additional feature to install
 additional_features:
-  helm: false
-  metallb: false
-  healthcheck: false
+  metallb: true
 
 # temporary directory used by additional features
 tmp_dir: /tmp/kubeadm-ansible-files

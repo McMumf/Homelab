@@ -22,13 +22,6 @@
   gather_facts: true
   become: true
   tasks:
-    - name: "Helm role"
-      include_role:
-        name: helm
-      when: "additional_features.helm"
-      run_once: true
-      tags: helm
-
     - name: "MetalLB role"
       include_role:
         name: metallb
