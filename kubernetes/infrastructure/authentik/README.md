@@ -33,7 +33,7 @@ When updating to a new version, we need to make sure to pass in the postgres aut
 
 ### Email
 
-1. **Creat Password Policy**
+1. **Create Password Policy**
     - Name: `password-complexity`
     - Minimum Length: `12`
     - Error Message: `Please enter a minimum of 12 characters with at least 2 uppercase, 2 lowercase, 2 digits, and 2 symbols`
@@ -41,7 +41,7 @@ When updating to a new version, we need to make sure to pass in the postgres aut
    1. Identification Stage
         - Name: `recovery-authentication-identification`
         - User Fields: `Username`, `Email`
-   2. Email Recovery
+   2. Email Stage
         - Name: `recovery-email`
         - Subject: `Password Recovery`
         - Template: `Password Reset`
@@ -69,7 +69,7 @@ When updating to a new version, we need to make sure to pass in the postgres aut
 ### Invitation Setup
 
 1. **Create a New Group**
-    - Name: `Authentik Users`
+    - Name: `Homelab Users`
 2. **Create a New Email Stage**
    - Name: `email-account-confirmation`
    - Subject: `Account Confirmation`
@@ -77,7 +77,7 @@ When updating to a new version, we need to make sure to pass in the postgres aut
 3. **Create User Write Stage**
     - Name: `enrollment-invitation-write`
     - Uncheck `Create users as inactive`
-    - Group: `Authentik Users`
+    - Group: `Homelab Users`
 4. **Create Invitation Stage**
     - Name: `enrollment-invitation`
 5. **Create a new Flow**
@@ -98,7 +98,7 @@ When updating to a new version, we need to make sure to pass in the postgres aut
         - Order: `30`
    5. Bind `default-source-enrollment-login`
         - Order: `40`
-7. **Create Single Use Invitaiton**
+7. **Create Single Use Invitation**
     - Name: `enrollment-invitation-link`
     - Set expiration to how you see fit
     - Flow: `enrollment-invitation`
