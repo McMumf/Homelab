@@ -23,8 +23,6 @@ spec:
             namespace: node-feature-discovery
           - appName: prometheus-stack
             namespace: monitoring
-          - appName: vault
-            namespace: vault
   template:
     metadata:
       name: "{{appName}}"
