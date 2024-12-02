@@ -111,7 +111,7 @@ When updating to a new version, we need to make sure to pass in the postgres aut
     - Username: `ldapservice`
     - User Type: `Service Account`
     - Set password for `ldapservice` user
-2. **Create `ldapservice` group**
+2. **Create `ldapsearch` group**
     - Name: `ldapsearch`
 3. **Add `ldapservice` user to the newly created group**
 4. **Create Stages**
@@ -153,6 +153,6 @@ When updating to a new version, we need to make sure to pass in the postgres aut
         -H ldap://<hostIPaddress> \
         -D "cn=ldapservice,ou=users,DC=ldap,DC=goauthentik,DC=io" \
         -b "DC=ldap,DC=doauthentik,DC=io" \
-        '(objectClass=user)'
+        '(objectClass=user)' \
         -W
     ```
