@@ -10,10 +10,6 @@ path "media/*" {
     capabilities = ["read", "list"]
 }
 
-path "networking/*" {
-    capabilities = ["read", "list"]
-}
-
 path "smart-home/*" {
     capabilities = ["read", "list"]
 }
