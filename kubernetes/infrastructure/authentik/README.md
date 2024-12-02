@@ -145,14 +145,14 @@ When updating to a new version, we need to make sure to pass in the postgres aut
     - Name: `LDAP`
     - Type: `LDAP`
     - Add LDAP Application to "Selected Application"
-    - Under "Advanced Settings", set `kubernetes_servbice_type` to `LoadBalancer`
+    - Under "Advanced Settings", set `kubernetes_service_type` to `LoadBalancer`
 11. **Test LDAP**
 
     ```sh
     ldapsearch -x \
         -H ldap://<hostIPaddress> \
         -D "cn=ldapservice,ou=users,DC=ldap,DC=goauthentik,DC=io" \
-        -b "DC=ldap,DC=doauthentik,DC=io" \
+        -b "DC=ldap,DC=goauthentik,DC=io" \
         '(objectClass=user)' \
         -W
     ```

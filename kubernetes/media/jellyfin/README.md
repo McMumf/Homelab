@@ -36,7 +36,7 @@
    4. LDAP Password: `userPassword`
 9. Optional: Enable profile image synchronization
 10. Configure Administrators
-    1. LDAP Admin Base: `(cn=JellyfinAdministrator,dc=contoso,dc=com)`
-    2. LDAP Admin Filter: `(memberOf=cn=JellyfinAdministrator,ou=groups,dc=ldap,dc=goauthentik,dc=io)`
+    1. LDAP Admin Base: `(cn=JellyfinAdmin,dc=goauthentik,dc=io)`
+    2. LDAP Admin Filter: `(memberOf=cn=JellyfinAdmin,ou=groups,dc=ldap,dc=goauthentik,dc=io)`
 11. Check "Enable User Creation"
 12. Configure library access if desired
