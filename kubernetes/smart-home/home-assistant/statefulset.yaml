@@ -56,8 +56,6 @@ spec:
           volumeMounts:
             - name: hassio
               mountPath: /config
-            - name: hassio-cert
-              mountPath: /certs
         - name: code-server
           image: codercom/code-server:4.95.3
           imagePullPolicy: IfNotPresent
@@ -90,10 +88,6 @@ spec:
           volumeMounts:
             - name: hassio
               mountPath: /config
-      volumes:
-        - name: hassio-cert
-          secret:
-            secretName: hassio-cert
       # initContainers:
       # - name: code-server-init
       #   image: codercom/code-server:4.93.1
