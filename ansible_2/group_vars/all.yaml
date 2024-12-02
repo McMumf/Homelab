@@ -5,7 +5,8 @@ OS: Debian_12 #OS Version
 
 # Kubernetes
 kube_version: v1.31
-kube_version_semantic: v1.31.0
+kube_version_semantic: v1.31.3
+master_ip: "{{ hostvars[groups['master'][0]]['ansible_default_ipv4'].address | default(groups['master'][0]) }}"
 
 token: b0f7b8.8d1767876297d85c
 
@@ -44,7 +45,7 @@ kube_addon_dir: /etc/kubernetes/addon
 
 # Additional feature to install
 additional_features:
-  metallb: true
+  metallb: false
 
 # temporary directory used by additional features
 tmp_dir: /tmp/kubeadm-ansible-files

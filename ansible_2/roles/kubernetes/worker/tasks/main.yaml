@@ -5,7 +5,7 @@
   register: kubelet_conf
 
 - name: Join to cluster if needed
-  include_tasks: join.yml
+  include_tasks: join.yaml
   when: not kubelet_conf.stat.exists
 
 - name: Enable and check kubelet service
