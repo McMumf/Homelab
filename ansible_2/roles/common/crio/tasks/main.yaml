@@ -1,5 +1,5 @@
 - name: Install CRI-O
-  include_tasks: pkg.yml
+  include_tasks: pkg.yaml
 
 - name: Reload systemd daemon
   become: true

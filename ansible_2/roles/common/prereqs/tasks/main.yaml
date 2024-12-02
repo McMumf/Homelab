@@ -1,6 +1,37 @@
 ---
+
+# Add debian backports repository
+- name: Add modified sources.list
+  ansible.builtin.copy:
+    src: sources.list
+    dest: /etc/apt/sources.list
+    mode: "0644"
+  become: true
+
+- name: Install common packages
+  become: true
+  ansible.builtin.apt:
+    update_cache: yes
+    name:
+      - curl
+      - gnupg2
+      - software-properties-common
+      - apt-transport-https
+      - ca-certificates
+      - vim
+      - ldap-utils
+      - needrestart
+      - nut-client
+      - cryptsetup
+      - parted
+      - open-iscsi
+      - nfs-common
+      - jq
+    state: present
+
+
 - name: Install Kubernetes packages
-  include_tasks: pkg.yml
+  include_tasks: pkg.yaml
 
 - name: Disable system swap
   shell: "swapoff -a"
@@ -20,7 +51,6 @@
     state: present
   with_items:
     - { name: "vm.swappiness", value: "0" }
-    - { name: "net.bridge.bridge-nf-call-iptables", value: "1" }
 
 - name: Create service drop-in directory
   file:
@@ -38,14 +68,6 @@
     name: kubelet
     daemon_reload: yes
     enabled: yes
-
-# Add debian backports repository
-- name: Add modified sources.list
-  ansible.builtin.copy:
-    src: sources.list
-    dest: /etc/apt/sources.list
-    mode: "0644"
-  become: true
 
 # Update Kernel
 - name: Update kernel

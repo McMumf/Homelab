@@ -10,7 +10,7 @@ kube_version_semantic: v1.31.0
 token: b0f7b8.8d1767876297d85c
 
 # CRI-O
-crio_version: 1.31
+crio_version: v1.31
 
 # 1.8.x feature: --feature-gates SelfHosting=true
 init_opts: ""

@@ -3,7 +3,7 @@
   gather_facts: true
   become: true
   roles:
-    - { role: crio, tags: crio }
+    - { role: common/crio, tags: crio }
 
 - hosts: master
   gather_facts: true

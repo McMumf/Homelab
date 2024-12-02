@@ -1,25 +1,4 @@
 ---
-- name: Install common packages
-  become: true
-  ansible.builtin.apt:
-    update_cache: yes
-    name:
-      - curl
-      - gnupg2
-      - software-properties-common
-      - apt-transport-https
-      - ca-certificates
-      - vim
-      - ldap-utils
-      - needrestart
-      - nut-client
-      - cryptsetup
-      - parted
-      - open-iscsi
-      - nfs-common
-      - jq
-    state: present
-
 - name: Remove old Kubernetes Repository
   become: true
   ansible.builtin.apt_repository:
