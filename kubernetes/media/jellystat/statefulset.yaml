@@ -33,12 +33,12 @@ spec:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: cnpg-operator-cluster-app
+                  name: cnpg-operator-cnpg-media-app
                   key: username
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: cnpg-operator-cluster-app
+                  name: cnpg-operator-cnpg-media-app
                   key: password
             - name: POSTGRES_IP
               value: "cnpg-operator-cluster-rw.media"
