@@ -41,7 +41,7 @@ spec:
                   name: cnpg-operator-cnpg-media-app
                   key: password
             - name: POSTGRES_IP
-              value: "cnpg-operator-cluster-rw.media"
+              value: "cnpg-operator-cnpg-media-rw.media"
             - name: POSTGRES_PORT
               value: "5432"
             - name: POSTGRES_DB
