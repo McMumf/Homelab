@@ -1,15 +1,15 @@
 ---
-- name: Check if kubeadm has been ran
+- name: Check if kubeadm has already run
   stat:
     path: "/etc/kubernetes/pki/ca.key"
   register: kubeadm_ca
 
 - name: Init cluster if needed
-  include_tasks: init-cluster.yaml
+  include_tasks: init.yaml
   when: not kubeadm_ca.stat.exists
-  run_once: true
+  run_once: yes
 
-- name: Enable and check kubelet
+- name: Enable and check kubelet service
   systemd:
     name: kubelet
     daemon_reload: yes
@@ -17,10 +17,10 @@
     enabled: yes
   register: started_kubelet
 
-- name: Copy config file
+- name: "Copy config file"
   fetch:
     src: /etc/kubernetes/admin.conf
-    dest: "{{ lookup('env', 'HOME')}}/admin.conf"
+    dest: "{{ lookup('env', 'HOME') }}/admin.conf"
     flat: yes
-  run_once: true
-  ignore_errors: true
+  run_once: yes
+  ignore_errors: yes

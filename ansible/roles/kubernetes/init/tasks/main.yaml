@@ -1,3 +1,0 @@
----
-- name: Setup K8s
-  include_tasks: k8s.yaml

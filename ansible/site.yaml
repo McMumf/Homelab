@@ -1,31 +1,29 @@
-- name: Pre tasks
-  hosts:
-    - all
-  pre_tasks:
-    - name: Verify Ansible is version 2.11 or above. (If this fails you may need to update Ansible)
-      assert:
-        that: "ansible_version.full is version_compare('2.11', '>=')"
-        msg: >
-          "Ansible is out of date. See here for more info: https://docs.technotim.live/posts/ansible-automation/"
-
-- name: Prep nodes
-  hosts: all
+---
+- hosts: all
   gather_facts: true
+  become: true
   roles:
-    - role: prereq
-      become: true
-    - role: kubernetes/init
-      become: true
+    - { role: common/crio, tags: crio }
 
-- name: Setup k8s control plane
-  hosts:
-    - control-plane
+- hosts: master
+  gather_facts: true
+  become: true
   roles:
-    - role: kubernetes/master
-      become: true
-- name: Setup k8s workers
-  hosts:
-    - workers
+    - { role: kubernetes/master, tags: master }
+
+- hosts: workers
+  gather_facts: true
+  become: true
   roles:
-    - role: kubernetes/worker
-      become: true
+    - { role: kubernetes/worker, tags: worker }
+
+- hosts: master
+  gather_facts: true
+  become: true
+  tasks:
+    - name: "MetalLB role"
+      include_role:
+        name: metallb
+      when: "additional_features.metallb"
+      run_once: true
+      tags: metallb
