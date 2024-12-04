@@ -1,6 +1,8 @@
 type: postgresql
 mode: standalone
 
+fullnameOverride: "cnpg-apps"
+
 version:
   postgresql: "17"
 
@@ -9,7 +11,6 @@ cluster:
   resources:
     limits:
       memory: 2Gi
-      cpu: 2000m
     requests:
       cpu: 1000m
       memory: 1Gi
@@ -34,7 +35,6 @@ poolers:
       spec:
         containers:
           - name: pgbouncer
-            image: cloudnative-pg/pg-bouncer:1.23.0
             resources:
               limits:
                 memory: 500Mi
