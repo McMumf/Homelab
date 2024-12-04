@@ -21,6 +21,8 @@ spec:
           #   namespace: immich
           - appName: mealie
             namespace: apps
+          - appName: morphos
+            namespace: apps
           - appName: paperless
             namespace: apps
   template:

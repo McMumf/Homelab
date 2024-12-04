@@ -51,13 +51,37 @@ spec:
               value: "5"
             - name: SECURITY_USER_LOCKOUT_TIME
               value: "24"
-            # LDAP Configs
-            # - name: LDAP_AUTH_ENABLED
-            #   value: "True"
-            # - name: LDAP_SERVER_URL
-            #   value: "ldap://ldap.mcmumf.dev"
-            # - name: LDAP_BIND_TEMPLATE
-            #   value: "cn={},ou=users,dc=mcmumf,dc=dev"
+            # OIDC Configs
+            - name: OIDC_AUTH_ENABLED
+              value: "true"
+            - name: OIDC_SIGNUP_ENABLED
+              value: "true"
+            - name: OIDC_CONFIGURATION_URL
+              value: "https://auth.mcmumf.dev/application/o/recipes/.well-known/openid-configuration"
+            - name: OIDC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-secrets
+                  key: client-id
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-secrets
+                  key: client-secret
+            - name: OIDC_PROVIDER_NAME
+              value: "auth.mcmumf.dev"
+            - name: OIDC_AUTO_REDIRECT
+              value: "false"
+            - name: OIDC_REMEMBER_ME
+              value: "true"
+            - name: LOG_LEVEL
+              value: "debug"
+            - name: OIDC_USER_CLAIM
+              value: "email"
+            - name: OIDC_USER_GROUP
+              value: "HomelabUsers"
+            - name: OIDC_ADMIN_GROUP
+              value: "RecipeAdmin"
             # SMTP Config
             - name: SMTP_HOST
               valueFrom:
@@ -91,15 +115,21 @@ spec:
             - name: DB_ENGINE
               value: postgres
             - name: POSTGRES_USER
-              value: mealie
+              valueFrom:
+                secretKeyRef:
+                  name: cnpg-apps-app
+                  key: user
             - name: POSTGRES_PASSWORD
-              value: mealie
+              valueFrom:
+                secretKeyRef:
+                  name: cnpg-apps-app
+                  key: password
             - name: POSTGRES_SERVER
-              value: postgres-postgresql.storage.svc.cluster.local
+              value: cnpg-apps-rw.apps
             - name: POSTGRES_PORT
               value: "5432"
             - name: POSTGRES_DB
-              value: mealie
+              value: app
           ports:
             - containerPort: 80
               name: web
