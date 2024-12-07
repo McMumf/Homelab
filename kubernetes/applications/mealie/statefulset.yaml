@@ -65,7 +65,7 @@ spec:
                   name: mealie-secrets
                   key: ldap-query-pass
             - name: LDAP_ID_ATTRIBUTE
-              value: uid
+              value: cn
             - name: LDAP_USER_FILTER
               value: "(memberof=cn=HomelabUsers,ou=groups,dc=ldap,dc=goauthentik,dc=io)"
             - name: LDAP_ADMIN_FILTER
