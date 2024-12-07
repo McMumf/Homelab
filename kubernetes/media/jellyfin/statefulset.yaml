@@ -16,8 +16,6 @@ spec:
     spec:
       automountServiceAccountToken: false
       securityContext:
-        runAsUser: 1000 # Similar to "user: 1000:1000" on Docker
-        runAsGroup: 1000
         supplementalGroups:
           - 105 # Change this to match your "render" host group id from "getent group render | cut -d: -f3"
       containers:
