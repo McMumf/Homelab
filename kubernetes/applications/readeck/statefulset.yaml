@@ -35,10 +35,6 @@ spec:
           env:
             - name: READECK_LOG_LEVEL
               value: "debug"
-            # - name: READECK_SERVER_HOST
-            #   value: "0.0.0.0"
-            - name: READECK_USE_X_FORWARDED
-              value: "true"
             - name: READECK_ALLOWED_HOSTS
               value: "readeck.mcmumf.dev"
             - name: READECK_DATABASE_SOURCE

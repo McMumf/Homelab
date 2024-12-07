@@ -15,7 +15,7 @@ cluster:
       cpu: 1000m
       memory: 1Gi
   storage:
-    size: 32Gi
+    size: 16Gi
     storageClass: longhorn
   postgresql:
     parameters:
@@ -32,8 +32,6 @@ cluster:
       inRoles:
         - pg_monitor
         - pg_signal_backend
-      passwordSecret:
-        name: readeck-role
 
   initdb:
     database: readeck
