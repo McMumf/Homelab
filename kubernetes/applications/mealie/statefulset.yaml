@@ -46,42 +46,62 @@ spec:
               value: "UTC"
             - name: ALLOW_SIGNUP
               value: "False"
+            # LDAP
+            - name: LDAP_AUTH_ENABLED
+              value: "True"
+            - name: LDAP_SERVER_URL
+              value: "ldap://192.168.69.2"
+            - name: LDAP_TLS_INSECURE
+              value: "True"
+            - name: LDAP_BASE_DN
+              value: "dc=ldap,dc=goauthentik,dc=io"
+            - name: LDAP_QUERY_BIND
+              value: "cn=ldapservice,ou=users,dc=ldap,dc=goauthentik,dc=io"
+            - name: LDAP_QUERY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mealie-secrets
+                  key: ldap-query-pass
+            # - name: LDAP_USER_FILTER
+            #   value: "(&(|({id_attribute}={input})({mail_attribute}={input}))(objectClass=user)(memberOf=cn=HomelabUsers,ou=groups,dc=ldap,dc=goauthentik,dc=io))"
+            # - name: LDAP_ADMIN_FILTER
+            #   value: "(memberOf=cn=RecipeAdmin,ou=groups,dc=ldap,dc=goauthentik,dc=io)"
+            # # OIDC Configs
+            # - name: OIDC_AUTH_ENABLED
+            #   value: "true"
+            # - name: OIDC_SIGNUP_ENABLED
+            #   value: "true"
+            # - name: OIDC_CONFIGURATION_URL
+            #   value: "https://auth.mcmumf.dev/application/o/recipes/.well-known/openid-configuration"
+            # - name: OIDC_CLIENT_ID
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: mealie-secrets
+            #       key: client-id
+            # - name: OIDC_CLIENT_SECRET
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: mealie-secrets
+            #       key: client-secret
+            # - name: OIDC_PROVIDER_NAME
+            #   value: "auth.mcmumf.dev"
+            # - name: OIDC_AUTO_REDIRECT
+            #   value: "false"
+            # - name: OIDC_REMEMBER_ME
+            #   value: "true"
+            # - name: LOG_LEVEL
+            #   value: "debug"
+            # - name: OIDC_USER_CLAIM
+            #   value: "email"
+            # - name: OIDC_USER_GROUP
+            #   value: "HomelabUsers"
+            # - name: OIDC_ADMIN_GROUP
+            #   value: "RecipeAdmin"
             # Security Configs
             - name: SECURITY_MAX_LOGIN_ATTEMPTS
               value: "5"
             - name: SECURITY_USER_LOCKOUT_TIME
               value: "24"
-            # OIDC Configs
-            - name: OIDC_AUTH_ENABLED
-              value: "true"
-            - name: OIDC_SIGNUP_ENABLED
-              value: "true"
-            - name: OIDC_CONFIGURATION_URL
-              value: "https://auth.mcmumf.dev/application/o/recipes/.well-known/openid-configuration"
-            - name: OIDC_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: mealie-secrets
-                  key: client-id
-            - name: OIDC_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: mealie-secrets
-                  key: client-secret
-            - name: OIDC_PROVIDER_NAME
-              value: "auth.mcmumf.dev"
-            - name: OIDC_AUTO_REDIRECT
-              value: "false"
-            - name: OIDC_REMEMBER_ME
-              value: "true"
-            - name: LOG_LEVEL
-              value: "debug"
-            - name: OIDC_USER_CLAIM
-              value: "email"
-            - name: OIDC_USER_GROUP
-              value: "HomelabUsers"
-            - name: OIDC_ADMIN_GROUP
-              value: "RecipeAdmin"
             # SMTP Config
             - name: SMTP_HOST
               valueFrom:

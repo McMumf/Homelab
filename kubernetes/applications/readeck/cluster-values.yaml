@@ -1,25 +1,44 @@
 type: postgresql
 mode: standalone
 
-fullnameOverride: "cnpg-apps"
+fullnameOverride: "readeck-cnpg"
 
 version:
   postgresql: "17"
 
 cluster:
-  instances: 3
+  instances: 1
   resources:
     limits:
       memory: 2Gi
     requests:
       cpu: 1000m
       memory: 1Gi
+  storage:
+    size: 32Gi
+    storageClass: longhorn
   postgresql:
     parameters:
       log_hostname: "off"
       log_timezone: "UTC"
       max_connections: "200"
       shared_buffers: "256MB"
+  roles:
+    - name: readeck
+      ensure: present
+      comment: Readeck App
+      login: true
+      superuser: true
+      inRoles:
+        - pg_monitor
+        - pg_signal_backend
+      passwordSecret:
+        name: readeck-role
+
+  initdb:
+    database: readeck
+    owner: readeck
+    encoding: UTF8
 
 backups:
   enabled: false
@@ -29,8 +48,8 @@ poolers:
     type: rw
     instances: 1
     parameters:
-      max_client_conn: "1000"
-      default_pool_size: "300"
+      max_client_conn: "100"
+      default_pool_size: "50"
     template:
       spec:
         containers:
