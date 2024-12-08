@@ -26,7 +26,6 @@ spec:
               memory: 1Gi
               ephemeral-storage: 32Gi
             limits:
-              gpu.intel.com/i915: "1"
               cpu: 2000m
               memory: 1Gi
               ephemeral-storage: 32Gi
@@ -34,15 +33,15 @@ spec:
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: cnpg-operator-cluster-app
+                  name: cnpg-operator-cnpg-media-app
                   key: username
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: cnpg-operator-cluster-app
+                  name: cnpg-operator-cnpg-media-app
                   key: password
             - name: POSTGRES_IP
-              value: "cnpg-operator-cluster-rw.media"
+              value: "cnpg-operator-cnpg-media-rw.media"
             - name: POSTGRES_PORT
               value: "5432"
             - name: POSTGRES_DB

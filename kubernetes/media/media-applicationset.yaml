@@ -7,9 +7,9 @@ spec:
   generators:
     - list:
         elements:
-          - appName: cnpg-media-cluster
+          # - appName: cnpg-media-cluster
           - appName: jellyfin
-          - appName: jellystat
+          # - appName: jellystat
           # - appName: lidarr
           # - appName: prowlarr
           # - appName: qbittorrent

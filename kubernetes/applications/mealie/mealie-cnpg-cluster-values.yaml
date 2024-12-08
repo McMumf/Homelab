@@ -1,24 +1,42 @@
 type: postgresql
 mode: standalone
 
+fullnameOverride: "mealie-cnpg"
+
 version:
   postgresql: "17"
 
 cluster:
-  instances: 3
+  instances: 1
   resources:
     limits:
       memory: 2Gi
-      cpu: 2000m
     requests:
       cpu: 1000m
       memory: 1Gi
+  storage:
+    size: 8Gi
+    storageClass: longhorn
   postgresql:
     parameters:
       log_hostname: "off"
       log_timezone: "UTC"
       max_connections: "200"
       shared_buffers: "256MB"
+  roles:
+    - name: mealie
+      ensure: present
+      comment: Mealie User
+      login: true
+      superuser: true
+      inRoles:
+        - pg_monitor
+        - pg_signal_backend
+
+  initdb:
+    database: mealie
+    owner: mealie
+    encoding: UTF8
 
 backups:
   enabled: false
@@ -28,13 +46,12 @@ poolers:
     type: rw
     instances: 1
     parameters:
-      max_client_conn: "1000"
-      default_pool_size: "300"
+      max_client_conn: "100"
+      default_pool_size: "50"
     template:
       spec:
         containers:
           - name: pgbouncer
-            image: cloudnative-pg/pg-bouncer:1.23.0
             resources:
               limits:
                 memory: 500Mi

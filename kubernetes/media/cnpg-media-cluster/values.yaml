@@ -1,13 +1,13 @@
 type: postgresql
 mode: standalone
 
-nameOverride: "cnpg-media"
+fullnameOverride: "cnpg-media"
 
 version:
   postgresql: "17"
 
 cluster:
-  instances: 3
+  instances: 1
   resources:
     limits:
       memory: 2Gi

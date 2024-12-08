@@ -1,5 +1,5 @@
 defaultSettings:
   allowCollectingLonghornUsageMetrics: false
   createDefaultDiskLabeledNodes: "true"
-  defaultReplicaCount: 2
   defaultDataPath: "/mnt/longhorn"
+  storageReservedPercentageForDefaultDisk: 10
