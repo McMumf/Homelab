@@ -5,6 +5,12 @@
   roles:
     - { role: common/crio, tags: crio }
 
+- hosts: i915
+  gather_facts: true
+  become: true
+  roles:
+    - { role: common/i915, tags: crio }
+
 - hosts: master
   gather_facts: true
   become: true

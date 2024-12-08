@@ -10,7 +10,7 @@
   ansible.builtin.get_url:
     url: https://pkgs.k8s.io/core:/stable:/{{ kube_version}}/deb/Release.key
     dest: /etc/apt/keyrings/kubernetes-apt-keyring.asc
-    mode: "0644"
+    mode: "0640"
 
 - name: Add Kubernetes Repository
   become: true
