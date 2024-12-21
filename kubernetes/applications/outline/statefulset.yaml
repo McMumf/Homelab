@@ -1,0 +1,129 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: outline
+  namespace: apps
+spec:
+  selector:
+    matchLabels:
+      app: outline
+  serviceName: "outline"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: outline
+    spec:
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 10
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: outline
+          image: docker.getoutline.com/outlinewiki/outline:0.81.1
+          resources:
+            requests:
+              memory: 2Gi
+              cpu: 1000m
+              ephemeral-storage: 8Gi
+            limits:
+              memory: 8Gi
+              cpu: 2000m
+              ephemeral-storage: 8Gi
+          env: # Example: https://github.com/outline/outline/blob/e2dff9afcaf45f604bf7fda4d45b125c6494443f/.env.sample
+            # General
+            - name: NODE_ENV
+              value: "production"
+            - name: SECRET_KEY
+              value: ""
+            - name: UTILS_SECRET
+              value: ""
+            - name: WEB_CONCURRENCY
+              value: "1"
+            - name: MAXIMUM_IMPORT_SIZE
+              value: "26214400"
+            - name: DEFAULT_LANGUAGE
+              value: "en_US"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: outline-cnpg-superuser
+                  key: uri
+            - name: REDIS_URL
+              value: "redis://redis:6379"
+            - name: URL
+              value: "https://notes.mcmumf.dev"
+            - name: PORT
+              value: "3000"
+            # OIDC
+            - name: OIDC_CLIENT_ID
+              value: ""
+            - name: OIDC_CLIENT_SECRET
+              value: ""
+            - name: OIDC_TOKEN_URI
+              value: ""
+            - name: OIDC_USERINFO_URI
+              value: ""
+            - name: OIDC_USERNAME_CLAIM # Specify which claims to derive user information from
+              value: "preferred_username"
+            - name: OIDC_DISPLAY_NAME # Display name for OIDC authentication
+              value: "OpenID"
+            - name: OIDC_SCOPES
+              value: "openid profile email"
+            # File Storage Configs
+            - name: FILE_STORAGE
+              value: "s3"
+            - name: AWS_S3_UPLOAD_BUCKET_NAME
+              value: "outline"
+            - name: AWS_S3_UPLOAD_BUCKET_URL
+              value: ""
+            - name: AWS_S3_UPLOAD_MAX_SIZE
+              value: "26214400"
+            - name: AWS_ACCESS_KEY_ID
+              value: "minio"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "minio123"
+            # SMTP
+            - name: SMTP_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secrets
+                  key: smtp-server
+            - name: SMTP_PORT
+              value: "587"
+            - name: SMTP_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secrets
+                  key: smtp-user
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secrets
+                  key: smtp-password
+            - name: SMTP_FROM_EMAIL
+              value: "notes@mcmumf.dev"
+            # Rate Limiter (protects against brute-force attacks)
+            - name: RATE_LIMITER_ENABLED
+              value: "true"
+            - name: RATE_LIMITER_DURATION_WINDOW
+              value: "60"
+            - name: RATE_LIMITER_REQUESTS
+              value: "1000"
+          ports:
+            - containerPort: 3000
+              name: web
+          volumeMounts:
+            - name: outline-data
+              mountPath: /var/lib/outline/data
+  volumeClaimTemplates:
+    - metadata:
+        name: outline-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "longhorn"
+        resources:
+          requests:
+            storage: 4Gi
