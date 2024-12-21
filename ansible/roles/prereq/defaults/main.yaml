@@ -1,3 +1,0 @@
----
-api_port: 6443 # noqa var-naming[no-role-prefix]
-system_timezone: Etc/UTC

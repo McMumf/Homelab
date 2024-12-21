@@ -1,3 +1,9 @@
+global:
+  tolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Equal"
+      effect: "NoSchedule"
+
 defaultSettings:
   allowCollectingLonghornUsageMetrics: false
   createDefaultDiskLabeledNodes: "true"
