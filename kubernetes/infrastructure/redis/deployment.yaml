@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:7.4.1-bookworm
+          command: ["redis-server", "/etc/redis/redis.conf"]
+          volumeMounts:
+            - name: redis-config
+              mountPath: /etc/redis
+          ports:
+            - containerPort: 6379
+      volumes:
+        - name: redis-config
+          configMap:
+            name: redis-config
