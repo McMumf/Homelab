@@ -22,7 +22,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: outline
-          image: docker.getoutline.com/outlinewiki/outline:0.81.1
+          image: outlinewiki/outline
           resources:
             requests:
               memory: 2Gi
@@ -37,22 +37,28 @@ spec:
             - name: NODE_ENV
               value: "production"
             - name: SECRET_KEY
-              value: ""
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secrets
+                  key: secret-key
             - name: UTILS_SECRET
-              value: ""
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secrets
+                  key: utils-secret
             - name: WEB_CONCURRENCY
               value: "1"
-            - name: MAXIMUM_IMPORT_SIZE
+            - name: FILE_STORAGE_IMPORT_MAX_SIZE
               value: "26214400"
             - name: DEFAULT_LANGUAGE
               value: "en_US"
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: outline-cnpg-superuser
+                  name: outline-cnpg-app
                   key: uri
             - name: REDIS_URL
-              value: "redis://redis:6379"
+              value: "redis://redis.redis:6379"
             - name: URL
               value: "https://notes.mcmumf.dev"
             - name: PORT
@@ -78,8 +84,8 @@ spec:
             - name: AWS_S3_UPLOAD_BUCKET_NAME
               value: "outline"
             - name: AWS_S3_UPLOAD_BUCKET_URL
-              value: ""
-            - name: AWS_S3_UPLOAD_MAX_SIZE
+              value: "http://minio.minio-tenant.svc.cluster.local"
+            - name: FILE_STORAGE_UPLOAD_MAX_SIZE
               value: "26214400"
             - name: AWS_ACCESS_KEY_ID
               value: "minio"
