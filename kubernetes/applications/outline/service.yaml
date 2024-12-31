@@ -6,8 +6,11 @@ metadata:
   labels:
     app: outline
 spec:
-  ports:
-    - port: 9000
-      name: web
   selector:
     app: outline
+  ports:
+    - port: 3000
+      name: web
+      targetPort: 3000
+      protocol: TCP
+  
