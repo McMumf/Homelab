@@ -36,6 +36,10 @@ spec:
             # General
             - name: NODE_ENV
               value: "production"
+            - name: LOG_LEVEL
+              value: "debug"
+            - name: DEBUG
+              value: "http"
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
@@ -68,14 +72,18 @@ spec:
               value: ""
             - name: OIDC_CLIENT_SECRET
               value: ""
+            - name: OIDC_AUTH_URI
+              value: "https://auth.mcmumf.dev/application/o/authorize/"
             - name: OIDC_TOKEN_URI
-              value: ""
+              value: "https://auth.mcmumf.dev/application/o/token/"
             - name: OIDC_USERINFO_URI
-              value: ""
+              value: "https://auth.mcmumf.dev/application/o/userinfo/"
+            - name: OIDC_LOGOUT_URI
+              value: "https://auth.mcmumf.dev/application/o/notes/end-session/"
             - name: OIDC_USERNAME_CLAIM # Specify which claims to derive user information from
               value: "preferred_username"
             - name: OIDC_DISPLAY_NAME # Display name for OIDC authentication
-              value: "OpenID"
+              value: "authentik"
             - name: OIDC_SCOPES
               value: "openid profile email"
             # File Storage Configs
